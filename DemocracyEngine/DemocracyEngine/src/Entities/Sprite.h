@@ -17,9 +17,12 @@ namespace DemoEngine_Entities
         int height;
         unsigned int textureId;
 
-        
     public:
-        Sprite(const char* textureName, int width, int height, vec4 rgba, vec3 newPosition, vec3 newScale, vec3 newRotation);
+        Sprite(const char* textureName, int width, int height, vec4 rgba, vec3 newPosition, vec3 newScale,
+               vec3 newRotation);
+        Sprite(const char* textureName, int textureWidth, int textureHeight, int startX, int startY, int cropWidth,
+               int cropHeight,
+               vec4 rgba, vec3 newPosition, vec3 newScale, vec3 newRotation);
         ~Sprite();
 
         void SetUV(Frame frame);

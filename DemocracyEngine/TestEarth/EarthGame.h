@@ -15,21 +15,8 @@ private:
 	vec3 Sscale;
 	vec3 Srotation;
 	vec4 Scolor;
-
-	vec3 Tposition;
-	vec3 Tscale;
-	vec3 Trotation;
-	vec4 Tcolor;
-
-	vec3 lastPlayerPos;
-
-	Square* square;
-
-	Triangle* triangle;
-
-	Animation* anim;
+	
 	Sprite* image;
-
 	DemoEngine_Animations::DemoTimer* timer;
 
 public:
