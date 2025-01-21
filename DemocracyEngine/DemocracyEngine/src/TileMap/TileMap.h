@@ -14,7 +14,8 @@ namespace DemoEngine_TileMap
     {
     public:
         TileMap(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* tileSetFile, const vector<const char*>& tileMapFiles, const char* tileMapImage);
-
+        ~TileMap();
+        
         void Draw();
 
         bool hasCollision(int layer, Entity2D entity);
@@ -34,12 +35,19 @@ namespace DemoEngine_TileMap
         unsigned int tileMapTexture;
         
         //Map
-        int mapWidth;
-        int mapHeight;
+        int mapPixelWidth;
+        int mapPixelHeight;
+        
+        int mapTileHeight;
+        int mapTileWidth;
+        
         int layerCount;
 
         //Tiles
-        int tileWidth;
-        int tileHeight;
+        int tilePixelWidth;
+        int tilePixelHeight;
+
+        float *vertex;
+        int *indices;
     };
 }

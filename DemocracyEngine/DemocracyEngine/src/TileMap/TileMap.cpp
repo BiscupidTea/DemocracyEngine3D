@@ -18,7 +18,128 @@ namespace DemoEngine_TileMap
     {
         LoadTileSet(tileSetFile);
         LoadTileMaps(tileMapFiles);
+
+        mapTileHeight = (mapPixelHeight / tilePixelHeight);
+        mapTileWidth = (mapPixelWidth / tilePixelWidth);
+
+        vertexSize = 36 * mapTileHeight * mapTileWidth;
+        
+        vector<float> vertexVector;
+
+        //          {
+        //             // positions		    // colors					// texture coords
+        //             1, 1, 0,       1.0f, 1.0f, 1.0f, 1.0f,       uvX + uvWidth, uvY + uvHeight, // top right
+        //             1, 0, 0,      1.0f, 1.0f, 1.0f, 1.0f,         uvX + uvWidth, uvY, // bottom right
+        //             0, 0, 0,      1.0f, 1.0f, 1.0f, 1.0f,        uvX, uvY, // bottom left
+        //             0, 1, 0,       1.0f, 1.0f, 1.0f, 1.0f,       uvX, uvY + uvHeight // top left 
+        //         };
+
+        for (int y = 0; y < mapTileHeight; y++)
+        {
+            for (int x = 0; x < mapTileWidth; x++)
+            {
+                // top right
+                {
+                    //position
+                    vertexVector.push_back(static_cast<float>(1 + x));
+                    vertexVector.push_back(static_cast<float>(1 - y));
+                    vertexVector.push_back(0.0f);
+
+                    //color
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+
+                    //UV
+                    vertexVector.push_back(tileSet.at(tileMap.at(0).getTileId(x,y)).topRightUV.x);
+                    vertexVector.push_back(1.0f);
+                }
+                // bottom right
+                {
+                    //position
+                    vertexVector.push_back(static_cast<float>(1 + x));
+                    vertexVector.push_back(static_cast<float>(0 - y));
+                    vertexVector.push_back(0.0f);
+
+                    //color
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+
+                    //UV
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(0.0f);
+                }
+                // bottom left
+                {
+                    //position
+                    vertexVector.push_back(static_cast<float>(0 + x));
+                    vertexVector.push_back(static_cast<float>(0 - y));
+                    vertexVector.push_back(0.0f);
+
+                    //color
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+
+                    //UV
+                    vertexVector.push_back(0.0f);
+                    vertexVector.push_back(0.0f);
+                }
+                // top left
+                {
+                    //position
+                    vertexVector.push_back(static_cast<float>(0 + x));
+                    vertexVector.push_back(static_cast<float>(1 - y));
+                    vertexVector.push_back(0.0f);
+
+                    //color
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+                    vertexVector.push_back(1.0f);
+
+                    //UV
+                    vertexVector.push_back(0.0f);
+                    vertexVector.push_back(1.0f);
+                }
+            }
+        }
+
+        indexSize = 6 * mapTileHeight * mapTileWidth;
+        vector<int> indicesVector;
+        for (int i = 0; i < mapTileWidth * mapTileHeight; i++)
+        {
+            indicesVector.push_back(0 + (4 * i));
+            indicesVector.push_back(1 + (4 * i));
+            indicesVector.push_back(3 + (4 * i));
+            indicesVector.push_back(1 + (4 * i));
+            indicesVector.push_back(2 + (4 * i));
+            indicesVector.push_back(3 + (4 * i));
+        }
+
+        // int indices[] = {
+        //     0, 1, 3,
+        //     1, 2, 3
+        // };
+
+        vertex = new float[vertexSize];
+        std::copy(std::begin(vertexVector), std::end(vertexVector), vertex);
+
+        indices = new int[indexSize];
+        std::copy(std::begin(indicesVector), std::end(indicesVector), indices);
+
+        Renderer::GetRender()->CreateSprite(VBO, VAO, EBO, vertex, indices, vertexSize, indexSize);
         Renderer::GetRender()->BindTexture(tileMapImage, tileMapTexture);
+    }
+
+    TileMap::~TileMap()
+    {
+        delete vertex;
+        delete indices;
     }
 
     void TileMap::LoadTileMaps(const vector<const char*>& tileMapFiles)
@@ -64,14 +185,15 @@ namespace DemoEngine_TileMap
             return;
         }
 
-        root->QueryIntAttribute("tilewidth", &tileWidth);
-        root->QueryIntAttribute("tileheight", &tileHeight);
+        root->QueryIntAttribute("tilewidth", &tilePixelWidth);
+        root->QueryIntAttribute("tileheight", &tilePixelHeight);
 
         root = doc.FirstChildElement("tileset")->FirstChildElement("image");
-        root->QueryIntAttribute("width", &mapWidth);
-        root->QueryIntAttribute("height", &mapHeight);
+        root->QueryIntAttribute("width", &mapPixelWidth);
+        root->QueryIntAttribute("height", &mapPixelHeight);
 
-        vector<pair<vec2, vec2>> tileSetUV = CalculateUVCoordsInMap(mapHeight, mapWidth, tileHeight, tileWidth);
+        vector<pair<vec2, vec2>> tileSetUV = CalculateUVCoordsInMap(mapPixelHeight, mapPixelWidth, tilePixelHeight,
+                                                                    tilePixelWidth);
 
         root = doc.FirstChildElement("tileset");
 
@@ -109,8 +231,10 @@ namespace DemoEngine_TileMap
         {
             cout << "Tile loaded = ID: " << currentTile.id
                 << " - hasCollision: " << currentTile.hasCollision
-                << " - UV: (" << currentTile.leftTopUV.x << "," << currentTile.leftTopUV.x << ")"
-                << " - UV: (" << currentTile.rightDowUV.y << "," << currentTile.rightDowUV.y << ")"
+                << " - UV: (" << currentTile.topRightUV.x << "," << currentTile.topRightUV.x << ")"
+                << " - UV: (" << currentTile.topLeftUV.y << "," << currentTile.topLeftUV.y << ")"
+                << " - UV: (" << currentTile.topLeftUV.y << "," << currentTile.topLeftUV.y << ")"
+                << " - UV: (" << currentTile.topLeftUV.y << "," << currentTile.topLeftUV.y << ")"
                 << endl;
         }
 
@@ -120,24 +244,7 @@ namespace DemoEngine_TileMap
 
     void TileMap::Draw()
     {
-        for (size_t layerIndex = 0; layerIndex < tileMap.size(); ++layerIndex)
-        {
-            TileMapLayer& layer = tileMap[layerIndex];
-
-            for (int y = 0; y < layer.y; ++y)
-            {
-                for (int x = 0; x < layer.x; ++x)
-                {
-                    int tileId = layer.getTileId(x, y);
-
-                    if (tileId >= 0)
-                    {
-                        Tile& tile = tileSet[tileId];
-                        Renderer::GetRender()->DrawTile(tile, x, y, tileMapTexture);
-                    }
-                }
-            }
-        }
+        Renderer::GetRender()->DrawTexture(VAO, indexSize, color, model, tileMapTexture);
     }
 
     bool TileMap::hasCollision(int layer, Entity2D entity)

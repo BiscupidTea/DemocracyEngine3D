@@ -7,7 +7,7 @@ namespace DemoEngine_TileMap
         this->id = id;
         this->hasCollision = hasCollision;
 
-        this->leftTopUV = leftTopUV;
-        this->rightDowUV = rightDowUV;
+        this->topRightUV = leftTopUV;
+        this->topLeftUV = rightDowUV;
     }
 }
