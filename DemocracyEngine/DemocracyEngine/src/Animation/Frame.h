@@ -7,7 +7,7 @@ namespace DemoEngine_Animations
 		float u;
 		float v;
 	};
-
+	
 	class EXPORT Frame
 	{
 	public:

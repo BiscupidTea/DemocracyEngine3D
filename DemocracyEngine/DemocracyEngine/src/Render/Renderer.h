@@ -14,6 +14,11 @@
 #include "../Tools/TextureImporter.h"
 #include "../Window/Window.h"
 
+namespace DemoEngine_TileMap
+{
+	class Tile;
+}
+
 using namespace  glm;
 using namespace DemoEngine_Window;
 using namespace DemoEngine_Tools;
@@ -48,6 +53,8 @@ namespace DemoEngine_Renderer
 		void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
 		void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
 		void BindTexture(const char* textureName, unsigned& textureID);
+		
+		void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
 
 	};
 }

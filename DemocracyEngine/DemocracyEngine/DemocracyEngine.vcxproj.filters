@@ -28,6 +28,9 @@
     <Filter Include="Src\CollisionManager">
       <UniqueIdentifier>{c12a0544-e677-435b-8dc9-e953ada01fdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\TileMap">
+      <UniqueIdentifier>{d3049416-daf0-4b00-b1c7-3cc57d1218c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame\BaseGame.cpp">
@@ -80,6 +83,18 @@
     </ClCompile>
     <ClCompile Include="src\CollisionManager\CollisionManager.cpp">
       <Filter>Src\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMap\TileMap.cpp">
+      <Filter>Src\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMap\TileSet.cpp">
+      <Filter>Src\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMap\Tile.cpp">
+      <Filter>Src\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tools\tinyxml2.cpp">
+      <Filter>Src\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +151,18 @@
     </ClInclude>
     <ClInclude Include="src\CollisionManager\CollisionManager.h">
       <Filter>Src\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap\TileMap.h">
+      <Filter>Src\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap\TileSet.h">
+      <Filter>Src\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap\Tile.h">
+      <Filter>Src\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\tinyxml2.h">
+      <Filter>Src\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

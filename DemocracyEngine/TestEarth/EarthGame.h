@@ -3,6 +3,7 @@
 #include "Entities/Triangle.h"
 #include "Entities/Square.h"
 #include "CollisionManager/CollisionManager.h"
+#include "TileMap/TileMap.h"
 
 using namespace DemoEngine_BaseGame;
 using namespace DemoEngine_Entities;
@@ -18,6 +19,8 @@ private:
 	
 	Sprite* image;
 	DemoEngine_Animations::DemoTimer* timer;
+
+	DemoEngine_TileMap::TileMap* tileMap;
 
 public:
 	EarthGame();

@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "../TileMap/Tile.h"
+
 namespace DemoEngine_Renderer
 {
 	Renderer* Renderer::RendererInstance = nullptr;
@@ -196,5 +198,10 @@ namespace DemoEngine_Renderer
 	Renderer* Renderer::GetRender()
 	{
 		return RendererInstance;
+	}
+
+	void Renderer::DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture)
+	{
+		
 	}
 }

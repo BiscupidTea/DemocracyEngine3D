@@ -1,12 +1,20 @@
 #pragma once
+#include <glm/vec2.hpp>
+
+#include "../Tools/Export.h"
+
 namespace DemoEngine_TileMap
 {
-    static class EXPORT Tile
-    {
-    public:
-        Tile(int id, bool hasCollision);
+	class EXPORT Tile
+	{
+	public:
+		Tile(int id, bool hasCollision, glm::vec2 leftTopUV, glm::vec2 rightDowUV);
 
-        int id;
-        bool hasCollision;
-    };
+		int id;
+
+		glm::vec2 leftTopUV;
+		glm::vec2 rightDowUV;
+		
+		bool hasCollision;
+	};
 }
