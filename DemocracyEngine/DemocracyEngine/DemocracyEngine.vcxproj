@@ -35,6 +35,7 @@
     <ClCompile Include="src\TileMap\Tile.cpp" />
     <ClCompile Include="src\TileMap\TileMap.cpp" />
     <ClCompile Include="src\TileMap\TileMapLayer.cpp" />
+    <ClCompile Include="src\TileMap\TileMapLayerData.cpp" />
     <ClCompile Include="src\Tools\DemoTimer.cpp" />
     <ClCompile Include="src\Tools\stb_image.cpp" />
     <ClCompile Include="src\Tools\TextureImporter.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="src\TileMap\Tile.h" />
     <ClInclude Include="src\TileMap\TileMap.h" />
     <ClInclude Include="src\TileMap\TileMapLayer.h" />
+    <ClInclude Include="src\TileMap\TileMapLayerData.h" />
     <ClInclude Include="src\Tools\DemoTimer.h" />
     <ClInclude Include="src\Tools\Export.h" />
     <ClInclude Include="src\Tools\stb_image.h" />

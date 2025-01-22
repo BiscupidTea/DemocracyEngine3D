@@ -84,7 +84,7 @@
     <ClCompile Include="src\CollisionManager\CollisionManager.cpp">
       <Filter>Src\CollisionManager</Filter>
     </ClCompile>
-    <ClCompile Include="src\TileMap\TileMap.cpp">
+    <ClCompile Include="src\TileMap\TileMapLayer.cpp">
       <Filter>Src\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="src\TileMap\Tile.cpp">
@@ -93,7 +93,10 @@
     <ClCompile Include="src\Tools\tinyxml2.cpp">
       <Filter>Src\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="src\TileMap\TileMapLayer.cpp">
+    <ClCompile Include="src\TileMap\TileMapLayerData.cpp">
+      <Filter>Src\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMap\TileMap.cpp">
       <Filter>Src\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,7 +155,7 @@
     <ClInclude Include="src\CollisionManager\CollisionManager.h">
       <Filter>Src\CollisionManager</Filter>
     </ClInclude>
-    <ClInclude Include="src\TileMap\TileMap.h">
+    <ClInclude Include="src\TileMap\TileMapLayer.h">
       <Filter>Src\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="src\TileMap\Tile.h">
@@ -161,7 +164,10 @@
     <ClInclude Include="src\Tools\tinyxml2.h">
       <Filter>Src\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="src\TileMap\TileMapLayer.h">
+    <ClInclude Include="src\TileMap\TileMapLayerData.h">
+      <Filter>Src\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap\TileMap.h">
       <Filter>Src\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
