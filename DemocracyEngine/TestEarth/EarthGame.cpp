@@ -26,7 +26,7 @@ void EarthGame::Init()
     };
 
     tileMap = new DemoEngine_TileMap::TileMap(
-        vec3(1024/2,720/2, 0), vec3(0, 0, 0), vec3(10, 10, 10),
+        vec3(200,600, 0), vec3(0, 0, 0), vec3(50, 50, 1),
         "rsc/Tiles.tsx", {tileMapFiles[0], tileMapFiles[1]}, "rsc/tilemap.png");
 }
 

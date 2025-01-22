@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/vec2.hpp>
+#include <vector>
 
 #include "../Tools/Export.h"
 
@@ -8,7 +9,7 @@ namespace DemoEngine_TileMap
 	class EXPORT Tile
 	{
 	public:
-		Tile(int id, bool hasCollision, glm::vec2 leftTopUV, glm::vec2 rightDowUV);
+		Tile(int id, bool hasCollision,std::vector<glm::vec2> UV);
 
 		int id;
 

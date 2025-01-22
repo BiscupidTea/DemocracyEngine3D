@@ -87,14 +87,14 @@
     <ClCompile Include="src\TileMap\TileMap.cpp">
       <Filter>Src\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="src\TileMap\TileSet.cpp">
-      <Filter>Src\TileMap</Filter>
-    </ClCompile>
     <ClCompile Include="src\TileMap\Tile.cpp">
       <Filter>Src\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="src\Tools\tinyxml2.cpp">
       <Filter>Src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMap\TileMapLayer.cpp">
+      <Filter>Src\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,14 +155,14 @@
     <ClInclude Include="src\TileMap\TileMap.h">
       <Filter>Src\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="src\TileMap\TileSet.h">
-      <Filter>Src\TileMap</Filter>
-    </ClInclude>
     <ClInclude Include="src\TileMap\Tile.h">
       <Filter>Src\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="src\Tools\tinyxml2.h">
       <Filter>Src\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap\TileMapLayer.h">
+      <Filter>Src\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

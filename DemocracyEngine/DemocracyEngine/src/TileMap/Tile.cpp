@@ -2,12 +2,14 @@
 
 namespace DemoEngine_TileMap
 {
-    Tile::Tile(int id, bool hasCollision, glm::vec2 leftTopUV, glm::vec2 rightDowUV)
+    Tile::Tile(int id, bool hasCollision, std::vector<glm::vec2> UV)
     {
         this->id = id;
         this->hasCollision = hasCollision;
 
-        this->topRightUV = leftTopUV;
-        this->topLeftUV = rightDowUV;
+        this->topLeftUV = UV.at(0);
+        this->topRightUV = UV.at(1);
+        this->bottomleftUV = UV.at(2);
+        this->bottomRightUV = UV.at(3);
     }
 }

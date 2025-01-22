@@ -27,7 +27,8 @@ namespace DemoEngine_TileMap
         void LoadTileSet(const char* tileSetFile);
         
         TileMapLayer ReadSingleMap(const char* filename);
-        vector<pair<vec2, vec2>>  CalculateUVCoordsInMap(int totalHeight, int totalWidth, int tileHeight, int tileWidth);
+        vector<vector<vec2>> CalculateUVCoordsInMap(int HeightTiles, int WidthTiles,int totalHeight, int totalWidth, int tileHeight, int tileWidth);
+        void AddToVertex(float x, float y, int tileId, vec2 UvCoord, vector<float>& vertexVector);
         
         vector<TileMapLayer> tileMap;
         vector<Tile> tileSet;
@@ -38,6 +39,9 @@ namespace DemoEngine_TileMap
         int mapPixelWidth;
         int mapPixelHeight;
         
+        int tileSetTileHeight;
+        int tileSetTileWidth;
+
         int mapTileHeight;
         int mapTileWidth;
         
