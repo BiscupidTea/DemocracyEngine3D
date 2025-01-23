@@ -13,7 +13,7 @@ namespace DemoEngine_TileMap
 	public:
 		TileMap(vec3 newPosition, vec3 newRotation, vec3 newScale,
 			const char* tileSetFile, const vector<const char*>& tileMapFiles,
-			const char* tileMapImage);
+			const char* tileMapImage, GLint textureFilter = GL_NEAREST);
 
 		~TileMap();
 

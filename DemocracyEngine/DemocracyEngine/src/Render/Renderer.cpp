@@ -110,16 +110,16 @@ namespace DemoEngine_Renderer
 		glEnableVertexAttribArray(2);
 	}
 
-	void Renderer::BindTexture(const char* textureName, unsigned& textureID)
+	void Renderer::BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter)
 	{
 		glGenTextures(1, &textureID);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, TextureFilter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, TextureFilter);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TextureFilter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TextureFilter);
 
 		stbi_set_flip_vertically_on_load(1);
 

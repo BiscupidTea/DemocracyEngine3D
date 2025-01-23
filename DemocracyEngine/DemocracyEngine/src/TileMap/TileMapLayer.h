@@ -14,7 +14,7 @@ namespace DemoEngine_TileMap
     {
     public:
         TileMapLayer(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* tileMapFiles,
-                     const char* tileMapImage, vector<Tile> tileSet);
+                     const char* tileMapImage, vector<Tile> tileSet, GLint textureFilter);
         ~TileMapLayer();
 
         void Draw();

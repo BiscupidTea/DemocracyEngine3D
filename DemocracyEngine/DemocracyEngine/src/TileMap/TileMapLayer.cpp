@@ -12,7 +12,7 @@ using namespace std;
 namespace DemoEngine_TileMap
 {
     TileMapLayer::TileMapLayer(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* tileMapFiles,
-                               const char* tileMapImage, vector<Tile> tileSet) : Entity2D(
+                               const char* tileMapImage, vector<Tile> tileSet, GLint textureFilter) : Entity2D(
         newPosition, newRotation, newScale), tileMap(0, 0)
     {
         this->tileSet = tileSet;
@@ -61,7 +61,7 @@ namespace DemoEngine_TileMap
         std::copy(std::begin(indicesVector), std::end(indicesVector), indices);
 
         Renderer::GetRender()->CreateSprite(VBO, VAO, EBO, vertex, indices, vertexSize, indexSize);
-        Renderer::GetRender()->BindTexture(tileMapImage, tileMapTexture);
+        Renderer::GetRender()->BindTexture(tileMapImage, tileMapTexture, textureFilter);
     }
 
     TileMapLayer::~TileMapLayer()
