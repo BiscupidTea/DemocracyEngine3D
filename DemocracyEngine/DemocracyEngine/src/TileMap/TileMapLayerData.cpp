@@ -4,17 +4,17 @@
 
 TileMapLayerData::TileMapLayerData(int width, int height)
 {
-	x = width;
-	y = height;
-	layer.resize(x * y, 0);
+    x = width;
+    y = height;
+    layer.resize(x * y, 0);
 }
 
 void TileMapLayerData::setTile(int posX, int posY, int id)
 {
-	layer[(posY * x) + posX] = id;
+    layer[(posY * x) + posX] = id;
 }
 
 int TileMapLayerData::getTileId(int posX, int posY)
 {
-		return layer[(posY * x) + posX];
+    return layer[(posY * x) + posX];
 }

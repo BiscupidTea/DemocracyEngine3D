@@ -19,6 +19,7 @@ namespace DemoEngine_TileMap
 
 		vector<TileMapLayer*> layers;
 
+		bool CheckCollision(Entity2D a);
 		void Draw();
 
 	private:
@@ -26,6 +27,7 @@ namespace DemoEngine_TileMap
 
 		vector<vector<vec2>> CalculateUVCoordsInMap(int HeightTiles, int WidthTiles, int totalHeight, int totalWidth, int tileHeight, int tileWidth);
 
+		
 		vector<Tile> tileSet;
 		unsigned int tileMapTexture;
 

@@ -14,13 +14,13 @@ namespace DemoEngine_TileMap
     {
     public:
         TileMapLayer(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* tileMapFiles,
-                     const char* tileMapImage, vector<Tile> tileSet, GLint textureFilter);
+                     const char* tileMapImage, vector<Tile> tileSet, GLint textureFilter, int tilePixelWidth,
+                     int tilePixelHeight);
         ~TileMapLayer();
 
         void Draw();
 
-        bool hasCollision(int layer, Entity2D entity);
-        bool hasCollision(int layer, int x, int y, int width, int height);
+        bool hasCollision(Entity2D entity);
 
     private:
         TileMapLayerData ReadMap(const char* filename);
@@ -34,6 +34,10 @@ namespace DemoEngine_TileMap
         //Map
         int mapTileHeight;
         int mapTileWidth;
+
+        //Tile
+        int tilePixelWidth;
+        int tilePixelHeight;
 
         float* vertex;
         int* indices;

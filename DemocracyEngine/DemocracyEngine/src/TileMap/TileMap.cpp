@@ -14,7 +14,7 @@ namespace DemoEngine_TileMap
         for (int i = 0; i < tileMapFiles.size(); i++)
         {
             layers.emplace_back(new TileMapLayer(newPosition, newRotation, newScale, tileMapFiles.at(i), tileMapImage,
-                                                 tileSet, textureFilter));
+                                                 tileSet, textureFilter, tilePixelWidth, tilePixelHeight));
         }
     }
 
@@ -131,5 +131,18 @@ namespace DemoEngine_TileMap
         }
 
         return uvCoordsList;
+    }
+
+    bool TileMap::CheckCollision(Entity2D a)
+    {
+        for (int i = 0; i < layers.size(); i++)
+        {
+            if (layers[i]->hasCollision(a))
+            {
+                cout << "collision layer" << i << endl;
+                return true;
+            }
+        }
+        return false;
     }
 }

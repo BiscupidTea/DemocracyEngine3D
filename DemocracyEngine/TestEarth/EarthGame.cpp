@@ -11,49 +11,72 @@ EarthGame::~EarthGame()
 
 void EarthGame::Init()
 {
-    Sposition = vec3{1024 / 2, 720 / 2, 0};
-    Sscale = vec3{400, 400, 1};
-    Srotation = vec3{0, 0, 0};
-    Scolor = vec4{1, 1, 1, 1};
+    TileMapPosition = vec3{50, 500, 0};
+    TileMapScale = vec3{50, 50, 0};
+    TileMapRotation = vec3{0, 0, 0};
+    TileMapColor = vec4{1, 1, 1, 1};
 
-    timer = new DemoEngine_Animations::DemoTimer();
+    PlayerPosition = vec3{300, 200, 0};
+    PlayerScale = vec3{100, 100, 1};
+    PlayerRotation = vec3{0, 0, 0};
+    PlayerColor = vec4{1, 1, 1, 1};
 
-    image = new DemoEngine_Entities::Sprite("rsc/democracy.png", 1024, 730, Scolor, Sposition, Sscale, Srotation);
+    timer = new DemoTimer();
 
     const char* tileMapFiles[] = {
         "rsc/PruebaTereno_Terreno.csv",
         "rsc/PruebaTereno_Obstaculos.csv"
     };
 
-    tileMap = new DemoEngine_TileMap::TileMap(
-        vec3(200,600, 0), vec3(0, 0, 0), vec3(50, 50, 1),
+    tileMap = new TileMap(
+        TileMapPosition, TileMapRotation, TileMapScale,
         "rsc/Tiles.tsx", {tileMapFiles[0], tileMapFiles[1]}, "rsc/tilemap_packed.png");
+
+    const char* path = "rsc/demoDie.png";
+    player = new Sprite(path, 100, 200, PlayerColor, PlayerPosition, PlayerScale, PlayerRotation);
+    lastPlayerPos = vec3(PlayerPosition.x, PlayerPosition.y, 0);
+
+    anim = new Animation();
+    anim->AddFrame(0, 0, 639, 588, 26838, 588, 4, 42);
+    player->AddAnimation(anim);
 }
 
 void EarthGame::Update()
 {
     if (input->IsKeyPressed(GLFW_KEY_S))
     {
-        image->Translate(vec3(0, -1, 0));
+        player->Translate(vec3(0, -1, 0));
     }
-    else if (input->IsKeyPressed(GLFW_KEY_W))
+    if (input->IsKeyPressed(GLFW_KEY_W))
     {
-        image->Translate(vec3(0, 1, 0));
+        player->Translate(vec3(0, 1, 0));
     }
-    else if (input->IsKeyPressed(GLFW_KEY_A))
+    if (input->IsKeyPressed(GLFW_KEY_A))
     {
-        image->Translate(vec3(-1, 0, 0));
+        player->Translate(vec3(-1, 0, 0));
     }
-    else if (input->IsKeyPressed(GLFW_KEY_D))
+    if (input->IsKeyPressed(GLFW_KEY_D))
     {
-        image->Translate(vec3(1, 0, 0));
+        player->Translate(vec3(1, 0, 0));
+    }
+
+    if (tileMap->CheckCollision(*player))
+    {
+        player->setPosition(lastPlayerPos);
+    }
+    else
+    {
+        lastPlayerPos = player->getPosition();
     }
 
     tileMap->Draw();
+
+    player->Update(timer);
+    player->Draw();
 }
 
 void EarthGame::DeInit()
 {
-    delete image;
+    delete player;
     delete tileMap;
 }

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "../CollisionManager/CollisionManager.h"
 #include "../Tools/tinyxml2.h"
 
 using namespace tinyxml2;
@@ -12,9 +13,13 @@ using namespace std;
 namespace DemoEngine_TileMap
 {
     TileMapLayer::TileMapLayer(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* tileMapFiles,
-                               const char* tileMapImage, vector<Tile> tileSet, GLint textureFilter) : Entity2D(
-        newPosition, newRotation, newScale), tileMap(0, 0)
+                               const char* tileMapImage, vector<Tile> tileSet, GLint textureFilter, int tilePixelWidth,
+                               int tilePixelHeight) : Entity2D(
+                                                          newPosition, newRotation, newScale), tileMap(0, 0)
     {
+        this->tilePixelHeight = tilePixelHeight;
+        this->tilePixelWidth = tilePixelWidth;
+
         this->tileSet = tileSet;
         tileMap = ReadMap(tileMapFiles);
 
@@ -93,14 +98,32 @@ namespace DemoEngine_TileMap
         Renderer::GetRender()->DrawTexture(VAO, indexSize, color, model, tileMapTexture);
     }
 
-    bool TileMapLayer::hasCollision(int layer, Entity2D entity)
+    bool TileMapLayer::hasCollision(Entity2D object)
     {
-        return true;
-    }
+        for (int y = 0; y < mapTileHeight; y++)
+        {
+            for (int x = 0; x < mapTileWidth; x++)
+            {
+                int tile_id = tileMap.getTileId(x, y);
+                if (tileSet[tile_id].hasCollision && tile_id != -1)
+                {
+                    float x1 = getScale().x;
+                    float x2 = getScale().y;
+                    
+                    float tilePosX = getPosition().x + x * x1;
+                    float tilePosY = getPosition().y - y * x2;
 
-    bool TileMapLayer::hasCollision(int layer, int x, int y, int width, int height)
-    {
-        return true;
+                    if (DemoEngine_Collisions::CollisionManager::CheckCollisionEntityTile(
+                        object, tilePosX, tilePosY, x1, x2))
+                    {
+                    cout << "Tile " << x << "/" << y << " - position: " << tilePosX << "/" << tilePosY << endl;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     TileMapLayerData TileMapLayer::ReadMap(const char* filename)
