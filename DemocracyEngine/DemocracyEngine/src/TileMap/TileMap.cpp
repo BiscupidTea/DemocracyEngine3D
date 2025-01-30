@@ -45,6 +45,11 @@ namespace DemoEngine_TileMap
 
         root->QueryIntAttribute("tilewidth", &tilePixelWidth);
         root->QueryIntAttribute("tileheight", &tilePixelHeight);
+        
+        if (root->QueryIntAttribute("spacing", &spacing) != XML_SUCCESS)
+        {
+            spacing = 0;
+        }
 
         root = doc.FirstChildElement("tileset")->FirstChildElement("image");
         root->QueryIntAttribute("width", &mapPixelWidth);
@@ -105,8 +110,6 @@ namespace DemoEngine_TileMap
     {
         vector<vector<vec2>> uvCoordsList;
 
-        int padding = 0;
-
         for (int y = 0; y < HeightTiles; ++y)
         {
             for (int x = 0; x < WidthTiles; ++x)
@@ -114,17 +117,17 @@ namespace DemoEngine_TileMap
                 vector<vec2> uvCoords;
 
                 //topLeft
-                uvCoords.push_back(vec2(static_cast<float>((x * tileWidth) + padding * x) / totalWidth,
-                                        1.0f - static_cast<float>((y * tileHeight) + padding * y) / totalHeight));
+                uvCoords.push_back(vec2(static_cast<float>((x * tileWidth) + spacing * x) / totalWidth,
+                                        1.0f - static_cast<float>((y * tileHeight) + spacing * y) / totalHeight));
                 //TopRight
-                uvCoords.push_back(vec2(static_cast<float>(((x + 1) * tileWidth) + padding * x) / totalWidth,
-                                        1.0f - static_cast<float>((y * tileHeight) + padding * y) / totalHeight));
+                uvCoords.push_back(vec2(static_cast<float>(((x + 1) * tileWidth) + spacing * x) / totalWidth,
+                                        1.0f - static_cast<float>((y * tileHeight) + spacing * y) / totalHeight));
                 //BottomLeft
-                uvCoords.push_back(vec2(static_cast<float>((x * tileWidth) + padding * x) / totalWidth,
-                                        1.0f - static_cast<float>(((y + 1) * tileHeight) + padding * y) / totalHeight));
+                uvCoords.push_back(vec2(static_cast<float>((x * tileWidth) + spacing * x) / totalWidth,
+                                        1.0f - static_cast<float>(((y + 1) * tileHeight) + spacing * y) / totalHeight));
                 //BottomRight
-                uvCoords.push_back(vec2(static_cast<float>(((x + 1) * tileWidth) + padding * x) / totalWidth,
-                                        1.0f - static_cast<float>(((y + 1) * tileHeight) + padding * y) / totalHeight));
+                uvCoords.push_back(vec2(static_cast<float>(((x + 1) * tileWidth) + spacing * x) / totalWidth,
+                                        1.0f - static_cast<float>(((y + 1) * tileHeight) + spacing * y) / totalHeight));
 
                 uvCoordsList.push_back(uvCoords);
             }

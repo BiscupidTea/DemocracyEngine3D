@@ -43,6 +43,8 @@ namespace DemoEngine_TileMap
 
 		int layerCount;
 
+		int spacing;
+
 		//Tiles
 		int tilePixelWidth;
 		int tilePixelHeight;

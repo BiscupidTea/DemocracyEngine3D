@@ -17,7 +17,7 @@ void EarthGame::Init()
     TileMapColor = vec4{1, 1, 1, 1};
 
     PlayerPosition = vec3{300, 200, 0};
-    PlayerScale = vec3{100, 100, 1};
+    PlayerScale = vec3{45, 45, 1};
     PlayerRotation = vec3{0, 0, 0};
     PlayerColor = vec4{1, 1, 1, 1};
 
@@ -30,7 +30,7 @@ void EarthGame::Init()
 
     tileMap = new TileMap(
         TileMapPosition, TileMapRotation, TileMapScale,
-        "rsc/Tiles.tsx", {tileMapFiles[0], tileMapFiles[1]}, "rsc/tilemap_packed.png");
+        "rsc/TilesJunto.tsx", {tileMapFiles[0], tileMapFiles[1]}, "rsc/tilemap_packed.png");
 
     const char* path = "rsc/demoDie.png";
     player = new Sprite(path, 100, 200, PlayerColor, PlayerPosition, PlayerScale, PlayerRotation);
@@ -47,19 +47,27 @@ void EarthGame::Update()
 {
     if (input->IsKeyPressed(GLFW_KEY_S))
     {
-        player->Translate(vec3(0, -playerSpeed, 0));
+        vec3 dir(0, -playerSpeed, 0);
+        player->Translate(dir);
+        MoveCameraPosition(dir);
     }
     if (input->IsKeyPressed(GLFW_KEY_W))
     {
-        player->Translate(vec3(0,playerSpeed, 0));
+        vec3 dir(0,playerSpeed, 0);
+        player->Translate(dir);
+        MoveCameraPosition(dir);
     }
     if (input->IsKeyPressed(GLFW_KEY_A))
     {
-        player->Translate(vec3(-playerSpeed, 0, 0));
+        vec3 dir(-playerSpeed, 0, 0);
+        player->Translate(dir);
+        MoveCameraPosition(dir);
     }
     if (input->IsKeyPressed(GLFW_KEY_D))
     {
-        player->Translate(vec3(playerSpeed, 0, 0));
+        vec3 dir(playerSpeed, 0, 0);
+        player->Translate(dir);
+        MoveCameraPosition(dir);
     }
 
     if (tileMap->CheckCollision(*player))
@@ -70,7 +78,7 @@ void EarthGame::Update()
     {
         lastPlayerPos = player->getPosition();
     }
-
+    
     tileMap->Draw();
 
     player->Update(timer);
