@@ -100,25 +100,32 @@ namespace DemoEngine_TileMap
 
     bool TileMapLayer::hasCollision(Entity2D object)
     {
-        for (int y = 0; y < mapTileHeight; y++)
-        {
-            for (int x = 0; x < mapTileWidth; x++)
-            {
+        int collisionMargin = 2;
+        
+        float objectPositionX = object.getPosition().x;
+        float objectPositionY = object.getPosition().y;
+        float objectScaleX = object.getScale().x;
+        float objectScaleY = object.getScale().y;
+        
+        int minTileX = std::max(0, (int)((objectPositionX -  getPosition().x) / getScale().x) - collisionMargin);
+        int maxTileX = std::min(mapTileWidth - 1, (int)((objectPositionX + objectScaleX -  getPosition().x) / getScale().x) + collisionMargin);
+        int minTileY = std::max(0, (int)((getPosition().y - (objectPositionY + objectScaleY)) / getScale().y) - collisionMargin);
+        int maxTileY = std::min(mapTileHeight - 1, (int)((getPosition().y - objectPositionY) / getScale().y) + collisionMargin);
+        
+        for (int y = minTileY; y <= maxTileY; y++) {
+            
+            for (int x = minTileX; x <= maxTileX; x++) {
+                
                 int tile_id = tileMap.getTileId(x, y);
-                if (tileSet[tile_id].hasCollision && tile_id != -1)
-                {
-                    float x1 = getScale().x;
-                    float x2 = getScale().y;
-                    
-                    float tilePosX = getPosition().x + x * x1;
-                    float tilePosY = getPosition().y - y * x2;
+                
+                if (tile_id != -1 && tileSet[tile_id].hasCollision) {
+                    float tilePosX =  getPosition().x + x * getScale().x;
+                    float tilePosY = getPosition().y - y * getScale().y;
 
                     if (DemoEngine_Collisions::CollisionManager::CheckCollisionEntityTile(
-                        object, tilePosX, tilePosY, x1, x2))
-                    {
-                    cout << "Tile " << x << "/" << y << " - position: " << tilePosX << "/" << tilePosY << endl;
+                            object, tilePosX, tilePosY, getScale().x, getScale().y)) {
                         return true;
-                    }
+                            }
                 }
             }
         }

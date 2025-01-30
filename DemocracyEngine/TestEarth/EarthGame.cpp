@@ -39,25 +39,27 @@ void EarthGame::Init()
     anim = new Animation();
     anim->AddFrame(0, 0, 639, 588, 26838, 588, 4, 42);
     player->AddAnimation(anim);
+
+    playerSpeed = 5;
 }
 
 void EarthGame::Update()
 {
     if (input->IsKeyPressed(GLFW_KEY_S))
     {
-        player->Translate(vec3(0, -1, 0));
+        player->Translate(vec3(0, -playerSpeed, 0));
     }
     if (input->IsKeyPressed(GLFW_KEY_W))
     {
-        player->Translate(vec3(0, 1, 0));
+        player->Translate(vec3(0,playerSpeed, 0));
     }
     if (input->IsKeyPressed(GLFW_KEY_A))
     {
-        player->Translate(vec3(-1, 0, 0));
+        player->Translate(vec3(-playerSpeed, 0, 0));
     }
     if (input->IsKeyPressed(GLFW_KEY_D))
     {
-        player->Translate(vec3(1, 0, 0));
+        player->Translate(vec3(playerSpeed, 0, 0));
     }
 
     if (tileMap->CheckCollision(*player))

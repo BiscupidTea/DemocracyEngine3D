@@ -139,7 +139,6 @@ namespace DemoEngine_TileMap
         {
             if (layers[i]->hasCollision(a))
             {
-                cout << "collision layer" << i << endl;
                 return true;
             }
         }

@@ -29,6 +29,8 @@ private:
 
 	TileMap* tileMap;
 
+	int playerSpeed;
+
 public:
 	EarthGame();
 	~EarthGame();
