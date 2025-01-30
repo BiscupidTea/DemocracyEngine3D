@@ -49,25 +49,21 @@ void EarthGame::Update()
     {
         vec3 dir(0, -playerSpeed, 0);
         player->Translate(dir);
-        MoveCameraPosition(dir);
     }
     if (input->IsKeyPressed(GLFW_KEY_W))
     {
         vec3 dir(0,playerSpeed, 0);
         player->Translate(dir);
-        MoveCameraPosition(dir);
     }
     if (input->IsKeyPressed(GLFW_KEY_A))
     {
         vec3 dir(-playerSpeed, 0, 0);
         player->Translate(dir);
-        MoveCameraPosition(dir);
     }
     if (input->IsKeyPressed(GLFW_KEY_D))
     {
         vec3 dir(playerSpeed, 0, 0);
         player->Translate(dir);
-        MoveCameraPosition(dir);
     }
 
     if (tileMap->CheckCollision(*player))
