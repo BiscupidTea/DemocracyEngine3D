@@ -10,49 +10,63 @@ using namespace DemoEngine_Animations;
 
 namespace DemoEngine_BaseGame
 {
-    BaseGame::BaseGame()
-    {
-        window = new Window(1024, 720, "Democracy Engine");
-        renderer = new Renderer();
-        input = new Input(window);
+	BaseGame::BaseGame()
+	{
+		vec2 windowXY;
+		windowXY.x = 1024;
+		windowXY.y = 720;
 
-        Init();
-    }
+		window = new Window(windowXY.x, windowXY.y, "Democracy Engine");
+		renderer = new Renderer(windowXY);
+		input = new Input(window);
 
-    BaseGame::~BaseGame()
-    {
-        delete renderer;
-        delete window;
-        delete input;
-    }
+		Init();
+	}
 
-    void BaseGame::EngineLoop()
-    {
-        
-        while (!window->ShouldClose())
-        {
-            DemoTimer::Update(glfwGetTime());
-            renderer->Update();
+	BaseGame::~BaseGame()
+	{
+		delete renderer;
+		delete window;
+		delete input;
+	}
 
-            Update();
+	void BaseGame::EngineLoop()
+	{
 
-            window->Update();
-        }
-        DeInit();
-    }
+		while (!window->ShouldClose())
+		{
+			DemoTimer::Update(glfwGetTime());
+			renderer->Update();
 
-    void BaseGame::Init()
-    {
-        
-    }
+			Update();
 
-    void BaseGame::Update()
-    {
+			window->Update();
+		}
+		DeInit();
+	}
 
-    }
+	void BaseGame::SetMainCameraPosition(vec3 NewPosition)
+	{
+		renderer->SetCameraPosition(NewPosition);
+	}
 
-    void BaseGame::DeInit()
-    {
+	void BaseGame::TranslateCamera(vec3 dir)
+	{
+		renderer->TranslateCamera(dir);
+	}
 
-    }
+	void BaseGame::Init()
+	{
+
+	}
+
+	void BaseGame::Update()
+	{
+
+	}
+
+	void BaseGame::DeInit()
+	{
+
+	}
 }

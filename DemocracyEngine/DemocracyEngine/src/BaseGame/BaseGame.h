@@ -29,5 +29,8 @@ namespace DemoEngine_BaseGame
 		virtual void DeInit();
 		//possible virtual Draw method in which all draw methods must be called
 		void EngineLoop();
+
+		void SetMainCameraPosition(vec3 NewPosition);
+		void TranslateCamera(vec3 dir);
 	};
 }

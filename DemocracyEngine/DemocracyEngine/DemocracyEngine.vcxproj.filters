@@ -31,6 +31,9 @@
     <Filter Include="Src\TileMap">
       <UniqueIdentifier>{d3049416-daf0-4b00-b1c7-3cc57d1218c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Camera">
+      <UniqueIdentifier>{630169d3-5932-4690-95ae-235bfe31b5bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame\BaseGame.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="src\TileMap\TileMap.cpp">
       <Filter>Src\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\Camera.cpp">
+      <Filter>Src\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="src\TileMap\TileMap.h">
       <Filter>Src\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera\Camera.h">
+      <Filter>Src\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

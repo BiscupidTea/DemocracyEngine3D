@@ -13,6 +13,7 @@
 
 #include "../Tools/TextureImporter.h"
 #include "../Window/Window.h"
+#include "../Camera/Camera.h"
 
 namespace DemoEngine_TileMap
 {
@@ -32,16 +33,14 @@ namespace DemoEngine_Renderer
 		unsigned int primitiveShader;
 		unsigned int textureShader;
 		TextureImporter textureImporter;
-		
-		mat4x4 proyection;
-		mat4x4 view;
-
 	public:
-		Renderer();
+		Renderer(vec2 windowXY);
 		~Renderer();
 
 		static Renderer* GetRender();
 		static Renderer* RendererInstance;
+
+		Camera* MainCamera;
 
 		void RenderFrame();
 		void Update();
@@ -55,6 +54,7 @@ namespace DemoEngine_Renderer
 		void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 		
 		void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
-
+		void SetCameraPosition(vec3 NewPosition);
+		void TranslateCamera(vec3 dir);
 	};
 }

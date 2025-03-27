@@ -6,7 +6,7 @@ namespace DemoEngine_Renderer
 {
 	Renderer* Renderer::RendererInstance = nullptr;
 
-	Renderer::Renderer()
+	Renderer::Renderer(vec2 windowXY)
 	{
 		RendererInstance = this;
 
@@ -31,20 +31,20 @@ namespace DemoEngine_Renderer
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		glEnable(GL_SAMPLE_ALPHA_TO_ONE);
 		glFrontFace(GL_CCW);
-		glEnable(GL_BLEND); //Transparency
+		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_ALPHA);
+
 
 		delete a;
 
-		proyection = ortho(0.0f, 1024.0f, 0.0f, 720.0f, 0.1f, 100.0f);
-		vec3 cameraPosition = vec3(0, 0, 50);
-		view = lookAt(cameraPosition, { 0,0,0 }, { 0,1,0 });
+		MainCamera = new Camera(windowXY, 1000.0f);
 	}
 
 	Renderer::~Renderer()
 	{
+		delete MainCamera;
+
 		std::cout << "Deleted renderer." << std::endl;
 	}
 
@@ -168,7 +168,7 @@ namespace DemoEngine_Renderer
 		glUseProgram(primitiveShader);
 
 		unsigned int transformLoc = glGetUniformLocation(primitiveShader, "u_MVP");
-		mat4 MVP = proyection * view * model;
+		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(MVP));
 
 		glBindVertexArray(VAO);
@@ -185,7 +185,7 @@ namespace DemoEngine_Renderer
 		glUseProgram(textureShader);
 
 		unsigned int transformLoc = glGetUniformLocation(textureShader, "MVP");
-		mat4 MVP = proyection * view * model;
+		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(MVP));
 
 		glBindVertexArray(VAO);
@@ -202,6 +202,16 @@ namespace DemoEngine_Renderer
 
 	void Renderer::DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture)
 	{
-		
+
+	}
+
+	void Renderer::SetCameraPosition(vec3 NewPosition)
+	{
+		MainCamera->SetCameraPosition(NewPosition);
+	}
+
+	void Renderer::TranslateCamera(vec3 dir)
+	{
+		MainCamera->TranslateCamera(dir);
 	}
 }
