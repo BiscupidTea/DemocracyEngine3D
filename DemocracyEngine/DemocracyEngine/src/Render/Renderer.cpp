@@ -123,10 +123,6 @@ namespace DemoEngine_Renderer
 		int width, height, m_BPP;
 		unsigned char* localBuffer = textureImporter.GetTexture(textureName, width, height, m_BPP);
 
-		std::cout << m_BPP << endl;
-		std::cout << width << endl;
-		std::cout << height << endl;
-
 
 		if (m_BPP == 4)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, localBuffer);

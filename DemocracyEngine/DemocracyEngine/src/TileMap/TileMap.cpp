@@ -93,8 +93,6 @@ namespace DemoEngine_TileMap
             tileSet.push_back(Tile(tileId, hasCollision, tileSetUV.at(tileId)));
             tileElement = tileElement->NextSiblingElement("tile");
         }
-        cout << "Loaded " << tileSet.size() << " tiles" << endl;
-        cout << endl;
     }
 
     void TileMap::Draw()

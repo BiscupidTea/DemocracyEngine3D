@@ -13,6 +13,7 @@
 	void Camera::Update()
 	{
 		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
+		std::cout << LocalPosition.x << "," << LocalPosition.y << "," << LocalPosition.z << std::endl;
 	}
 
 	vec3 Camera::GetCameraPosition()

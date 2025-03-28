@@ -22,6 +22,8 @@ private:
 	
 	Sprite* player;
 	Sprite* floor;
+	Sprite* pingu1;
+	Sprite* pingu2;
 	DemoTimer* timer;
 
 	int playerSpeed;
