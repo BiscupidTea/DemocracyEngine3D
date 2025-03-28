@@ -54,10 +54,15 @@ void EarthGame::Update()
 		vec3 dir(playerSpeed, 0, 0);
 		TranslateCamera(dir);
 	}
-	if (input->IsKeyPressed(GLFW_KEY_X))
+	if (input->IsKeyPressed(GLFW_KEY_RIGHT))
 	{
-		cameraRotation += 0.1;
-		RotateCamera(vec3{0,0,0});
+		cameraRotation += 1;
+		RotateCamera(vec3{0,cameraRotation,0});
+	}
+	if (input->IsKeyPressed(GLFW_KEY_LEFT))
+	{
+		cameraRotation -= 1;
+		RotateCamera(vec3{ 0,cameraRotation,0 });
 	}
 
 	player->Update(timer);

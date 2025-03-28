@@ -36,7 +36,7 @@ namespace DemoEngine_Renderer
 
 		delete a;
 
-		MainCamera = new Camera(windowXY, 10000.0f);
+		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,0,0}, {1,1,1});
 	}
 
 	Renderer::~Renderer()

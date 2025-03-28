@@ -6,32 +6,31 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
+#include "../Entities/Entity.h"
+
 using namespace  glm;
+using namespace DemoEngine_Entities;
 
-namespace DemoEngine_Renderer
+class EXPORT Camera : public Entity
 {
-	class EXPORT Camera
-	{
-	private:
-		mat4x4 proyection;
-		mat4x4 view;
+private:
+	mat4x4 proyection;
+	mat4x4 view;
 
-		vec3 LocalPosition;
-		vec3 cameraFront;
-		vec3 cameraUp;
+	vec3 LocalPosition;
+	vec3 cameraFront;
+	vec3 cameraUp;
 
-	public:
-		Camera(vec2 aspect, float maxDistance, vec3 position = vec3 {0,0,0});
-		
-		void Update();
-		
-		vec3 GetCameraPosition();
-		mat4x4 GetCameraProyection();
-		mat4x4 GetCameraView();
-		
-		void SetCameraPosition(vec3 NewPosition);
-		void TranslateCamera(vec3 dir);
-		void RotateCamera(vec3 newRotation);
-	};
+public:
+	Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale);
 
-}
+	void Update();
+
+	vec3 GetCameraPosition();
+	mat4x4 GetCameraProyection();
+	mat4x4 GetCameraView();
+
+	void SetCameraPosition(vec3 NewPosition);
+	void TranslateCamera(vec3 dir);
+	void RotateCamera(vec3 newRotation);
+};

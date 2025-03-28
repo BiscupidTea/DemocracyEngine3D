@@ -1,12 +1,9 @@
 #include "Camera.h"
 
-namespace DemoEngine_Renderer
-{
-	Camera::Camera(vec2 aspect, float maxDistance, vec3 position)
+	Camera::Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale) : Entity(newPosition, newRotation, newScale)
 	{
 		proyection = perspective(glm::radians(45.0f), aspect.x / aspect.y, 0.1f, maxDistance);
 
-		LocalPosition = position;
 		cameraFront = vec3(0.0f, 0.0f, -1.0f);
 		cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
@@ -51,8 +48,20 @@ namespace DemoEngine_Renderer
 
 	void Camera::RotateCamera(vec3 newRotation)
 	{
-		cameraFront = newRotation;
+		LocalRotation = newRotation;
+
+		float yaw = radians(LocalRotation.y);
+		float pitch = radians(LocalRotation.x);
+		float roll = radians(LocalRotation.z);
+
+		vec3 front;
+		front.x = cos(yaw) * cos(pitch);
+		front.y = sin(pitch);
+		front.z = sin(yaw) * cos(pitch);
+		cameraFront = glm::normalize(front);
+
+		vec3 right = glm::normalize(glm::cross(cameraFront, vec3(0.0f, 1.0f, 0.0f)));
+		cameraUp = glm::normalize(glm::rotate(mat4(1.0f), roll, cameraFront) * vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 		Update();
 	}
-}

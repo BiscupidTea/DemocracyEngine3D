@@ -1,11 +1,14 @@
 #pragma once
-#include "../Render/Renderer.h"
+#include "../Tools/Export.h"
 
-using namespace DemoEngine_Renderer;
+#include <glm/mat4x4.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
+
+using namespace  glm;
 
 namespace DemoEngine_Entities
 {
-    //make abstract class
     class EXPORT Entity
     {
     protected:
