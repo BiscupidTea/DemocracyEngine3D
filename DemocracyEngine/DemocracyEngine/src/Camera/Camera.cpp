@@ -7,13 +7,15 @@ namespace DemoEngine_Renderer
 		proyection = perspective(glm::radians(45.0f), aspect.x / aspect.y, 0.1f, maxDistance);
 
 		LocalPosition = position;
+		cameraFront = vec3(0.0f, 0.0f, -1.0f);
+		cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
-		view = lookAt(LocalPosition, LocalPosition + vec3(0.0f, 0.0f, -1.0f), { 0,1,0 });
+		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
 	}
 
 	void Camera::Update()
 	{
-		view = lookAt(LocalPosition, LocalPosition + vec3(0.0f, 0.0f, -1.0f), { 0,1,0 });
+		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
 	}
 
 	vec3 Camera::GetCameraPosition()
@@ -33,11 +35,24 @@ namespace DemoEngine_Renderer
 
 	void Camera::SetCameraPosition(vec3 NewPosition)
 	{
+		NewPosition.z = -NewPosition.z;
 		LocalPosition = NewPosition;
+
+		Update();
 	}
 
 	void Camera::TranslateCamera(vec3 dir)
 	{
+		dir.z = -dir.z;
 		LocalPosition += dir;
+
+		Update();
+	}
+
+	void Camera::RotateCamera(vec3 newRotation)
+	{
+		cameraFront = newRotation;
+
+		Update();
 	}
 }

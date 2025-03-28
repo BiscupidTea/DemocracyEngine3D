@@ -4,7 +4,9 @@
 #include "Tile.h"
 #include "TileMapLayerData.h"
 #include "../Entities/Entity2D.h"
+#include "../Render/Renderer.h"
 
+using namespace DemoEngine_Renderer;
 using namespace DemoEngine_Entities;
 
 

@@ -6,14 +6,12 @@
 #include "Shader.h"
 #include "glew.h"
 
-#include <glm/mat4x4.hpp>
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/ext/matrix_transform.hpp>
+#include "../Camera/Camera.h"
 #include <glm/gtc/type_ptr.inl>
 
 #include "../Tools/TextureImporter.h"
 #include "../Window/Window.h"
-#include "../Camera/Camera.h"
+#include "../TileMap/Tile.h"
 
 namespace DemoEngine_TileMap
 {
@@ -26,7 +24,7 @@ using namespace DemoEngine_Tools;
 
 namespace DemoEngine_Renderer
 {
-	
+
 	static class EXPORT Renderer
 	{
 	private:
@@ -48,13 +46,14 @@ namespace DemoEngine_Renderer
 		void CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
 		void DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex);
 		void DestroyShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO);
-		
+
 		void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
 		void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
 		void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
-		
+
 		void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
 		void SetCameraPosition(vec3 NewPosition);
 		void TranslateCamera(vec3 dir);
+		void RotateCamera(vec3 newRotation);
 	};
 }

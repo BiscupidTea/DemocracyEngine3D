@@ -55,6 +55,11 @@ namespace DemoEngine_BaseGame
 		renderer->TranslateCamera(dir);
 	}
 
+	void BaseGame::RotateCamera(vec3 newRotation)
+	{
+		renderer->RotateCamera(newRotation);
+	}
+
 	void BaseGame::Init()
 	{
 

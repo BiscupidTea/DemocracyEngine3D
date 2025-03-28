@@ -16,9 +16,12 @@ private:
 	vec3 PlayerRotation;
 	vec4 PlayerColor;
 
+	float cameraRotation;
+
 	Animation* anim;
 	
 	Sprite* player;
+	Sprite* floor;
 	DemoTimer* timer;
 
 	int playerSpeed;

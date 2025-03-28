@@ -21,11 +21,15 @@ void EarthGame::Init()
 	const char* path = "rsc/demoDie.png";
 	player = new Sprite(path, 100, 200, PlayerColor, PlayerPosition, PlayerScale, PlayerRotation);
 
+	path = "rsc/democracy.png";
+	floor = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -50, -50 }, vec3{ 1000, 1000, 1000 }, vec3{ -90, 0, 0 });
+
 	anim = new Animation();
 	anim->AddFrame(0, 0, 639, 588, 26838, 588, 4, 42);
 	player->AddAnimation(anim);
 
 	playerSpeed = 5;
+	cameraRotation = -1;
 }
 
 void EarthGame::Update()
@@ -52,10 +56,12 @@ void EarthGame::Update()
 	}
 	if (input->IsKeyPressed(GLFW_KEY_X))
 	{
-		player->rotateY(5);
+		cameraRotation += 0.1;
+		RotateCamera(vec3{0,0,0});
 	}
 
 	player->Update(timer);
+	floor->Draw();
 	player->Draw();
 }
 

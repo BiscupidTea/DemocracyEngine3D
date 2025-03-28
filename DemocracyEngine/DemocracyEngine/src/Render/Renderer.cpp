@@ -1,7 +1,5 @@
 #include "Renderer.h"
 
-#include "../TileMap/Tile.h"
-
 namespace DemoEngine_Renderer
 {
 	Renderer* Renderer::RendererInstance = nullptr;
@@ -38,7 +36,7 @@ namespace DemoEngine_Renderer
 
 		delete a;
 
-		MainCamera = new Camera(windowXY, 1000.0f);
+		MainCamera = new Camera(windowXY, 10000.0f);
 	}
 
 	Renderer::~Renderer()
@@ -52,7 +50,6 @@ namespace DemoEngine_Renderer
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
 	}
 
 	void Renderer::CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize)
@@ -213,5 +210,10 @@ namespace DemoEngine_Renderer
 	void Renderer::TranslateCamera(vec3 dir)
 	{
 		MainCamera->TranslateCamera(dir);
+	}
+
+	void Renderer::RotateCamera(vec3 newRotation)
+	{
+		MainCamera->RotateCamera(newRotation);
 	}
 }

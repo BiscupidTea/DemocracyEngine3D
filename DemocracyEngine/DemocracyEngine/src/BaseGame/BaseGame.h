@@ -32,5 +32,6 @@ namespace DemoEngine_BaseGame
 
 		void SetMainCameraPosition(vec3 NewPosition);
 		void TranslateCamera(vec3 dir);
+		void RotateCamera(vec3 newRotation);
 	};
 }

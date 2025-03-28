@@ -15,7 +15,10 @@ namespace DemoEngine_Renderer
 	private:
 		mat4x4 proyection;
 		mat4x4 view;
+
 		vec3 LocalPosition;
+		vec3 cameraFront;
+		vec3 cameraUp;
 
 	public:
 		Camera(vec2 aspect, float maxDistance, vec3 position = vec3 {0,0,0});
@@ -28,6 +31,7 @@ namespace DemoEngine_Renderer
 		
 		void SetCameraPosition(vec3 NewPosition);
 		void TranslateCamera(vec3 dir);
+		void RotateCamera(vec3 newRotation);
 	};
 
 }
