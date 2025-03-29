@@ -23,7 +23,7 @@ namespace DemoEngine_Renderer
 		primitiveShader = a->InitShader("rsc/PrimitiveShader.DemoShader");
 		textureShader = a->InitShader("rsc/TextureShader.DemoShader");
 
-		glEnable(GL_DEPTH);
+		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -36,7 +36,10 @@ namespace DemoEngine_Renderer
 
 		delete a;
 
-		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,0,0}, {1,1,1});
+		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,-90,0}, {1,1,1});
+
+		vec3 defaultPosition = {0,0,0};
+		MainCamera->setPosition(defaultPosition);
 	}
 
 	Renderer::~Renderer()
@@ -49,7 +52,7 @@ namespace DemoEngine_Renderer
 	void Renderer::Update()
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void Renderer::CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize)
@@ -211,5 +214,9 @@ namespace DemoEngine_Renderer
 	void Renderer::RotateCamera(vec3 newRotation)
 	{
 		MainCamera->RotateCamera(newRotation);
+	}
+	Camera* Renderer::GetCamera()
+	{
+		return MainCamera;
 	}
 }

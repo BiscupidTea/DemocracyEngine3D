@@ -30,6 +30,7 @@ namespace DemoEngine_BaseGame
 		//possible virtual Draw method in which all draw methods must be called
 		void EngineLoop();
 
+		Camera* GetMainCamera();
 		void SetMainCameraPosition(vec3 NewPosition);
 		void TranslateCamera(vec3 dir);
 		void RotateCamera(vec3 newRotation);

@@ -22,18 +22,17 @@ void EarthGame::Init()
 	player = new Sprite(path, 100, 200, PlayerColor, PlayerPosition, PlayerScale, PlayerRotation);
 
 	path = "rsc/democracy.png";
-	floor = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -50, -50 }, vec3{ 1000, 1000, 1000 }, vec3{ -90, 0, 0 });
+	floor = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -50, 0 }, vec3{ 1000, 1000, 1000 }, vec3{ -90, 0, 0 });
 
 	path = "rsc/Penguin_Walk_Back.png";
-	pingu1 = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -50, 0 }, vec3{ 100, 100, 100 }, vec3{ 0, 0, 0 });
-	pingu2 = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -50, 100 }, vec3{ 100, 100, 100 }, vec3{ 0, 0, 0 });
+	pingu1 = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -25, 0 }, vec3{ 100, 100, 100 }, vec3{ 0, 0, 0 });
+	pingu2 = new Sprite(path, 200, 200, vec4{ 1, 1, 1, 1 }, vec3{ 0, -25, 100 }, vec3{ 100, 100, 100 }, vec3{ 0, 0, 0 });
 
 	anim = new Animation();
 	anim->AddFrame(0, 0, 639, 588, 26838, 588, 4, 42);
 	player->AddAnimation(anim);
 
 	playerSpeed = 5;
-	cameraRotation = -1;
 }
 
 void EarthGame::Update()
@@ -60,13 +59,19 @@ void EarthGame::Update()
 	}
 	if (input->IsKeyPressed(GLFW_KEY_RIGHT))
 	{
-		cameraRotation += 1;
-		RotateCamera(vec3{0,cameraRotation,0});
+		RotateCamera(vec3{ GetMainCamera()->GetRotation().x,GetMainCamera()->GetRotation().y + 1,0 });
 	}
 	if (input->IsKeyPressed(GLFW_KEY_LEFT))
 	{
-		cameraRotation -= 1;
-		RotateCamera(vec3{ 0,cameraRotation,0 });
+		RotateCamera(vec3{ GetMainCamera()->GetRotation().x,GetMainCamera()->GetRotation().y - 1,0 });
+	}
+	if (input->IsKeyPressed(GLFW_KEY_UP))
+	{
+		RotateCamera(vec3{ GetMainCamera()->GetRotation().x + 1,GetMainCamera()->GetRotation().y,0 });
+	}
+	if (input->IsKeyPressed(GLFW_KEY_DOWN))
+	{
+		RotateCamera(vec3{ GetMainCamera()->GetRotation().x - 1,GetMainCamera()->GetRotation().y,0 });
 	}
 
 	player->Update(timer);

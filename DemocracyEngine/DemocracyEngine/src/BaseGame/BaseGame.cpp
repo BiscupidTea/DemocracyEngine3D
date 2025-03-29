@@ -45,6 +45,11 @@ namespace DemoEngine_BaseGame
 		DeInit();
 	}
 
+	Camera* BaseGame::GetMainCamera()
+	{
+		return renderer->GetCamera();
+	}
+
 	void BaseGame::SetMainCameraPosition(vec3 NewPosition)
 	{
 		renderer->SetCameraPosition(NewPosition);

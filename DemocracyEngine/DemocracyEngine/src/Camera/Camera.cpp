@@ -7,13 +7,17 @@
 		cameraFront = vec3(0.0f, 0.0f, -1.0f);
 		cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
+		std::cout << "Postion:" << LocalPosition.x << "," << LocalPosition.y << "," << LocalPosition.z << std::endl;
+		std::cout << "Rotation:" << LocalRotation.x << "," << LocalRotation.y << "," << LocalRotation.z << std::endl;
+
 		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
 	}
 
 	void Camera::Update()
 	{
 		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
-		std::cout << LocalPosition.x << "," << LocalPosition.y << "," << LocalPosition.z << std::endl;
+		std::cout <<"Postion:" << LocalPosition.x << "," << LocalPosition.y << "," << LocalPosition.z << std::endl;
+		std::cout <<"Rotation:" << LocalRotation.x << "," << LocalRotation.y << "," << LocalRotation.z << std::endl;
 	}
 
 	vec3 Camera::GetCameraPosition()
