@@ -13,10 +13,10 @@ using namespace DemoEngine_Entities;
 
 class EXPORT Camera : public Entity
 {
-private:
+protected:
 	mat4x4 proyection;
 	mat4x4 view;
-
+	
 	vec3 LocalPosition;
 	vec3 cameraFront;
 	vec3 cameraUp;
@@ -27,6 +27,8 @@ public:
 	void Update();
 
 	vec3 GetCameraPosition();
+	vec3 GetCameraFoward();
+	vec3 GetCameraRight();
 	mat4x4 GetCameraProyection();
 	mat4x4 GetCameraView();
 

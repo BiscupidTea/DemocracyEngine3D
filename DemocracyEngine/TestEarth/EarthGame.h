@@ -1,6 +1,9 @@
 #include "BaseGame/BaseGame.h"
 #include "Entities/Sprite.h"
 #include "CollisionManager/CollisionManager.h"
+#include "Entities/Cube.h"
+#include "Entities/Square.h"
+#include "Entities/Triangle.h"
 #include "TileMap/TileMap.h"
 
 using namespace DemoEngine_BaseGame;
@@ -11,28 +14,32 @@ using namespace DemoEngine_TileMap;
 class EarthGame final : public BaseGame
 {
 private:
-	vec3 PlayerPosition;
-	vec3 PlayerScale;
-	vec3 PlayerRotation;
-	vec4 PlayerColor;
+    vec3 PlayerPosition;
+    vec3 PlayerScale;
+    vec3 PlayerRotation;
+    vec4 PlayerColor;
 
-	float cameraRotation;
+    float cameraRotation;
 
-	Animation* anim;
-	
-	Sprite* player;
-	Sprite* floor;
-	Sprite* pingu1;
-	Sprite* pingu2;
-	DemoTimer* timer;
+    Animation* anim;
 
-	int playerSpeed;
+    Cube* cube;
+    Triangle* triangle;
+    Square* square;
+
+    Sprite* player;
+    Sprite* floor;
+    Sprite* pingu1;
+    Sprite* pingu2;
+    DemoTimer* timer;
+
+    float playerSpeed;
 
 public:
-	EarthGame();
-	~EarthGame();
+    EarthGame();
+    ~EarthGame();
 
-	void Init() override;
-	void Update() override;
-	void DeInit() override;
+    void Init() override;
+    void Update() override;
+    void DeInit() override;
 };

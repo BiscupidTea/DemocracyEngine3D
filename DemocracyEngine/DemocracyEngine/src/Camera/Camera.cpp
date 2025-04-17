@@ -1,72 +1,77 @@
 #include "Camera.h"
 
-	Camera::Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale) : Entity(newPosition, newRotation, newScale)
-	{
-		proyection = perspective(glm::radians(45.0f), aspect.x / aspect.y, 0.1f, maxDistance);
+Camera::Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale) : Entity(newPosition, newRotation, newScale)
+{
+	proyection = perspective(glm::radians(45.0f), aspect.x / aspect.y, 0.1f, maxDistance);
 
-		cameraFront = vec3(0.0f, 0.0f, -1.0f);
-		cameraUp = vec3(0.0f, 1.0f, 0.0f);
+	cameraFront = vec3(0.0f, 0.0f, -1.0f);
+	cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
-		std::cout << "Postion:" << LocalPosition.x << "," << LocalPosition.y << "," << LocalPosition.z << std::endl;
-		std::cout << "Rotation:" << LocalRotation.x << "," << LocalRotation.y << "," << LocalRotation.z << std::endl;
+	view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
+}
 
-		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
-	}
+void Camera::Update()
+{
+	view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
+}
 
-	void Camera::Update()
-	{
-		view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
-		std::cout <<"Postion:" << LocalPosition.x << "," << LocalPosition.y << "," << LocalPosition.z << std::endl;
-		std::cout <<"Rotation:" << LocalRotation.x << "," << LocalRotation.y << "," << LocalRotation.z << std::endl;
-	}
+vec3 Camera::GetCameraPosition()
+{
+	return LocalPosition;
+}
 
-	vec3 Camera::GetCameraPosition()
-	{
-		return LocalPosition;
-	}
+vec3 Camera::GetCameraFoward()
+{
+	return cameraFront;
+}
 
-	mat4x4 Camera::GetCameraProyection()
-	{
-		return proyection;
-	}
+vec3 Camera::GetCameraRight()
+{
+	return normalize(cross(cameraFront, vec3(0.0f,1.0f,0.0f)));
+}
 
-	mat4x4 Camera::GetCameraView()
-	{
-		return view;
-	}
+mat4x4 Camera::GetCameraProyection()
+{
+	return proyection;
+}
 
-	void Camera::SetCameraPosition(vec3 NewPosition)
-	{
-		NewPosition.z = -NewPosition.z;
-		LocalPosition = NewPosition;
+mat4x4 Camera::GetCameraView()
+{
+	return view;
+}
 
-		Update();
-	}
+void Camera::SetCameraPosition(vec3 NewPosition)
+{
+	NewPosition.z = -NewPosition.z;
+	LocalPosition = NewPosition;
 
-	void Camera::TranslateCamera(vec3 dir)
-	{
-		dir.z = -dir.z;
-		LocalPosition += dir;
+	Update();
+}
 
-		Update();
-	}
+void Camera::TranslateCamera(vec3 dir)
+{
+	dir.z = -dir.z;
+	LocalPosition += dir;
 
-	void Camera::RotateCamera(vec3 newRotation)
-	{
-		LocalRotation = newRotation;
+	Update();
+}
 
-		float yaw = radians(LocalRotation.y);
-		float pitch = radians(LocalRotation.x);
-		float roll = radians(LocalRotation.z);
+void Camera::RotateCamera(vec3 newRotation)
+{
+	LocalRotation = newRotation;
 
-		vec3 front;
-		front.x = cos(yaw) * cos(pitch);
-		front.y = sin(pitch);
-		front.z = sin(yaw) * cos(pitch);
-		cameraFront = glm::normalize(front);
+	float yaw = radians(LocalRotation.y);
+	float pitch = radians(LocalRotation.x);
+	float roll = radians(LocalRotation.z);
 
-		vec3 right = glm::normalize(glm::cross(cameraFront, vec3(0.0f, 1.0f, 0.0f)));
-		cameraUp = glm::normalize(glm::rotate(mat4(1.0f), roll, cameraFront) * vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	vec3 front;
+	front.x = cos(yaw) * cos(pitch);
+	front.y = sin(pitch);
+	front.z = sin(yaw) * cos(pitch);
+	cameraFront = glm::normalize(front);
 
-		Update();
-	}
+	vec3 right = glm::normalize(glm::cross(cameraFront, vec3(0.0f, 1.0f, 0.0f)));
+	cameraUp = glm::normalize(glm::rotate(mat4(1.0f), roll, cameraFront) * vec4(0.0f, 1.0f, 0.0f, 1.0f));
+
+	Update();
+}
