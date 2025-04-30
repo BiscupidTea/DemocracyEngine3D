@@ -32,7 +32,7 @@ namespace DemoEngine_Renderer
 		unsigned int textureShader;
 		TextureImporter textureImporter;
 	public:
-		Renderer(vec2 windowXY);
+		Renderer(vec2 windowXY, Camera* camera);
 		~Renderer();
 
 		static Renderer* GetRender();
@@ -52,9 +52,5 @@ namespace DemoEngine_Renderer
 		void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 
 		void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
-		void SetCameraPosition(vec3 NewPosition);
-		void TranslateCamera(vec3 dir);
-		void RotateCamera(vec3 newRotation);
-		Camera* GetCamera();
 	};
 }

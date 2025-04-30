@@ -4,9 +4,11 @@ namespace DemoEngine_Renderer
 {
 	Renderer* Renderer::RendererInstance = nullptr;
 
-	Renderer::Renderer(vec2 windowXY)
+	Renderer::Renderer(vec2 windowXY, Camera* camera)
 	{
 		RendererInstance = this;
+
+		MainCamera = camera;
 
 		GLenum result = glewInit();
 
@@ -38,11 +40,6 @@ namespace DemoEngine_Renderer
 
 
 		delete a;
-
-		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,-90,0}, {1,1,1});
-
-		vec3 defaultPosition = {0,0,0};
-		MainCamera->setPosition(defaultPosition);
 	}
 
 	Renderer::~Renderer()
@@ -201,24 +198,5 @@ namespace DemoEngine_Renderer
 	void Renderer::DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture)
 	{
 
-	}
-
-	void Renderer::SetCameraPosition(vec3 NewPosition)
-	{
-		MainCamera->SetCameraPosition(NewPosition);
-	}
-
-	void Renderer::TranslateCamera(vec3 dir)
-	{
-		MainCamera->TranslateCamera(dir);
-	}
-
-	void Renderer::RotateCamera(vec3 newRotation)
-	{
-		MainCamera->RotateCamera(newRotation);
-	}
-	Camera* Renderer::GetCamera()
-	{
-		return MainCamera;
 	}
 }

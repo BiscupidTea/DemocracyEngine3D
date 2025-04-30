@@ -1,6 +1,5 @@
 #include "BaseGame.h"
 
-#include "../Entities/Triangle.h"
 #include "../Entities/Square.h"
 #include "../Tools/DemoTimer.h"
 
@@ -16,10 +15,15 @@ namespace DemoEngine_BaseGame
 		windowXY.x = 1024;
 		windowXY.y = 720;
 
+		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,-90,0}, {1,1,1}, CameraMode::ThirdPerson);
+		MainCamera->setPosition(vec3{0,0,0});
+		
 		window = new Window(windowXY.x, windowXY.y, "Democracy Engine");
-		renderer = new Renderer(windowXY);
+		renderer = new Renderer(windowXY, MainCamera);
 		input = new Input(window);
+		MainCamera->SetInput(input);
 
+		
 		Init();
 	}
 
@@ -36,33 +40,14 @@ namespace DemoEngine_BaseGame
 		while (!window->ShouldClose())
 		{
 			DemoTimer::Update(glfwGetTime());
+			MainCamera->Update();
 			renderer->Update();
-
+			
 			Update();
 
 			window->Update();
 		}
 		DeInit();
-	}
-
-	Camera* BaseGame::GetMainCamera()
-	{
-		return renderer->GetCamera();
-	}
-
-	void BaseGame::SetMainCameraPosition(vec3 NewPosition)
-	{
-		renderer->SetCameraPosition(NewPosition);
-	}
-
-	void BaseGame::TranslateCamera(vec3 dir)
-	{
-		renderer->TranslateCamera(dir);
-	}
-
-	void BaseGame::RotateCamera(vec3 newRotation)
-	{
-		renderer->RotateCamera(newRotation);
 	}
 
 	void BaseGame::Init()

@@ -10,8 +10,13 @@ namespace DemoEngine_Input
 	private:
 		Window* window;
 
-		int currentKey;
-		int currentAction;
+		int currentKey = 0;
+		int currentAction = 0;
+
+		double lastX = 0.0;
+		double lastY = 0.0;
+
+		bool firstMouse = true;
 
 	public:
 		Input(Window* window);
@@ -19,5 +24,6 @@ namespace DemoEngine_Input
 		
 		bool IsKeyPressed(int key);
 		bool IsKeyReleased(int key);
+		void GetMouseDelta(float& deltaX, float& deltaY);
 	};
 }

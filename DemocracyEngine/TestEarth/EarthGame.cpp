@@ -46,55 +46,14 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
-    if (input->IsKeyPressed(GLFW_KEY_W))
-    {
-        GetMainCamera()->TranslateCamera(-GetMainCamera()->GetCameraFoward() * playerSpeed);
-    }
-    if (input->IsKeyPressed(GLFW_KEY_S))
-    {
-        GetMainCamera()->TranslateCamera(GetMainCamera()->GetCameraFoward() * playerSpeed);
-    }
-    if (input->IsKeyPressed(GLFW_KEY_A))
-    {
-        GetMainCamera()->TranslateCamera(-GetMainCamera()->GetCameraRight() * playerSpeed);
-    }
-    if (input->IsKeyPressed(GLFW_KEY_D))
-    {
-        GetMainCamera()->TranslateCamera(GetMainCamera()->GetCameraRight() * playerSpeed);
-    }
+    cube->rotateX(1);
+    cube->rotateY(1);
+    cube->rotateZ(1);
 
-    Camera* cam = GetMainCamera();
-    vec3 currentRot = cam->GetRotation();
+    triangle->rotateY(1);
+    square->rotateY(1);
 
-    if (input->IsKeyPressed(GLFW_KEY_RIGHT))
-    {
-        cam->RotateCamera(vec3(currentRot.x, currentRot.y + 1.0f, currentRot.z));
-    }
-    if (input->IsKeyPressed(GLFW_KEY_LEFT))
-    {
-        cam->RotateCamera(vec3(currentRot.x, currentRot.y - 1.0f, currentRot.z));
-    }
-    if (input->IsKeyPressed(GLFW_KEY_UP))
-    {
-        cam->RotateCamera(vec3(currentRot.x + 1.0f, currentRot.y, currentRot.z));
-    }
-    if (input->IsKeyPressed(GLFW_KEY_DOWN))
-    {
-        cam->RotateCamera(vec3(currentRot.x - 1.0f, currentRot.y, currentRot.z));
-    }
-
-    // cube->rotateX(1);
-    // cube->rotateY(1);
-    // cube->rotateZ(1);
-
-    // triangle->rotateY(1);
-    // square->rotateY(1);
-
-    //player->Update(timer);
-    //player->Draw();
     floor->Draw();
-    //pingu1->Draw();
-    //pingu2->Draw();
     triangle->Draw();
     square->Draw();
     cube->Draw();
@@ -102,5 +61,13 @@ void EarthGame::Update()
 
 void EarthGame::DeInit()
 {
+    delete cube;
+    delete triangle;
+    delete square;
+
     delete player;
+    delete floor;
+    delete pingu1;
+    delete pingu2;
+    delete timer;
 }
