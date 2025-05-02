@@ -11,6 +11,23 @@ namespace DemoEngine_Input
 	{
 	}
 
+	void Input::Update()
+	{
+		if (IsKeyPressed(GLFW_KEY_ESCAPE))
+		{
+			ShowMouse = !ShowMouse;
+
+			if (ShowMouse)
+			{
+				glfwSetInputMode(window->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
+			else
+			{
+				glfwSetInputMode(window->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			}
+		}
+	}
+
 	bool Input::IsKeyPressed(int key)
 	{
 		return glfwGetKey(window->GetGLFWwindow(), key) == GLFW_PRESS;

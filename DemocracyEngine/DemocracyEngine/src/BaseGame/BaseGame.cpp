@@ -15,7 +15,7 @@ namespace DemoEngine_BaseGame
 		windowXY.x = 1024;
 		windowXY.y = 720;
 
-		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,-90,0}, {1,1,1}, CameraMode::ThirdPerson);
+		MainCamera = new Camera(windowXY, 10000.0f, {0,0,0}, {0,-90,0}, {1,1,1}, CameraMode::FirstPerson);
 		MainCamera->setPosition(vec3{0,0,0});
 		
 		window = new Window(windowXY.x, windowXY.y, "Democracy Engine");
@@ -42,6 +42,7 @@ namespace DemoEngine_BaseGame
 			DemoTimer::Update(glfwGetTime());
 			MainCamera->Update();
 			renderer->Update();
+			input->Update();
 			
 			Update();
 

@@ -17,11 +17,8 @@ void EarthGame::Init()
     PlayerColor = vec4{1, 1, 1, 1};
 
     timer = new DemoTimer();
-
-    const char* path = "rsc/demoDie.png";
-    player = new Sprite(path, 100, 200, PlayerColor, PlayerPosition, PlayerScale, PlayerRotation);
-
-    path = "rsc/democracy.png";
+    
+    const char* path = "rsc/democracy.png";
     floor = new Sprite(path, 200, 200, vec4{1, 1, 1, 1}, vec3{0, -50, 0}, vec3{1000, 1000, 1000}, vec3{-90, 0, 0});
 
     path = "rsc/Penguin_Walk_Back.png";
@@ -37,9 +34,8 @@ void EarthGame::Init()
     square = new Square(vec3{-200, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100});
     square->setColor(vec4{0, 0, 255, 255});
 
-    anim = new Animation();
-    anim->AddFrame(0, 0, 639, 588, 26838, 588, 4, 42);
-    player->AddAnimation(anim);
+    player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
+    player->setColor(vec4{0, 255, 0, 255});
 
     playerSpeed = 5;
 }
@@ -52,11 +48,18 @@ void EarthGame::Update()
 
     triangle->rotateY(1);
     square->rotateY(1);
-
+    
+    // if (input->IsKeyPressed(GLFW_KEY_W))player->Translate(vec3{0,0,-playerSpeed});
+    // if (input->IsKeyPressed(GLFW_KEY_S))player->Translate(vec3{0,0,playerSpeed});
+    // if (input->IsKeyPressed(GLFW_KEY_A))player->Translate(vec3{-playerSpeed,0,0});
+    // if (input->IsKeyPressed(GLFW_KEY_D))player->Translate(vec3{playerSpeed,0,0});
+    //MainCamera->SetCameraTarget(player->getPosition());
+    
     floor->Draw();
     triangle->Draw();
     square->Draw();
     cube->Draw();
+    player->Draw();
 }
 
 void EarthGame::DeInit()

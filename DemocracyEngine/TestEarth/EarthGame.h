@@ -23,11 +23,11 @@ private:
 
     Animation* anim;
 
+    Cube* player;
     Cube* cube;
     Triangle* triangle;
     Square* square;
 
-    Sprite* player;
     Sprite* floor;
     Sprite* pingu1;
     Sprite* pingu2;

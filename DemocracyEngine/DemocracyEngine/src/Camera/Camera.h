@@ -27,8 +27,11 @@ private:
 	vec3 cameraUp;
 
 	CameraMode mode;
-	float thirdPersonDistance;
-	Entity* target;
+	
+	vec3 thirdPersonTarget = vec3(0.0f);
+	bool ThirdPersonCamera = false;
+	float thirdPersonDistance = 200.0f;
+	float thirdPersonHeight = 50.0f;
 
 	float yaw = -90.0f;
 	float pitch = 0.0f;
@@ -50,7 +53,7 @@ public:
 	void RotateCamera(vec3 newRotation);
 
 	void SetCameraMode(CameraMode newMode);
-	void SetCameraTarget(Entity* newTarget);
+	void SetCameraTarget(vec3 newTarget);
 
 	void SetInput(Input* newInput);
 };
