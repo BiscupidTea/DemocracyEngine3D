@@ -4,7 +4,7 @@ namespace DemoEngine_Entities
 {
     Cube::Cube(vec3 newPosition, vec3 newRotation, vec3 newScale): Shape(newPosition, newRotation, newScale)
     {
-        vertexSize = 28 * 6;
+        vertexSize = 168;
         float vertex[] = {
             // Cara frontal
             -0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // bottom left

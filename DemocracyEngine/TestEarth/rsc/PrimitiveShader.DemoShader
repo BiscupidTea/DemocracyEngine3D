@@ -1,5 +1,5 @@
 #shader vertex
-#version 410 core
+#version 330 core
 
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec4 aColor;
@@ -14,7 +14,7 @@ void main()
 };
 
 #shader fragment
-#version 410 core
+#version 330 core
     
 out vec4 FragColor;
 in vec4 ourColor;
@@ -22,5 +22,5 @@ uniform vec4 u_Color;
             
 void main()
 {
-    FragColor = ourColor * u_Color;
+    FragColor = u_Color;
 }  

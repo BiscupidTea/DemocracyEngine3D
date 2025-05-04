@@ -42,9 +42,9 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
-    cube->rotateX(1);
-    cube->rotateY(1);
-    cube->rotateZ(1);
+    // cube->rotateX(1);
+    // cube->rotateY(1);
+    // cube->rotateZ(1);
 
     triangle->rotateY(1);
     square->rotateY(1);

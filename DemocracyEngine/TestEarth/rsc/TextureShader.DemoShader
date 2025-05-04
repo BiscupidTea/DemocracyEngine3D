@@ -1,5 +1,5 @@
 #shader vertex
-#version 330 core
+#version 410 core
 
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec4 aColor;
@@ -18,7 +18,7 @@ void main()
 }
 
 #shader fragment
-#version 330 core
+#version 410 core
 
 out vec4 FragColor;
 
@@ -27,7 +27,14 @@ in vec2 v_TexCoord;
 
 uniform sampler2D u_Texture;
 
+uniform float u_AmbientStrength = 0.2;
+
 void main()
 {
-	FragColor = texture(u_Texture, v_TexCoord) * v_Color;
+	vec4 texColor = texture(u_Texture, v_TexCoord);
+	vec4 baseColor = texColor * v_Color;
+	
+	vec4 ambient = baseColor * u_AmbientStrength;
+	
+	FragColor = ambient;
 }

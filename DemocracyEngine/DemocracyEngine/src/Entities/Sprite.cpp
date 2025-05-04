@@ -61,7 +61,7 @@ namespace DemoEngine_Entities
 
 	Sprite::~Sprite()
 	{
-
+		
 	}
 
 	void Sprite::Update(DemoTimer* timer)

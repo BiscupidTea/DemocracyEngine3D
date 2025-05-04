@@ -28,16 +28,16 @@ namespace DemoEngine_Renderer
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		glEnable(GL_SAMPLE_ALPHA_TO_ONE);
+		
 		glFrontFace(GL_CCW);
+		glEnable(GL_BLEND);
 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.0f);
-
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 		delete a;
 	}
@@ -64,7 +64,7 @@ namespace DemoEngine_Renderer
 		glBindVertexArray(VAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(int) * positionsSize, positions, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * positionsSize, positions, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indexSize, indexs, GL_STATIC_DRAW);
@@ -72,6 +72,7 @@ namespace DemoEngine_Renderer
 		// position attribute
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
+		
 		// color attribute
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
@@ -168,6 +169,9 @@ namespace DemoEngine_Renderer
 
 		glBindVertexArray(VAO);
 
+		unsigned int ambientLoc = glGetUniformLocation(primitiveShader, "u_AmbientStrength");
+		glUniform1f(ambientLoc, 0.3f);
+
 		int location = glGetUniformLocation(primitiveShader, "u_Color");
 		glUniform4f(location, color.x, color.y, color.z, color.w);
 
@@ -182,6 +186,9 @@ namespace DemoEngine_Renderer
 		unsigned int transformLoc = glGetUniformLocation(textureShader, "MVP");
 		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(MVP));
+
+		unsigned int ambientLoc = glGetUniformLocation(textureShader, "u_AmbientStrength");
+		glUniform1f(ambientLoc, 0.3f);
 
 		glBindVertexArray(VAO);
 		glBindTexture(GL_TEXTURE_2D, idTexture);
