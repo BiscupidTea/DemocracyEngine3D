@@ -27,14 +27,14 @@ in vec2 v_TexCoord;
 
 uniform sampler2D u_Texture;
 
-uniform float u_AmbientStrength = 0.2;
+uniform float u_AmbientStrength;
 
 void main()
 {
 	vec4 texColor = texture(u_Texture, v_TexCoord);
 	vec4 baseColor = texColor * v_Color;
-	
+
 	vec4 ambient = baseColor * u_AmbientStrength;
-	
+	ambient.w = 1.0f;
 	FragColor = ambient;
 }

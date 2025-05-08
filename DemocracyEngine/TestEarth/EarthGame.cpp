@@ -27,8 +27,9 @@ void EarthGame::Init()
     pingu2 = new Sprite(path, 100, 100, 0, 0, 15, 100, vec4{1, 1, 1, 1}, vec3{0, -25, 100}, vec3{100, 100, 100},
                         vec3{0, 0, 0});
 
-    cube = new Cube(vec3{0, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100});
-    cube->setColor(vec4{255, 0, 0, 255});
+    path = "rsc/democracy.png";
+    cube = new Cube(vec3{0, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
+    cube->setColor(vec4{255, 255, 255, 255});
     triangle = new Triangle(vec3{200, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100});
     triangle->setColor(vec4{0, 255, 0, 255});
     square = new Square(vec3{-200, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100});

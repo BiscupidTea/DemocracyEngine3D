@@ -167,14 +167,14 @@ namespace DemoEngine_Renderer
 		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(MVP));
 
-		glBindVertexArray(VAO);
-
-		unsigned int ambientLoc = glGetUniformLocation(primitiveShader, "u_AmbientStrength");
-		glUniform1f(ambientLoc, 0.3f);
 
 		int location = glGetUniformLocation(primitiveShader, "u_Color");
 		glUniform4f(location, color.x, color.y, color.z, color.w);
+		
+		unsigned int ambientLoc = glGetUniformLocation(primitiveShader, "u_AmbientStrength");
+		glUniform1f(ambientLoc, 0.3f);
 
+		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
 		glUseProgram(0);
 	}
