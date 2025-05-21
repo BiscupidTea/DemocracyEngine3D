@@ -8,10 +8,12 @@ namespace DemoEngine_Renderer
 {
     Shader::Shader()
     {
+        
     }
 
     Shader::~Shader()
     {
+        
     }
 
     unsigned int Shader::InitShader(string fileLocation)

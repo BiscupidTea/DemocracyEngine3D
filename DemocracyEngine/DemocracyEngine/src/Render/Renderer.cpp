@@ -22,8 +22,8 @@ namespace DemoEngine_Renderer
 		}
 
 		Shader* a = new Shader();
-		primitiveShader = a->InitShader("rsc/PrimitiveShader.DemoShader");
-		textureShader = a->InitShader("rsc/TextureShader.DemoShader");
+		primitiveShader = a->InitShader("rsc/Shaders/PrimitiveShader.DemoShader");
+		textureShader = a->InitShader("rsc/Shaders/TextureShader.DemoShader");
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -98,16 +98,20 @@ namespace DemoEngine_Renderer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * indexSize, indexs, GL_STATIC_DRAW);
 
 		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		// color attribute
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+		// normal attribute
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
-		// UV attribute
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
+		// color attribute
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));
 		glEnableVertexAttribArray(2);
+
+		// UV attribute
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(10 * sizeof(float)));
+		glEnableVertexAttribArray(3);
 	}
 
 	void Renderer::BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter)

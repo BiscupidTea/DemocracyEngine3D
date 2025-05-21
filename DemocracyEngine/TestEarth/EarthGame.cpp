@@ -18,16 +18,16 @@ void EarthGame::Init()
 
     timer = new DemoTimer();
     
-    const char* path = "rsc/democracy.png";
+    const char* path = "rsc/SpritesAnimations/democracy.png";
     floor = new Sprite(path, 200, 200, vec4{1, 1, 1, 1}, vec3{0, -50, 0}, vec3{1000, 1000, 1000}, vec3{-90, 0, 0});
 
-    path = "rsc/Penguin_Walk_Back.png";
+    path = "rsc/SpritesAnimations/Penguin_Walk_Back.png";
     pingu1 = new Sprite(path, 100, 100, 0, 0, 15, 100, vec4{1, 1, 1, 1}, vec3{0, -25, 0}, vec3{100, 100, 100},
                         vec3{0, 0, 0});
     pingu2 = new Sprite(path, 100, 100, 0, 0, 15, 100, vec4{1, 1, 1, 1}, vec3{0, -25, 100}, vec3{100, 100, 100},
                         vec3{0, 0, 0});
 
-    path = "rsc/democracy.png";
+    path = "rsc/SpritesAnimations/democracy.png";
     cube = new Cube(vec3{0, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setColor(vec4{255, 255, 255, 255});
     triangle = new Triangle(vec3{200, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100});

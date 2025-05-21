@@ -8,13 +8,13 @@ namespace DemoEngine_Entities
 		this->width = width;
 		this->height = height;
 
-		vertexSize = 36;
+		vertexSize = 12 * 4;
 		float vertex[] = {
-			// positions		    // colors					// texture coords
-			0.5f, 0.5f, 0.0f,       1.0f, 1.0f, 1.0f, 1.0f,     1.0f, 1.0f,   // top right
-			0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 1.0f, 1.0f,	    1.0f, 0.0f,   // bottom right
-			-0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f, 1.0f,	    0.0f, 0.0f,   // bottom left
-			-0.5f, 0.5f, 0.0f,      1.0f, 1.0f, 1.0f, 1.0f,	    0.0f, 1.0f    // top left 
+			// positions	       //normal                  // colors					// texture coords
+			0.5f, 0.5f, 0.0f,		0.0f, 1.0f, 0.0f,       1.0f, 1.0f, 1.0f, 1.0f,       1.0f, 1.0f,   // top right
+			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,       1.0f, 1.0f, 1.0f, 1.0f,	      1.0f, 0.0f,   // bottom right
+			-0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,       1.0f, 1.0f, 1.0f, 1.0f,	      0.0f, 0.0f,   // bottom left
+			-0.5f, 0.5f, 0.0f,		0.0f, 1.0f, 0.0f,       1.0f, 1.0f, 1.0f, 1.0f,	      0.0f, 1.0f    // top left 
 		};
 
 		indexSize = 6;
