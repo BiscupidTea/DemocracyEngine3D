@@ -132,4 +132,14 @@ namespace DemoEngine_Entities
 
 		model = position * rotation * scale;
 	}
+
+	void Entity::setColor(vec4 rgba)
+	{
+		color = rgba;
+	}
+
+	vec4 Entity::getColor()
+	{
+		return color;
+	}
 }

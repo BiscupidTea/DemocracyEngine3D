@@ -21,6 +21,15 @@ namespace DemoEngine_Entities
         vec3 LocalScale;
         vec3 LocalRotation;
 
+        vec4 color;
+        
+        unsigned int VBO = 0;
+        unsigned int VAO = 0;
+        unsigned int EBO = 0;
+
+        int indexSize;
+        int vertexSize;
+
     public:
         Entity(glm::vec3 newPosition, glm::vec3 newRotation, glm::vec3 newScale);
         ~Entity();
@@ -45,5 +54,8 @@ namespace DemoEngine_Entities
         void rotateZ(float incrementRotation);
 
         void UpdateTMatrix();
+
+        void setColor(vec4 rgba);
+        vec4 getColor();
     };
 }
