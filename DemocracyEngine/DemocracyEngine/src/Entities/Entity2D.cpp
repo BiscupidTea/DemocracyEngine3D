@@ -10,14 +10,4 @@ namespace DemoEngine_Entities
 	{
 
 	}
-
-	void Entity2D::setColor(vec4 rgba)
-	{
-		color = rgba;
-	}
-
-	vec4 Entity2D::getColor()
-	{
-		return color;
-	}
 }
