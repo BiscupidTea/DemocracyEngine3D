@@ -21,9 +21,9 @@ namespace DemoEngine_Renderer
 			std::cout << "[RENDERER] Glew initialization error" << std::endl;
 		}
 
-		Shader* a = new Shader();
-		primitiveShader = a->InitShader("rsc/Shaders/PrimitiveShader.DemoShader");
-		textureShader = a->InitShader("rsc/Shaders/TextureShader.DemoShader");
+
+		primitiveShader = new Shader("rsc/Shaders/PrimitiveShader.DemoShader");
+		textureShader = new Shader("rsc/Shaders/TextureShader.DemoShader");
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -38,12 +38,13 @@ namespace DemoEngine_Renderer
 		
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.0f);
-
-		delete a;
 	}
 
 	Renderer::~Renderer()
 	{
+		delete primitiveShader;
+		delete textureShader;
+		
 		delete MainCamera;
 
 		std::cout << "Deleted renderer." << std::endl;
@@ -163,42 +164,34 @@ namespace DemoEngine_Renderer
 		std::cout << "Delete Shape." << std::endl;
 	}
 
-	void Renderer::DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex)
+	void Renderer::DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const
 	{
-		glUseProgram(primitiveShader);
-
-		unsigned int transformLoc = glGetUniformLocation(primitiveShader, "u_MVP");
-		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(MVP));
-
-
-		int location = glGetUniformLocation(primitiveShader, "u_Color");
-		glUniform4f(location, color.x, color.y, color.z, color.w);
+		primitiveShader->UseShader();
 		
-		unsigned int ambientLoc = glGetUniformLocation(primitiveShader, "u_AmbientStrength");
-		glUniform1f(ambientLoc, 0.3f);
-
+		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
+		primitiveShader->SetMat4("u_MVP", MVP);
+		primitiveShader->SetVec4("u_Color", color);
+		
 		glBindVertexArray(VAO);
+
 		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
-		glUseProgram(0);
+		
+		primitiveShader->DisuseShader();
 	}
 
 	void Renderer::DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture)
 	{
-		glUseProgram(textureShader);
-
-		unsigned int transformLoc = glGetUniformLocation(textureShader, "MVP");
+		textureShader->UseShader();
+		
 		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(MVP));
-
-		unsigned int ambientLoc = glGetUniformLocation(textureShader, "u_AmbientStrength");
-		glUniform1f(ambientLoc, 0.3f);
+		textureShader->SetMat4("MVP", MVP);
+		textureShader->SetFloat("u_AmbientStrength", 1);
 
 		glBindVertexArray(VAO);
 		glBindTexture(GL_TEXTURE_2D, idTexture);
 		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
 
-		glUseProgram(0);
+		textureShader->DisuseShader();
 	}
 
 	Renderer* Renderer::GetRender()

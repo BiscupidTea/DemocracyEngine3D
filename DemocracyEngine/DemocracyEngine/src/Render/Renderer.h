@@ -28,9 +28,9 @@ namespace DemoEngine_Renderer
 	static class EXPORT Renderer
 	{
 	private:
-		unsigned int primitiveShader;
-		unsigned int textureShader;
 		TextureImporter textureImporter;
+		Shader* primitiveShader;
+		Shader* textureShader;
 	public:
 		Renderer(vec2 windowXY, Camera* camera);
 		~Renderer();
@@ -44,7 +44,7 @@ namespace DemoEngine_Renderer
 		void Update();
 
 		void CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
-		void DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex);
+		void DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const;
 		void DestroyShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO);
 
 		void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
