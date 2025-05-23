@@ -204,7 +204,7 @@ namespace DemoEngine_Renderer
 		lightShader->SetMat4("projection", MainCamera->GetCameraProyection());
 
 		lightShader->SetFloat("ambientStrength", 0.2f);
-		lightShader->SetVec3("lightPos", vec3(0.0f, 0.0f, 0.0f));
+		lightShader->SetVec3("lightPos", vec3(0.0f, 250.0f, 0.0f));
 		lightShader->SetVec3("lightColor", vec3(0.005f, 0.005f, 0.005f)); 
 		lightShader->SetVec3("objectColor", vec3(color.x, color.y, color.z));
 

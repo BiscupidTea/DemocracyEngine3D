@@ -35,18 +35,18 @@ namespace DemoEngine_Entities
 		this->width = cropWidth;
 		this->height = cropHeight;
 		
-		vertexSize = 36;
+		vertexSize = 12 * 4;
 		float uvX = static_cast<float>(startX) / textureWidth;
 		float uvY = static_cast<float>(startY) / textureHeight;
 		float uvWidth = static_cast<float>(width) / textureWidth;
 		float uvHeight = static_cast<float>(height) / textureHeight;
 
 		float vertex[] = {
-			// positions		    // colors					// texture coords
-			0.5f, 0.5f, 0.0f,       1.0f, 1.0f, 1.0f, 1.0f,     uvX + uvWidth, uvY + uvHeight,   // top right
-			0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 1.0f, 1.0f,	    uvX + uvWidth, uvY,             // bottom right
-			-0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f, 1.0f,	    uvX, uvY,                       // bottom left
-			-0.5f, 0.5f, 0.0f,      1.0f, 1.0f, 1.0f, 1.0f,	    uvX, uvY + uvHeight             // top left 
+			// positions		 //normal               // colors					// texture coords
+			0.5f, 0.5f, 0.0f,    	0.0f, 1.0f, 0.0f,     1.0f, 1.0f, 1.0f, 1.0f,     uvX + uvWidth, uvY + uvHeight,   // top right
+			0.5f, -0.5f, 0.0f,   	0.0f, 1.0f, 0.0f,     1.0f, 1.0f, 1.0f, 1.0f,	    uvX + uvWidth, uvY,             // bottom right
+			-0.5f, -0.5f, 0.0f,  	0.0f, 1.0f, 0.0f,     1.0f, 1.0f, 1.0f, 1.0f,	    uvX, uvY,                       // bottom left
+			-0.5f, 0.5f, 0.0f,   	0.0f, 1.0f, 0.0f,     1.0f, 1.0f, 1.0f, 1.0f,	    uvX, uvY + uvHeight             // top left 
 		};
 
 		indexSize = 6;

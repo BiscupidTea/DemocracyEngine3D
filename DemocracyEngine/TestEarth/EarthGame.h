@@ -25,12 +25,9 @@ private:
 
     Cube* player;
     Cube* cube;
-    Triangle* triangle;
-    Square* square;
+    Cube* light;
 
-    Sprite* floor;
-    Sprite* pingu1;
-    Sprite* pingu2;
+    Cube* floor;
     DemoTimer* timer;
 
     float playerSpeed;
