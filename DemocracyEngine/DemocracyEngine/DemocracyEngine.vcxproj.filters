@@ -34,6 +34,9 @@
     <Filter Include="Src\Camera">
       <UniqueIdentifier>{630169d3-5932-4690-95ae-235bfe31b5bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Interface">
+      <UniqueIdentifier>{126923d7-979a-4104-92f4-d9c39ce902b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame\BaseGame.cpp">
@@ -105,8 +108,14 @@
     <ClCompile Include="src\Camera\Camera.cpp">
       <Filter>Src\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonCamera.cpp">
-      <Filter>Src\Camera</Filter>
+    <ClCompile Include="src\Interface\ServiceProvider.cpp">
+      <Filter>Src\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Entity3D.cpp">
+      <Filter>Src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Cube.cpp">
+      <Filter>Src\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,8 +191,26 @@
     <ClInclude Include="src\Camera\Camera.h">
       <Filter>Src\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonCamera.h">
-      <Filter>Src\Camera</Filter>
+    <ClInclude Include="src\Interface\ILightService.h">
+      <Filter>Src\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interface\Light.h">
+      <Filter>Src\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interface\LightServiceProvider.h">
+      <Filter>Src\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interface\ServiceProvider.h">
+      <Filter>Src\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Entity3D.h">
+      <Filter>Src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Cube.h">
+      <Filter>Src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\Material.h">
+      <Filter>Src\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
