@@ -1,9 +1,9 @@
 #pragma once
-#include "Shape.h"
+#include "Entity3D.h"
 
 namespace DemoEngine_Entities
 {
-    class EXPORT Cube : public Shape
+    class EXPORT Cube : public Entity3D
     {
     private:
         unsigned int textureId;

@@ -2,7 +2,7 @@
 
 namespace DemoEngine_Entities
 {
-    Cube::Cube(vec3 newPosition, vec3 newRotation, vec3 newScale): Shape(newPosition, newRotation, newScale)
+    Cube::Cube(vec3 newPosition, vec3 newRotation, vec3 newScale): Entity3D(newPosition, newRotation, newScale)
     {
         vertexSize = 168;
         float vertex[] = {
@@ -75,7 +75,7 @@ namespace DemoEngine_Entities
         hasTexture = false;
     }
 
-    Cube::Cube(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* textureName): Shape(
+    Cube::Cube(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* textureName): Entity3D(
         newPosition, newRotation, newScale)
     {
         vertexSize = 24 * 12;

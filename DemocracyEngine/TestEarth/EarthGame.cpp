@@ -24,6 +24,7 @@ void EarthGame::Init()
 
     cube = new Cube(vec3{100, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setColor(vec4{255, 255, 255, 255});
+    cube->setMaterial(YellowRubber);
 
     light = new Cube(vec3{0, 250, 0}, vec3{0, 0, 0}, vec3{50, 50, 50});
     light->setColor(vec4{255, 255, 255, 255});
