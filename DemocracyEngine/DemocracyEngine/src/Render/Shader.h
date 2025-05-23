@@ -19,7 +19,7 @@ namespace DemoEngine_Renderer
         ~Shader();
 
         void UseShader() const;
-        static void DisuseShader();
+        static void UnuseShader();
 
         GLint GetUniformLocation(const string& name) const;
 

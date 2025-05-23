@@ -31,6 +31,6 @@ namespace DemoEngine_Entities
 
     void Square::Draw()
     {
-        Renderer::GetRender()->DrawShape(VAO, model, color, indexSize);
+        Renderer::GetRender()->DrawEntity2D(VAO, model, color, indexSize);
     }
 }

@@ -18,7 +18,7 @@ void EarthGame::Init()
 
     timer = new DemoTimer();
     
-    const char* path = "rsc/SpritesAnimations/democracy.png";
+    const char* path = "rsc/SpritesAnimations/base.png";
     floor = new Sprite(path, 200, 200, vec4{1, 1, 1, 1}, vec3{0, -50, 0}, vec3{1000, 1000, 1000}, vec3{-90, 0, 0});
 
     path = "rsc/SpritesAnimations/Penguin_Walk_Back.png";
@@ -27,7 +27,7 @@ void EarthGame::Init()
     pingu2 = new Sprite(path, 100, 100, 0, 0, 15, 100, vec4{1, 1, 1, 1}, vec3{0, -25, 100}, vec3{100, 100, 100},
                         vec3{0, 0, 0});
 
-    path = "rsc/SpritesAnimations/democracy.png";
+    path = "rsc/SpritesAnimations/base.png";
     cube = new Cube(vec3{0, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setColor(vec4{255, 255, 255, 255});
     triangle = new Triangle(vec3{200, 10, 0}, vec3{0, 0, 0}, vec3{100, 100, 100});
@@ -43,24 +43,25 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
-    // cube->rotateX(1);
-    // cube->rotateY(1);
-    // cube->rotateZ(1);
+    //cube->rotateX(1);
+    //cube->rotateY(1);
+    //cube->rotateZ(1);
 
-    triangle->rotateY(1);
-    square->rotateY(1);
+    //triangle->rotateY(1);
+    //square->rotateY(1);
     
-    // if (input->IsKeyPressed(GLFW_KEY_W))player->Translate(vec3{0,0,-playerSpeed});
-    // if (input->IsKeyPressed(GLFW_KEY_S))player->Translate(vec3{0,0,playerSpeed});
-    // if (input->IsKeyPressed(GLFW_KEY_A))player->Translate(vec3{-playerSpeed,0,0});
-    // if (input->IsKeyPressed(GLFW_KEY_D))player->Translate(vec3{playerSpeed,0,0});
-    //MainCamera->SetCameraTarget(player->getPosition());
+    if (input->IsKeyPressed(GLFW_KEY_UP))cube->Translate(vec3{0,0,-playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_DOWN))cube->Translate(vec3{0,0,playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_LEFT))cube->Translate(vec3{-playerSpeed,0,0});
+    if (input->IsKeyPressed(GLFW_KEY_RIGHT))cube->Translate(vec3{playerSpeed,0,0});
+    if (input->IsKeyPressed(GLFW_KEY_0))cube->Translate(vec3{0,playerSpeed,0});
+    if (input->IsKeyPressed(GLFW_KEY_9))cube->Translate(vec3{0,-playerSpeed,0});
     
-    floor->Draw();
-    triangle->Draw();
-    square->Draw();
+    //floor->Draw();
+    //triangle->Draw();
+    //square->Draw();
     cube->Draw();
-    player->Draw();
+    //player->Draw();
 }
 
 void EarthGame::DeInit()

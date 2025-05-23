@@ -28,7 +28,7 @@ namespace DemoEngine_Renderer
         glUseProgram(shaderId);
     }
 
-    void Shader::DisuseShader()
+    void Shader::UnuseShader()
     {
         glUseProgram(0);
     }

@@ -24,6 +24,7 @@ namespace DemoEngine_Renderer
 
 		primitiveShader = new Shader("rsc/Shaders/PrimitiveShader.DemoShader");
 		textureShader = new Shader("rsc/Shaders/TextureShader.DemoShader");
+		lightShader =new Shader("rsc/Shaders/LightsShader.DemoShader");
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -164,7 +165,7 @@ namespace DemoEngine_Renderer
 		std::cout << "Delete Shape." << std::endl;
 	}
 
-	void Renderer::DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const
+	void Renderer::DrawEntity2D(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const
 	{
 		primitiveShader->UseShader();
 		
@@ -176,7 +177,7 @@ namespace DemoEngine_Renderer
 
 		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
 		
-		primitiveShader->DisuseShader();
+		primitiveShader->UnuseShader();
 	}
 
 	void Renderer::DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture)
@@ -191,7 +192,35 @@ namespace DemoEngine_Renderer
 		glBindTexture(GL_TEXTURE_2D, idTexture);
 		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
 
-		textureShader->DisuseShader();
+		textureShader->UnuseShader();
+	}
+
+	void Renderer::DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture)
+	{
+		lightShader->UseShader();
+
+		lightShader->SetMat4("model", model);
+		lightShader->SetMat4("view", MainCamera->GetCameraView());
+		lightShader->SetMat4("projection", MainCamera->GetCameraProyection());
+
+		lightShader->SetFloat("ambientStrength", 0.2f);
+		lightShader->SetVec3("lightPos", vec3(0.0f, 0.0f, 0.0f));
+		lightShader->SetVec3("lightColor", vec3(0.005f, 0.005f, 0.005f)); 
+		lightShader->SetVec3("objectColor", vec3(color.x, color.y, color.z));
+
+		lightShader->SetVec3("viewPos", MainCamera->getPosition());
+		lightShader->SetFloat("specularStrength", 0.5f);
+		lightShader->SetInt("shininess", 32);
+		
+		lightShader->SetInt("u_Texture", 0);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, idTexture);
+
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
+
+		lightShader->UnuseShader();
 	}
 
 	Renderer* Renderer::GetRender()

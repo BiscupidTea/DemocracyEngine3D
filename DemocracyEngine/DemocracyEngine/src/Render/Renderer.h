@@ -31,6 +31,7 @@ namespace DemoEngine_Renderer
 		TextureImporter textureImporter;
 		Shader* primitiveShader;
 		Shader* textureShader;
+		Shader* lightShader;
 	public:
 		Renderer(vec2 windowXY, Camera* camera);
 		~Renderer();
@@ -44,11 +45,12 @@ namespace DemoEngine_Renderer
 		void Update();
 
 		void CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
-		void DrawShape(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const;
+		void DrawEntity2D(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const;
 		void DestroyShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO);
 
 		void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
 		void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
+		void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
 		void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 
 		void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
