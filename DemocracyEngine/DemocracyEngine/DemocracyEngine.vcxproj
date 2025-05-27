@@ -28,6 +28,7 @@
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Entity2D.cpp" />
     <ClCompile Include="src\Entities\Entity3D.cpp" />
+    <ClCompile Include="src\Entities\Light.cpp" />
     <ClCompile Include="src\Entities\Shape.cpp" />
     <ClCompile Include="src\Entities\Sprite.cpp" />
     <ClCompile Include="src\Entities\Square.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\Entity2D.h" />
     <ClInclude Include="src\Entities\Entity3D.h" />
+    <ClInclude Include="src\Entities\Light.h" />
     <ClInclude Include="src\Entities\Shape.h" />
     <ClInclude Include="src\Entities\Sprite.h" />
     <ClInclude Include="src\Entities\Square.h" />

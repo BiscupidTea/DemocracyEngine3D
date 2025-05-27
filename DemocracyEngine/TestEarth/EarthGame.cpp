@@ -21,13 +21,15 @@ void EarthGame::Init()
     const char* path = "rsc/SpritesAnimations/Orange.png";
     floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{1000, 5, 1000}, path);
     floor->setColor(vec4{255, 255, 255, 255});
+    floor->setMaterial(YellowRubber);
 
     cube = new Cube(vec3{100, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setColor(vec4{255, 255, 255, 255});
-    cube->setMaterial(YellowRubber);
+    cube->setMaterial(Emerald);
 
     light = new Cube(vec3{0, 250, 0}, vec3{0, 0, 0}, vec3{50, 50, 50});
     light->setColor(vec4{255, 255, 255, 255});
+    light->setMaterial(Pearl);
 
     player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
     player->setColor(vec4{0, 255, 0, 255});

@@ -195,7 +195,7 @@ namespace DemoEngine_Renderer
 		textureShader->UnuseShader();
 	}
 
-	void Renderer::DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture)
+	void Renderer::DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture, Material material)
 	{
 		lightShader->UseShader();
 
@@ -203,14 +203,14 @@ namespace DemoEngine_Renderer
 		lightShader->SetMat4("view", MainCamera->GetCameraView());
 		lightShader->SetMat4("projection", MainCamera->GetCameraProyection());
 
-		lightShader->SetFloat("ambientStrength", 0.2f);
+		lightShader->SetVec3("material.ambient", material.ambient);
+		lightShader->SetVec3("material.diffuse", material.diffuse);
+		lightShader->SetVec3("material.specular", material.specular);
+		lightShader->SetFloat("material.shininess", material.shininess);
+		
 		lightShader->SetVec3("lightPos", vec3(0.0f, 250.0f, 0.0f));
-		lightShader->SetVec3("lightColor", vec3(0.008f, 0.008f, 0.008f)); 
-		lightShader->SetVec3("objectColor", vec3(color.x, color.y, color.z));
-
+		lightShader->SetVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
 		lightShader->SetVec3("viewPos", MainCamera->getPosition());
-		lightShader->SetFloat("specularStrength", 0.5f);
-		lightShader->SetInt("shininess", 32);
 		
 		lightShader->SetInt("u_Texture", 0);
 
