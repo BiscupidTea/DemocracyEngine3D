@@ -13,7 +13,10 @@ namespace DemoEngine_Input
 
 	void Input::Update()
 	{
-		if (IsKeyPressed(GLFW_KEY_ESCAPE))
+		static bool wasEscapePressed = false;
+		bool isEscapePressed = IsKeyPressed(GLFW_KEY_ESCAPE);
+
+		if (isEscapePressed && !wasEscapePressed)
 		{
 			ShowMouse = !ShowMouse;
 
@@ -26,6 +29,8 @@ namespace DemoEngine_Input
 				glfwSetInputMode(window->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			}
 		}
+
+		wasEscapePressed = isEscapePressed;
 	}
 
 	bool Input::IsKeyPressed(int key)

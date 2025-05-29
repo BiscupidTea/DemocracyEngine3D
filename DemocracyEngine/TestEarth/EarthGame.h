@@ -1,9 +1,8 @@
+#pragma once
 #include "BaseGame/BaseGame.h"
 #include "Entities/Sprite.h"
 #include "CollisionManager/CollisionManager.h"
 #include "Entities/Cube.h"
-#include "Entities/Square.h"
-#include "Entities/Triangle.h"
 #include "TileMap/TileMap.h"
 
 using namespace DemoEngine_BaseGame;
@@ -25,7 +24,6 @@ private:
 
     Cube* player;
     Cube* cube;
-    Cube* light;
 
     Cube* floor;
     DemoTimer* timer;

@@ -28,13 +28,91 @@
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Entity2D.cpp" />
     <ClCompile Include="src\Entities\Entity3D.cpp" />
-    <ClCompile Include="src\Entities\Light.cpp" />
     <ClCompile Include="src\Entities\Shape.cpp" />
     <ClCompile Include="src\Entities\Sprite.cpp" />
     <ClCompile Include="src\Entities\Square.cpp" />
     <ClCompile Include="src\Entities\Triangle.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Interface\ServiceProvider.cpp" />
+    <ClCompile Include="src\Render\LightManager.cpp">
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</BrowseInformationFile>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <EnableVectorLength>NotSet</EnableVectorLength>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <Optimization>MaxSpeed</Optimization>
+      <ObjectFileName>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\DemocracyEngine.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDll</RuntimeLibrary>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <TrackerLogDirectory>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\DemocracyEngine.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\obj\Release\</XMLDocumentationFileName>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <BuildStlModules>false</BuildStlModules>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>WIN32;GLEW_STATIC;MAKEDLL;NDEBUG;_CONSOLE;_WINDLL;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <EnablePREfast>false</EnablePREfast>
+      <OmitFramePointers>false</OmitFramePointers>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\silvi\Desktop\Covid19\visual studio\Graficos 2\DemocracyEngine3D\DemocracyEngine\DemocracyEngine\include;</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
     <ClCompile Include="src\Render\Renderer.cpp" />
     <ClCompile Include="src\Render\Shader.cpp" />
     <ClCompile Include="src\TileMap\Tile.cpp" />
@@ -57,7 +135,6 @@
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\Entity2D.h" />
     <ClInclude Include="src\Entities\Entity3D.h" />
-    <ClInclude Include="src\Entities\Light.h" />
     <ClInclude Include="src\Entities\Shape.h" />
     <ClInclude Include="src\Entities\Sprite.h" />
     <ClInclude Include="src\Entities\Square.h" />
@@ -67,6 +144,7 @@
     <ClInclude Include="src\Interface\Light.h" />
     <ClInclude Include="src\Interface\LightServiceProvider.h" />
     <ClInclude Include="src\Interface\ServiceProvider.h" />
+    <ClInclude Include="src\Render\LightManager.h" />
     <ClInclude Include="src\Render\Material.h" />
     <ClInclude Include="src\Render\Renderer.h" />
     <ClInclude Include="src\Render\Shader.h" />

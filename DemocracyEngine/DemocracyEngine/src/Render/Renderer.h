@@ -4,6 +4,7 @@
 #include "../Tools/stb_image.h"
 #include <iostream>
 #include "Shader.h"
+#include "LightManager.h"
 #include "glew.h"
 
 #include "../Camera/Camera.h"
@@ -14,46 +15,42 @@
 #include "../TileMap/Tile.h"
 #include "Material.h"
 
-namespace DemoEngine_TileMap
-{
-	class Tile;
-}
-
-using namespace  glm;
+using namespace glm;
 using namespace DemoEngine_Window;
 using namespace DemoEngine_Tools;
+using namespace DemoEngine_TileMap;
 
 namespace DemoEngine_Renderer
 {
+    static class EXPORT Renderer
+    {
+    private:
+        TextureImporter textureImporter;
+        Shader* primitiveShader;
+        Shader* textureShader;
+        Shader* lightShader;
 
-	static class EXPORT Renderer
-	{
-	private:
-		TextureImporter textureImporter;
-		Shader* primitiveShader;
-		Shader* textureShader;
-		Shader* lightShader;
-	public:
-		Renderer(vec2 windowXY, Camera* camera);
-		~Renderer();
+    public:
+        Renderer(vec2 windowXY, Camera* camera, LightManager* light_manager);
+        ~Renderer();
 
-		static Renderer* GetRender();
-		static Renderer* RendererInstance;
+        static Renderer* GetRender();
+        static Renderer* RendererInstance;
 
-		Camera* MainCamera;
+        Camera* MainCamera;
+        LightManager* lightManager;
+        void RenderFrame();
+        void Update();
 
-		void RenderFrame();
-		void Update();
+        void CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
+        void DrawEntity2D(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const;
+        void DestroyShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO);
 
-		void CreateShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
-		void DrawEntity2D(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const;
-		void DestroyShape(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO);
+        void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
+        void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
+        void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture, Material material);
+        void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 
-		void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
-		void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
-		void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture, Material material);
-		void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
-
-		void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
-	};
+        void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);
+    };
 }

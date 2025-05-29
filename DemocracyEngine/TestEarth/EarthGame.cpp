@@ -19,22 +19,30 @@ void EarthGame::Init()
     timer = new DemoTimer();
 
     const char* path = "rsc/SpritesAnimations/Orange.png";
-    floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{1000, 5, 1000}, path);
+    floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{8000, 5, 8000}, path);
     floor->setColor(vec4{255, 255, 255, 255});
     floor->setMaterial(YellowRubber);
 
-    cube = new Cube(vec3{100, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
+    cube = new Cube(vec3{0, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setColor(vec4{255, 255, 255, 255});
     cube->setMaterial(Emerald);
-
-    light = new Cube(vec3{0, 250, 0}, vec3{0, 0, 0}, vec3{50, 50, 50});
-    light->setColor(vec4{255, 255, 255, 255});
-    light->setMaterial(Pearl);
 
     player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
     player->setColor(vec4{0, 255, 0, 255});
 
     playerSpeed = 5;
+
+    //lightManager->directionalLights.push_back({ glm::vec3(-0.3f, -1.0f, -0.3f), glm::vec3(1.0f) });
+    lightManager->pointLights.push_back({ glm::vec3(-1000.0f, 500.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f) });
+    lightManager->pointLights.push_back({ glm::vec3(1000.0f, 500.0f, 0.0f), glm::vec3(0.0f, 0.0f, 5.0f) });
+    
+    lightManager->spotLights.push_back({
+        MainCamera->getPosition(),
+        MainCamera->GetCameraFoward(),
+        glm::vec3(1.0f),
+        12.5f,
+        17.5f
+    });
 }
 
 void EarthGame::Update()
@@ -48,14 +56,12 @@ void EarthGame::Update()
 
     floor->Draw();
     cube->Draw();
-    light->Draw();
     //player->Draw();
 }
 
 void EarthGame::DeInit()
 {
     delete cube;
-    delete light;
 
     delete player;
     delete floor;

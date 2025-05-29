@@ -4,11 +4,12 @@ namespace DemoEngine_Renderer
 {
 	Renderer* Renderer::RendererInstance = nullptr;
 
-	Renderer::Renderer(vec2 windowXY, Camera* camera)
+	Renderer::Renderer(vec2 windowXY, Camera* camera, LightManager* light_manager)
 	{
 		RendererInstance = this;
 
 		MainCamera = camera;
+		lightManager = light_manager;
 
 		GLenum result = glewInit();
 
@@ -45,8 +46,9 @@ namespace DemoEngine_Renderer
 	{
 		delete primitiveShader;
 		delete textureShader;
-		
+
 		delete MainCamera;
+		delete lightManager;
 
 		std::cout << "Deleted renderer." << std::endl;
 	}
@@ -208,9 +210,9 @@ namespace DemoEngine_Renderer
 		lightShader->SetVec3("material.specular", material.specular);
 		lightShader->SetFloat("material.shininess", material.shininess);
 		
-		lightShader->SetVec3("lightPos", vec3(0.0f, 250.0f, 0.0f));
-		lightShader->SetVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
 		lightShader->SetVec3("viewPos", MainCamera->getPosition());
+
+		lightManager->UploadToShader(lightShader);
 		
 		lightShader->SetInt("u_Texture", 0);
 
