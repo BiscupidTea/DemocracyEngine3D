@@ -32,7 +32,7 @@ namespace DemoEngine_Renderer
 
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		glEnable(GL_SAMPLE_ALPHA_TO_ONE);
-		
+
 		glFrontFace(GL_CCW);
 		glEnable(GL_BLEND);
 

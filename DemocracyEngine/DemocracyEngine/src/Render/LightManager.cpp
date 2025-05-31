@@ -18,6 +18,10 @@ namespace DemoEngine_Renderer
             std::string base = "pointLights[" + std::to_string(i) + "]";
             shader->SetVec3(base + ".position", pointLights[i].position);
             shader->SetVec3(base + ".color", pointLights[i].color);
+            shader->SetFloat(base + ".constant", pointLights[i].constant);
+            shader->SetFloat(base + ".linear", pointLights[i].linear);
+            shader->SetFloat(base + ".quadratic", pointLights[i].quadratic);
+            shader->SetFloat(base + ".intensity", pointLights[i].intensity);
         }
 
         shader->SetInt("spotLightCount", (int)spotLights.size());
@@ -29,6 +33,10 @@ namespace DemoEngine_Renderer
             shader->SetVec3(base + ".color", spotLights[i].color);
             shader->SetFloat(base + ".cutOff", glm::cos(glm::radians(spotLights[i].cutOff)));
             shader->SetFloat(base + ".outerCutOff", glm::cos(glm::radians(spotLights[i].outerCutOff)));
+            shader->SetFloat(base + ".constant", spotLights[i].constant);
+            shader->SetFloat(base + ".linear", spotLights[i].linear);
+            shader->SetFloat(base + ".quadratic", spotLights[i].quadratic);
+            shader->SetFloat(base + ".intensity", spotLights[i].intensity);
         }
     }
 }

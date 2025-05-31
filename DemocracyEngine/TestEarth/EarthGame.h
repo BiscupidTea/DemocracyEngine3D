@@ -26,6 +26,11 @@ private:
     Cube* cube;
 
     Cube* floor;
+    Cube* wall1;
+    Cube* wall2;
+    Cube* wall3;
+    Cube* wall4;
+    Cube* Top;
     DemoTimer* timer;
 
     float playerSpeed;
