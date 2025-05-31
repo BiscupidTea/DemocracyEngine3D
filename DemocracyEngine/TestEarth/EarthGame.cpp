@@ -113,20 +113,20 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
-    // if (input->IsKeyPressed(GLFW_KEY_UP)) cube->Translate(vec3{0, 0, -playerSpeed});
-    // if (input->IsKeyPressed(GLFW_KEY_DOWN)) cube->Translate(vec3{0, 0, playerSpeed});
-    // if (input->IsKeyPressed(GLFW_KEY_LEFT)) cube->Translate(vec3{-playerSpeed, 0, 0});
-    // if (input->IsKeyPressed(GLFW_KEY_RIGHT)) cube->Translate(vec3{playerSpeed, 0, 0});
-    // if (input->IsKeyPressed(GLFW_KEY_0)) cube->Translate(vec3{0, playerSpeed, 0});
-    // if (input->IsKeyPressed(GLFW_KEY_9)) cube->Translate(vec3{0, -playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_UP)) cube->Translate(vec3{0, 0, -playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_DOWN)) cube->Translate(vec3{0, 0, playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_LEFT)) cube->Translate(vec3{-playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) cube->Translate(vec3{playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_0)) cube->Translate(vec3{0, playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_9)) cube->Translate(vec3{0, -playerSpeed, 0});
 
     
-    if (input->IsKeyPressed(GLFW_KEY_UP))       lightManager->pointLights[4].position.z -= playerSpeed;
-    if (input->IsKeyPressed(GLFW_KEY_DOWN))     lightManager->pointLights[4].position.z += playerSpeed;
-    if (input->IsKeyPressed(GLFW_KEY_LEFT))     lightManager->pointLights[4].position.x -= playerSpeed;
-    if (input->IsKeyPressed(GLFW_KEY_RIGHT))    lightManager->pointLights[4].position.x += playerSpeed;
-    if (input->IsKeyPressed(GLFW_KEY_0))        lightManager->pointLights[4].position.y += playerSpeed;
-    if (input->IsKeyPressed(GLFW_KEY_9))        lightManager->pointLights[4].position.y -= playerSpeed;
+    //if (input->IsKeyPressed(GLFW_KEY_UP))       lightManager->pointLights[4].position.z -= playerSpeed;
+    //if (input->IsKeyPressed(GLFW_KEY_DOWN))     lightManager->pointLights[4].position.z += playerSpeed;
+    //if (input->IsKeyPressed(GLFW_KEY_LEFT))     lightManager->pointLights[4].position.x -= playerSpeed;
+    //if (input->IsKeyPressed(GLFW_KEY_RIGHT))    lightManager->pointLights[4].position.x += playerSpeed;
+    //if (input->IsKeyPressed(GLFW_KEY_0))        lightManager->pointLights[4].position.y += playerSpeed;
+    //if (input->IsKeyPressed(GLFW_KEY_9))        lightManager->pointLights[4].position.y -= playerSpeed;
 
     floor->Draw();
     wall1->Draw();
