@@ -32,7 +32,7 @@ private:
     float yaw = -90.0f;
     float pitch = 0.0f;
     float mouseSensitivity = 0.1f;
-    float cameraSpeed = 5.0f;
+    float cameraSpeed = 15.0f;
 
 public:
     Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale, CameraMode cameraMode);

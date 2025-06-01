@@ -55,8 +55,9 @@ void Camera::Update()
         if (input->IsKeyPressed(GLFW_KEY_D))direction += normalize(cross(cameraFront, cameraUp));
         if (input->IsKeyPressed(GLFW_KEY_SPACE))direction += cameraUp;
         if (input->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))direction -= cameraUp;
-
-        if (length(direction) > 0.0f)LocalPosition += normalize(direction) * cameraSpeed;
+        
+        float speedMultiplier = input->IsKeyPressed(GLFW_KEY_Q) ? 5.0f : 1.0f;
+        if (length(direction) > 0.0f) LocalPosition += normalize(direction) * cameraSpeed * speedMultiplier;
     }
 
     vec3 targetToLook = ThirdPersonCamera ? thirdPersonTarget : LocalPosition + cameraFront;
