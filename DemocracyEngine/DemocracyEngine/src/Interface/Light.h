@@ -2,9 +2,9 @@
 #include <glm/vec3.hpp>
 
 struct Light {
-    glm::vec3 position;
-    glm::vec3 color;
-    float ambientStrength;
-    float specularStrength;
-    int shininess;
+	glm::vec3 position;
+	glm::vec3 color;
+	float ambientStrength;
+	float specularStrength;
+	int shininess;
 };

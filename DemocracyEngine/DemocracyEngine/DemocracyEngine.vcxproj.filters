@@ -117,6 +117,9 @@
     <ClCompile Include="src\Entities\Cube.cpp">
       <Filter>Src\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\Render\LightManager.cpp">
+      <Filter>Src\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseGame\BaseGame.h">
@@ -194,9 +197,6 @@
     <ClInclude Include="src\Interface\ILightService.h">
       <Filter>Src\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interface\Light.h">
-      <Filter>Src\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="src\Interface\LightServiceProvider.h">
       <Filter>Src\Interface</Filter>
     </ClInclude>
@@ -211,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="src\Render\Material.h">
       <Filter>Src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\LightManager.h">
+      <Filter>Src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interface\Light.h">
+      <Filter>Src\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
