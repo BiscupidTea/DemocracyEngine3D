@@ -97,7 +97,7 @@ void EarthGame::Init()
     lightManager->pointLights.push_back(pl);
 
     SpotLight spotLight;
-    spotLight.position = MainCamera->getPosition();
+    spotLight.position =  glm::vec3(0, 50, 2000);
     spotLight.direction = MainCamera->GetCameraFoward();
     spotLight.color = glm::vec3(1.0f);
     spotLight.cutOff = 20.0f;
@@ -108,7 +108,7 @@ void EarthGame::Init()
     spotLight.intensity = 900.0f;
     lightManager->spotLights.push_back(spotLight);
     
-    //lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
+    lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
 }
 
 void EarthGame::Update()

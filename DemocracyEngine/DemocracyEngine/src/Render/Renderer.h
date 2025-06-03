@@ -14,11 +14,13 @@
 #include "../Window/Window.h"
 #include "../TileMap/Tile.h"
 #include "Material.h"
+#include "../Mesh/Importer3D.h"
 
 using namespace glm;
 using namespace DemoEngine_Window;
 using namespace DemoEngine_Tools;
 using namespace DemoEngine_TileMap;
+using namespace DemoEngine_Mesh;
 
 namespace DemoEngine_Renderer
 {
@@ -26,6 +28,7 @@ namespace DemoEngine_Renderer
     {
     private:
         TextureImporter textureImporter;
+        Importer3D meshImporter;
         Shader* primitiveShader;
         Shader* textureShader;
         Shader* lightShader;
