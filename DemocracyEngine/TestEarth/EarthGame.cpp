@@ -51,7 +51,7 @@ void EarthGame::Init()
 
     cube = new Cube(vec3{0, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setColor(vec4{1, 1, 1, 1});
-    cube->setMaterial(WhitePlastic);
+    cube->setMaterial(Silver);
 
     player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
     player->setColor(vec4{0, 1, 0, 1});
@@ -70,7 +70,7 @@ void EarthGame::Init()
     glm::vec3 colors[4] = {
         glm::vec3(1.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f),
-        glm::vec3(0.0f, 0.0f, 1.0f),
+        glm::vec3(0.0f, 0.0f, 5.0f),
         glm::vec3(1.0f, 1.0f, 0.0f) 
     };
 

@@ -40,6 +40,8 @@ namespace DemoEngine_Renderer
 		
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.0f);
+
+		meshImporter.ImportModel("rsc/Mesh/EnemyYukinko.fbx");
 	}
 
 	Renderer::~Renderer()
