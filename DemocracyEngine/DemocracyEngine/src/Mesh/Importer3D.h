@@ -1,19 +1,18 @@
 #pragma once
-
+#include <vector>
 #include <string>
-#include <assimp/scene.h>
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
+#include "../Entities/Model3D.h"
 
-namespace DemoEngine_Mesh
+using namespace DemoEngine_Entities;
+
+namespace DemoEngine_Importer
 {
     class Importer3D
     {
     public:
-        void ImportModel(const std::string& path);
-
-    private:
-        void ProcessNode(aiNode* node, const aiScene* scene);
-        void ProcessMesh(aiMesh* mesh);
+        static std::pair<
+            std::vector<std::vector<Vertex>>,
+            std::vector<std::vector<unsigned int>>
+        > ImportModel(const std::string& path);
     };
 }

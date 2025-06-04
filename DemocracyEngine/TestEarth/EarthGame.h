@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseGame/BaseGame.h"
 #include "Entities/Sprite.h"
+#include "Entities/Model3D.h"
 #include "CollisionManager/CollisionManager.h"
 #include "Entities/Cube.h"
 #include "TileMap/TileMap.h"
@@ -32,6 +33,8 @@ private:
     Cube* wall4;
     Cube* Top;
     DemoTimer* timer;
+
+    Model3D* yukinko;
 
     float playerSpeed;
 

@@ -1,21 +1,33 @@
-//#pragma once
-//#include <vector>
-//#include <string>
-//#include "Mesh.h"
-//#include <assimp/scene.h>
-//
-//class Model3D {
-//public:
-//    Model3D(const std::string& path);
-//    void Draw(unsigned int shaderProgram);
-//
-//private:
-//    std::vector<Mesh> meshes;
-//    std::string directory;
-//    std::vector<Texture> textures_loaded;
-//
-//    void loadModel(const std::string& path);
-//    void processNode(aiNode* node, const aiScene* scene);
-//    Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-//    std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
-//};
+#pragma once
+
+#include <vector>
+#include <string>
+#include <glm/glm.hpp>
+
+namespace DemoEngine_Entities
+{
+	struct Vertex
+	{
+		glm::vec3 position;
+		glm::vec3 normal;
+		glm::vec2 texCoords;
+		glm::vec3 tangent;
+		glm::vec3 bitangent;
+	};
+
+	class Model3D
+	{
+	public:
+		Model3D(const char* path);
+
+		const std::vector<std::vector<Vertex>>& GetVertices() const { return _vertices; }
+		const std::vector<std::vector<unsigned int>>& GetIndices() const { return _indices; }
+
+	private:
+		void AddMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+
+	private:
+		std::vector<std::vector<Vertex>> _vertices;
+		std::vector<std::vector<unsigned int>> _indices;
+	};
+}

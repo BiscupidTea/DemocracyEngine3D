@@ -17,7 +17,11 @@ void EarthGame::Init()
 
     timer = new DemoTimer();
 
-    const char* path = "rsc/SpritesAnimations/Orange.png";
+    const char* path = "rsc/Mesh/EnemyYukinko.fbx";
+
+    yukinko = new Model3D(path);
+
+    path = "rsc/SpritesAnimations/Orange.png";
 
 #pragma region Room
     floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
@@ -150,4 +154,5 @@ void EarthGame::DeInit()
     delete wall4;
     delete Top;
     delete timer;
+    delete yukinko;
 }
