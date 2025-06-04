@@ -129,9 +129,6 @@
     <ClCompile Include="src\Entities\Model3D.cpp">
       <Filter>Src\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Src\Mesh</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseGame\BaseGame.h">
@@ -235,9 +232,6 @@
     </ClInclude>
     <ClInclude Include="src\Entities\Model3D.h">
       <Filter>Src\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Src\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
