@@ -19,8 +19,9 @@ void EarthGame::Init()
 
     const char* path = "rsc/Mesh/EnemyYukinko.fbx";
 
-    yukinko = new Model3D(path);
-
+    yukinko = new Model3D(vec3{0, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
+    //yukinko->setMaterial(Silver);
+    
     path = "rsc/SpritesAnimations/Orange.png";
 
 #pragma region Room
@@ -141,6 +142,8 @@ void EarthGame::Update()
 
     cube->Draw();
     //player->Draw();
+
+    yukinko->Draw();
 }
 
 void EarthGame::DeInit()

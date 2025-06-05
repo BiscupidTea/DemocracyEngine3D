@@ -1,33 +1,28 @@
 #pragma once
+#include "Entity3D.h"
+#include "../Mesh/Importer3D.h"
 
-#include <vector>
-#include <string>
-#include <glm/glm.hpp>
+using namespace DemoEngine_Importer;
 
 namespace DemoEngine_Entities
 {
-	struct Vertex
-	{
-		glm::vec3 position;
-		glm::vec3 normal;
-		glm::vec2 texCoords;
-		glm::vec3 tangent;
-		glm::vec3 bitangent;
-	};
+    class EXPORT Model3D : public Entity3D
+    {
+    public:
+        Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path);
+        ~Model3D();
+        void Draw() override;
 
-	class Model3D
-	{
-	public:
-		Model3D(const char* path);
+    private:
+        void AddMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
-		const std::vector<std::vector<Vertex>>& GetVertices() const { return _vertices; }
-		const std::vector<std::vector<unsigned int>>& GetIndices() const { return _indices; }
+        std::vector<std::vector<Vertex>> vertices;
+        std::vector<std::vector<unsigned int>> indices;
 
-	private:
-		void AddMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+        std::vector<unsigned int> vaos;
+        std::vector<unsigned int> vbos;
+        std::vector<unsigned int> ebos;
 
-	private:
-		std::vector<std::vector<Vertex>> _vertices;
-		std::vector<std::vector<unsigned int>> _indices;
-	};
+        unsigned int textureID = 0;
+    };
 }

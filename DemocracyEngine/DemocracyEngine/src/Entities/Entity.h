@@ -32,7 +32,7 @@ namespace DemoEngine_Entities
 
     public:
         Entity(glm::vec3 newPosition, glm::vec3 newRotation, glm::vec3 newScale);
-        ~Entity();
+        virtual ~Entity();
         virtual void Draw();
 
         void setPosition(glm::vec3 newPosition);

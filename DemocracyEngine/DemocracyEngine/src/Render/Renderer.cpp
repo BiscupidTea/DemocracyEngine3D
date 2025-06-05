@@ -25,7 +25,7 @@ namespace DemoEngine_Renderer
 
 		primitiveShader = new Shader("rsc/Shaders/PrimitiveShader.DemoShader");
 		textureShader = new Shader("rsc/Shaders/TextureShader.DemoShader");
-		lightShader =new Shader("rsc/Shaders/LightsShader.DemoShader");
+		lightShader = new Shader("rsc/Shaders/LightsShader.DemoShader");
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -37,7 +37,7 @@ namespace DemoEngine_Renderer
 		glEnable(GL_BLEND);
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.0f);
 	}
@@ -76,7 +76,7 @@ namespace DemoEngine_Renderer
 		// position attribute
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
-		
+
 		// color attribute
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
@@ -170,22 +170,22 @@ namespace DemoEngine_Renderer
 	void Renderer::DrawEntity2D(unsigned int& VAO, mat4x4 model, vec4 color, int sizeIndex) const
 	{
 		primitiveShader->UseShader();
-		
+
 		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
 		primitiveShader->SetMat4("u_MVP", MVP);
 		primitiveShader->SetVec4("u_Color", color);
-		
+
 		glBindVertexArray(VAO);
 
 		glDrawElements(GL_TRIANGLES, sizeIndex, GL_UNSIGNED_INT, 0);
-		
+
 		primitiveShader->UnuseShader();
 	}
 
 	void Renderer::DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture)
 	{
 		textureShader->UseShader();
-		
+
 		mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * model;
 		textureShader->SetMat4("MVP", MVP);
 		textureShader->SetFloat("u_AmbientStrength", 1);
@@ -209,11 +209,11 @@ namespace DemoEngine_Renderer
 		lightShader->SetVec3("material.diffuse", material.diffuse);
 		lightShader->SetVec3("material.specular", material.specular);
 		lightShader->SetFloat("material.shininess", material.shininess);
-		
+
 		lightShader->SetVec3("viewPos", MainCamera->getPosition());
 
 		lightManager->UploadToShader(lightShader);
-		
+
 		lightShader->SetInt("u_Texture", 0);
 
 		glActiveTexture(GL_TEXTURE0);
