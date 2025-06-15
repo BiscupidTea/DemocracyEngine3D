@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="rsc\Shaders\LightsShader.DemoShader" />
+    <Content Include="rsc\Shaders\ModelShader.DemoShader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

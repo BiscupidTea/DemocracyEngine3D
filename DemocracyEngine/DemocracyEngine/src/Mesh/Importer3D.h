@@ -1,14 +1,16 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <iostream>
 
-#include <glm/ext/matrix_transform.hpp>
-
+#include <glm/glm.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <iostream>
+#include "glew.h"
+#include <../src/Tools/stb_image.h>
 
+#include "../Tools/Export.h"
 
 namespace DemoEngine_Importer
 {
@@ -21,15 +23,30 @@ namespace DemoEngine_Importer
         glm::vec3 bitangent;
     };
 
-    class Importer3D
+    struct Texture
     {
-    public:
-        static std::tuple<
-            std::vector<std::vector<Vertex>>,         
-            std::vector<std::vector<unsigned int>>,   
-            std::vector<unsigned int>                 
-        > ImportModel(const std::string& path);
+        unsigned int id;
+        std::string type;
+        std::string path;
     };
 
-    unsigned int LoadTextureFromFile(const char* path);
+    struct BasicMesh
+    {
+        std::vector<Vertex> vertices;
+        std::vector<unsigned int> indices;
+        std::vector<Texture> textures;
+
+        BasicMesh(std::vector<Vertex> v, std::vector<unsigned int> i, std::vector<Texture> t)
+            : vertices(std::move(v)), indices(std::move(i)), textures(std::move(t)) {}
+    };
+
+    static class EXPORT Importer3D
+    {
+    public:
+        static std::vector<BasicMesh> ImportModel(const std::string& path, bool invertTexture);
+        static unsigned int LoadTextureFromFile(const char* path, bool invertTexture);
+    private:
+        static BasicMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture);
+        static std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName, const std::string& directory, bool invertTexture);
+    };
 }

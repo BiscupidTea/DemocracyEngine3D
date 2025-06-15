@@ -30,6 +30,7 @@ namespace DemoEngine_Renderer
         Shader* primitiveShader;
         Shader* textureShader;
         Shader* lightShader;
+        Shader* modelShader;
 
     public:
         Renderer(vec2 windowXY, Camera* camera, LightManager* light_manager);
@@ -49,7 +50,8 @@ namespace DemoEngine_Renderer
 
         void CreateSprite(unsigned int& VBO, unsigned int& VAO, unsigned int& EBO, float* positions, int* indexs, int positionsSize, int indexSize);
         void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
-        void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture, Material material);
+        void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int idTexture, Material material);
+        void DrawModel(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int idTexture, Material material);
         void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 
         void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);

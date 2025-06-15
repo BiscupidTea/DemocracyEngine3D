@@ -2,30 +2,32 @@
 
 namespace DemoEngine_Entities
 {
-    Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path)
+    Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture = false)
         : Entity3D(newPosition, newRotation, newScale)
     {
-        auto data = Importer3D::ImportModel(path);
+        auto meshes = Importer3D::ImportModel(path, invertTexture);
 
-        const std::vector<std::vector<Vertex>>& vertices = std::get<0>(data);
-        const std::vector<std::vector<unsigned int>>& indices = std::get<1>(data);
-
-        for (size_t i = 0; i < vertices.size(); ++i)
-            AddMesh(vertices[i], indices[i]);
+        for (const auto& mesh : meshes)
+        {
+            AddMesh(mesh);
+        }
     }
 
     Model3D::~Model3D()
     {
-       cout << "Destroy model3d" << endl; 
+        std::cout << "Destroy model3d" << std::endl;
+        // Optional: cleanup OpenGL buffers
     }
 
     void Model3D::Draw()
     {
         UpdateTMatrix();
-
+        
         for (size_t i = 0; i < vaos.size(); ++i)
         {
-            Renderer::GetRender()->DrawEntity3D(
+            unsigned int textureID = textures[i].empty() ? 0 : textures[i][0].id;
+
+            Renderer::GetRender()->DrawModel(
                 vaos[i],
                 static_cast<int>(indices[i].size()),
                 getColor(),
@@ -36,10 +38,25 @@ namespace DemoEngine_Entities
         }
     }
 
-    void Model3D::AddMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices)
+    void Model3D::AddTexture(std::string type, std::string path, bool invertTexture)
     {
-        this->vertices.push_back(vertices);
-        this->indices.push_back(indices);
+        Texture tex;
+        tex.id = Importer3D::LoadTextureFromFile(path.c_str(), invertTexture);
+        tex.path = path;
+        tex.type = type;
+        
+        for (int i = 0; i < textures.size(); ++i)
+        {
+            textures[i].clear();
+            textures[i].push_back(tex);
+        }
+    }
+
+    void Model3D::AddMesh(const BasicMesh& mesh)
+    {
+        vertices.push_back(mesh.vertices);
+        indices.push_back(mesh.indices);
+        textures.push_back(mesh.textures);
 
         unsigned int vao, vbo, ebo;
 
@@ -50,12 +67,12 @@ namespace DemoEngine_Entities
         glBindVertexArray(vao);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(Vertex), mesh.vertices.data(), GL_STATIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indices.size() * sizeof(unsigned int), &mesh.indices[0], GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
         glEnableVertexAttribArray(0);
 
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));

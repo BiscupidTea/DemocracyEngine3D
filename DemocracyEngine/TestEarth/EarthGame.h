@@ -35,6 +35,8 @@ private:
     DemoTimer* timer;
 
     Model3D* yukinko;
+    Model3D* backPack;
+    Model3D* SnowCat;
 
     float playerSpeed;
 

@@ -17,10 +17,15 @@ void EarthGame::Init()
 
     timer = new DemoTimer();
 
-    const char* path = "rsc/Mesh/EnemyYukinko.fbx";
+    const char* path = "rsc/Mesh/Yukinko_Death.fbx";
+    yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
 
-    yukinko = new Model3D(vec3{0, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
-    //yukinko->setMaterial(Silver);
+    path = "rsc/Mesh/backpack.obj";
+    backPack = new Model3D(vec3{-500, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
+    
+    path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
+    SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
+    SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false);
     
     path = "rsc/SpritesAnimations/Orange.png";
 
@@ -62,7 +67,7 @@ void EarthGame::Init()
     player->setColor(vec4{0, 1, 0, 1});
 
     playerSpeed = 5;
-    
+
     float offset = halfSize * 0.75f;
 
     glm::vec3 corners[4] = {
@@ -76,7 +81,7 @@ void EarthGame::Init()
         glm::vec3(1.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f),
         glm::vec3(0.0f, 0.0f, 5.0f),
-        glm::vec3(1.0f, 1.0f, 0.0f) 
+        glm::vec3(1.0f, 1.0f, 0.0f)
     };
 
     for (int i = 0; i < 4; i++)
@@ -88,7 +93,7 @@ void EarthGame::Init()
         pl.constant = 5.0f;
         pl.linear = 0.07f;
         pl.quadratic = 0.002f;
-        
+
         lightManager->pointLights.push_back(pl);
     }
 
@@ -102,7 +107,7 @@ void EarthGame::Init()
     lightManager->pointLights.push_back(pl);
 
     SpotLight spotLight;
-    spotLight.position =  glm::vec3(0, 50, 2000);
+    spotLight.position = glm::vec3(0, 50, 2000);
     spotLight.direction = MainCamera->GetCameraFoward();
     spotLight.color = glm::vec3(1.0f);
     spotLight.cutOff = 20.0f;
@@ -112,20 +117,22 @@ void EarthGame::Init()
     spotLight.quadratic = 0.0002f;
     spotLight.intensity = 900.0f;
     lightManager->spotLights.push_back(spotLight);
-    
+
     lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
 }
 
 void EarthGame::Update()
 {
-    if (input->IsKeyPressed(GLFW_KEY_UP)) cube->Translate(vec3{0, 0, -playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_DOWN)) cube->Translate(vec3{0, 0, playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_LEFT)) cube->Translate(vec3{-playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) cube->Translate(vec3{playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_0)) cube->Translate(vec3{0, playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_9)) cube->Translate(vec3{0, -playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_UP)) SnowCat->Translate(vec3{0, 0, -playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_DOWN)) SnowCat->Translate(vec3{0, 0, playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_LEFT)) SnowCat->Translate(vec3{-playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) SnowCat->Translate(vec3{playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_0)) SnowCat->Translate(vec3{0, playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_9)) SnowCat->Translate(vec3{0, -playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_P)) SnowCat->rotateY(playerSpeed);
+    if (input->IsKeyPressed(GLFW_KEY_O)) SnowCat->rotateY(-playerSpeed);
 
-    
+
     //if (input->IsKeyPressed(GLFW_KEY_UP))       lightManager->pointLights[4].position.z -= playerSpeed;
     //if (input->IsKeyPressed(GLFW_KEY_DOWN))     lightManager->pointLights[4].position.z += playerSpeed;
     //if (input->IsKeyPressed(GLFW_KEY_LEFT))     lightManager->pointLights[4].position.x -= playerSpeed;
@@ -144,6 +151,8 @@ void EarthGame::Update()
     //player->Draw();
 
     yukinko->Draw();
+    backPack->Draw();
+    SnowCat->Draw();
 }
 
 void EarthGame::DeInit()
@@ -158,4 +167,6 @@ void EarthGame::DeInit()
     delete Top;
     delete timer;
     delete yukinko;
+    delete backPack;
+    delete SnowCat;
 }
