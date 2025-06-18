@@ -1,7 +1,6 @@
 #pragma once
 #include "../Tools/Export.h"
 #include "../Input/Input.h"
-
 #include "../Entities/Entity.h"
 
 using namespace glm;
@@ -34,16 +33,22 @@ private:
     float mouseSensitivity = 0.1f;
     float cameraSpeed = 15.0f;
 
+    float fov = 45.0f;
+    vec2 aspectRatio;
+    float maxDistance;
+
+    float zoomSpeed = 1.5f;
+
 public:
     Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale, CameraMode cameraMode);
 
     void Update();
 
-    vec3 GetCameraPosition();
-    vec3 GetCameraFoward();
-    vec3 GetCameraRight();
-    mat4x4 GetCameraProyection();
-    mat4x4 GetCameraView();
+    vec3 GetCameraPosition() const;
+    vec3 GetCameraFoward() const;
+    vec3 GetCameraRight() const;
+    mat4x4 GetCameraProyection() const;
+    mat4x4 GetCameraView() const;
 
     void SetCameraPosition(vec3 NewPosition);
     void TranslateCamera(vec3 dir);

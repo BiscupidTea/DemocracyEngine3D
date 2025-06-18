@@ -1,10 +1,10 @@
 #include "Camera.h"
 #include <glfw3.h>
 
-Camera::Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale,
-               CameraMode cameraMode) : Entity(newPosition, newRotation, newScale)
+Camera::Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale, CameraMode cameraMode)
+    : Entity(newPosition, newRotation, newScale), aspectRatio(aspect), maxDistance(maxDistance)
 {
-    proyection = perspective(glm::radians(45.0f), aspect.x / aspect.y, 0.1f, maxDistance);
+    proyection = perspective(glm::radians(fov), aspect.x / aspect.y, 0.1f, maxDistance);
 
     cameraFront = vec3(0.0f, 0.0f, -1.0f);
     cameraUp = vec3(0.0f, 1.0f, 0.0f);
@@ -31,6 +31,17 @@ void Camera::Update()
         pitch += deltaY;
 
         pitch = clamp(pitch, -89.0f, 89.0f);
+        
+        if (input->IsKeyPressed(GLFW_KEY_Z))
+        {
+            fov -= zoomSpeed;
+            if (fov < 1.0f) fov = 1.0f;
+        }
+        if (input->IsKeyPressed(GLFW_KEY_X))
+        {
+            fov += zoomSpeed;
+            if (fov > 45.0f) fov = 45.0f;
+        }
     }
 
     vec3 front;
@@ -49,45 +60,26 @@ void Camera::Update()
     else
     {
         vec3 direction(0.0f);
-        if (input->IsKeyPressed(GLFW_KEY_W))direction += cameraFront;
-        if (input->IsKeyPressed(GLFW_KEY_S))direction -= cameraFront;
-        if (input->IsKeyPressed(GLFW_KEY_A))direction -= normalize(cross(cameraFront, cameraUp));
-        if (input->IsKeyPressed(GLFW_KEY_D))direction += normalize(cross(cameraFront, cameraUp));
-        if (input->IsKeyPressed(GLFW_KEY_SPACE))direction += cameraUp;
-        if (input->IsKeyPressed(GLFW_KEY_LEFT_SHIFT))direction -= cameraUp;
-        
+        if (input->IsKeyPressed(GLFW_KEY_W)) direction += cameraFront;
+        if (input->IsKeyPressed(GLFW_KEY_S)) direction -= cameraFront;
+        if (input->IsKeyPressed(GLFW_KEY_A)) direction -= normalize(cross(cameraFront, cameraUp));
+        if (input->IsKeyPressed(GLFW_KEY_D)) direction += normalize(cross(cameraFront, cameraUp));
+        if (input->IsKeyPressed(GLFW_KEY_SPACE)) direction += cameraUp;
+        if (input->IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) direction -= cameraUp;
+
         float speedMultiplier = input->IsKeyPressed(GLFW_KEY_Q) ? 5.0f : 1.0f;
         if (length(direction) > 0.0f) LocalPosition += normalize(direction) * cameraSpeed * speedMultiplier;
     }
 
-    vec3 targetToLook = ThirdPersonCamera ? thirdPersonTarget : LocalPosition + cameraFront;
+    proyection = perspective(glm::radians(fov), aspectRatio.x / aspectRatio.y, 0.1f, maxDistance);
     view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
 }
 
-vec3 Camera::GetCameraPosition()
-{
-    return LocalPosition;
-}
-
-vec3 Camera::GetCameraFoward()
-{
-    return cameraFront;
-}
-
-vec3 Camera::GetCameraRight()
-{
-    return normalize(cross(cameraFront, vec3(0.0f, 1.0f, 0.0f)));
-}
-
-mat4x4 Camera::GetCameraProyection()
-{
-    return proyection;
-}
-
-mat4x4 Camera::GetCameraView()
-{
-    return view;
-}
+vec3 Camera::GetCameraPosition() const { return LocalPosition; }
+vec3 Camera::GetCameraFoward() const { return cameraFront; }
+vec3 Camera::GetCameraRight() const { return normalize(cross(cameraFront, vec3(0.0f, 1.0f, 0.0f))); }
+mat4x4 Camera::GetCameraProyection() const { return proyection; }
+mat4x4 Camera::GetCameraView() const { return view; }
 
 void Camera::SetCameraPosition(vec3 NewPosition)
 {
@@ -105,14 +97,14 @@ void Camera::RotateCamera(vec3 newRotation)
 {
     LocalRotation = newRotation;
 
-    float yaw = radians(LocalRotation.y);
-    float pitch = radians(LocalRotation.x);
+    float yawRad = radians(LocalRotation.y);
+    float pitchRad = radians(LocalRotation.x);
     float roll = radians(LocalRotation.z);
 
     vec3 front;
-    front.x = cos(yaw) * cos(pitch);
-    front.y = sin(pitch);
-    front.z = sin(yaw) * cos(pitch);
+    front.x = cos(yawRad) * cos(pitchRad);
+    front.y = sin(pitchRad);
+    front.z = sin(yawRad) * cos(pitchRad);
     cameraFront = glm::normalize(front);
 
     vec3 right = glm::normalize(glm::cross(cameraFront, vec3(0.0f, 1.0f, 0.0f)));
