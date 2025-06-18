@@ -13,16 +13,24 @@ struct Material
         ambient = glm::vec3(0.0f, 0.0f, 0.0f);
         diffuse = glm::vec3(0.5f, 0.0f, 0.0f);
         specular = glm::vec3(0.7f, 0.6f, 0.6f);
-        shininess = 0.25f;
+        shininess = 0.0f;
     }
-    Material(glm::vec3 Ambient,glm::vec3 Diffuse,glm::vec3 Specular, float Shininess )
+
+    Material(glm::vec3 Ambient, glm::vec3 Diffuse, glm::vec3 Specular, float Shininess)
     {
         ambient = Ambient;
-        diffuse =Diffuse;
+        diffuse = Diffuse;
         specular = Specular;
         shininess = Shininess;
     }
 };
+
+const Material DefaultMaterial(
+    glm::vec3(0.2f, 0.2f, 0.2f),
+    glm::vec3(0.5f, 0.5f, 0.5f),
+    glm::vec3(1.0f, 1.0f, 1.0f),
+    32.0f
+);
 
 const Material Emerald(
     glm::vec3(0.0215f, 0.1745f, 0.0215f),

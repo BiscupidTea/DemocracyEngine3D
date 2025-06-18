@@ -27,44 +27,37 @@ void EarthGame::Init()
     SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false);
     
-    path = "rsc/SpritesAnimations/Orange.png";
 
 #pragma region Room
+    path = "rsc/SpritesAnimations/White.png";
     floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
-    floor->setColor(vec4{1, 1, 1, 1});
-    floor->setMaterial(YellowRubber);
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
     float wallThickness = 5.0f;
+    
+    path = "rsc/SpritesAnimations/Orange.png";
 
     wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall1->setColor(vec4{1, 1, 1, 1});
     wall1->setMaterial(Obsidian);
 
     wall2 = new Cube(vec3{halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall2->setColor(vec4{1, 1, 1, 1});
     wall2->setMaterial(Brass);
 
     wall3 = new Cube(vec3{0, wallHeight / 2 - 100, -halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall3->setColor(vec4{1, 1, 1, 1});
     wall3->setMaterial(Copper);
 
     wall4 = new Cube(vec3{0, wallHeight / 2 - 100, halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall4->setColor(vec4{1, 1, 1, 1});
     wall4->setMaterial(WhitePlastic);
 
     Top = new Cube(vec3{0, wallHeight - 100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
-    Top->setColor(vec4{1, 1, 1, 1});
     Top->setMaterial(Silver);
 #pragma endregion
 
-    cube = new Cube(vec3{0, 0, 0}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
-    cube->setColor(vec4{1, 1, 1, 1});
+    cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setMaterial(Silver);
 
     player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
-    player->setColor(vec4{0, 1, 0, 1});
 
     playerSpeed = 5;
 
@@ -89,10 +82,10 @@ void EarthGame::Init()
         PointLight pl;
         pl.position = corners[i] + glm::vec3(0, 100, 0);
         pl.color = colors[i];
-        pl.intensity = 500.0f;
-        pl.constant = 5.0f;
-        pl.linear = 0.07f;
-        pl.quadratic = 0.002f;
+        pl.intensity = 100.0f;
+        pl.constant = 1.0f;
+        pl.linear = 0.012f;
+        pl.quadratic = 0.007f;
 
         lightManager->pointLights.push_back(pl);
     }
@@ -123,6 +116,8 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
+    MainCamera->SetCameraTarget(SnowCat->getPosition());
+
     if (input->IsKeyPressed(GLFW_KEY_UP)) SnowCat->Translate(vec3{0, 0, -playerSpeed});
     if (input->IsKeyPressed(GLFW_KEY_DOWN)) SnowCat->Translate(vec3{0, 0, playerSpeed});
     if (input->IsKeyPressed(GLFW_KEY_LEFT)) SnowCat->Translate(vec3{-playerSpeed, 0, 0});

@@ -14,6 +14,7 @@ namespace DemoEngine_Entities
 
     public:
         Entity3D(vec3 newPosition, vec3 newRotation, vec3 newScale);
+        Entity3D(Material material, vec3 newPosition, vec3 newRotation, vec3 newScale);
         ~Entity3D();
         void setMaterial(Material material);
     };
