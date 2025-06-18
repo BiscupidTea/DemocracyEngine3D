@@ -25,7 +25,7 @@ void EarthGame::Init()
     
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
     SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
-    SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false);
+    SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
     
 
 #pragma region Room
@@ -145,9 +145,9 @@ void EarthGame::Update()
     cube->Draw();
     //player->Draw();
 
+    SnowCat->Draw();
     yukinko->Draw();
     backPack->Draw();
-    SnowCat->Draw();
 }
 
 void EarthGame::DeInit()

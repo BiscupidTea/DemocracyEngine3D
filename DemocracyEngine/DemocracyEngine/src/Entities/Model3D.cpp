@@ -22,32 +22,33 @@ namespace DemoEngine_Entities
     void Model3D::Draw()
     {
         UpdateTMatrix();
-        
+
         for (size_t i = 0; i < vaos.size(); ++i)
         {
-            unsigned int textureID = textures[i].empty() ? 0 : textures[i][0].id;
-
             Renderer::GetRender()->DrawModel(
                 vaos[i],
                 static_cast<int>(indices[i].size()),
                 getColor(),
                 model,
-                textureID,
+                textures[i],
                 material
             );
         }
     }
 
-    void Model3D::AddTexture(std::string type, std::string path, bool invertTexture)
+    void Model3D::AddTexture(std::string type, std::string path, bool invertTexture, bool ClearTexture)
     {
         Texture tex;
         tex.id = Importer3D::LoadTextureFromFile(path.c_str(), invertTexture);
         tex.path = path;
         tex.type = type;
-        
+
         for (int i = 0; i < textures.size(); ++i)
         {
-            textures[i].clear();
+            if (ClearTexture)
+            {
+                textures[i].clear();
+            }
             textures[i].push_back(tex);
         }
     }

@@ -12,7 +12,7 @@ namespace DemoEngine_Entities
         Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture);
         ~Model3D();
         void Draw() override;
-        void AddTexture(std::string type, std::string path, bool invertTexture);
+        void AddTexture(std::string type, std::string path, bool invertTexture, bool ClearTexture);
 
     private:
         void AddMesh(const BasicMesh& mesh);

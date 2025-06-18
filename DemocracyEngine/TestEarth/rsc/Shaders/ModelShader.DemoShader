@@ -31,7 +31,11 @@ in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
 
-uniform sampler2D u_Texture;
+uniform sampler2D texture_baseColor1;
+uniform sampler2D texture_diffuse1;
+uniform sampler2D texture_specular1;
+uniform sampler2D texture_metalness1;
+uniform sampler2D texture_height1;
 uniform vec3 viewPos;
 
 struct Material
@@ -154,7 +158,7 @@ void main()
 	for (int i = 0; i < spotLightCount; ++i)
 	result += CalcSpotLight(spotLights[i], norm, FragPos, viewDir);
 
-	vec4 texColor = texture(u_Texture, TexCoord);
+	vec4 texColor = texture(texture_baseColor1, TexCoord);
 	vec4 baseColor = texColor;
 
 	FragColor = vec4(result * baseColor.rgb, baseColor.a);

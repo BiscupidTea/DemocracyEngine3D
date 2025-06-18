@@ -71,6 +71,13 @@ void Camera::Update()
         if (length(direction) > 0.0f) LocalPosition += normalize(direction) * cameraSpeed * speedMultiplier;
     }
 
+    if (input->IsKeyPressed(GLFW_KEY_L))
+    {
+        ThirdPersonCamera = !ThirdPersonCamera;
+        CameraMode newState = ThirdPersonCamera ? CameraMode::FirstPerson : CameraMode::ThirdPerson;
+        SetCameraMode(newState);
+    }
+
     proyection = perspective(glm::radians(fov), aspectRatio.x / aspectRatio.y, 0.1f, maxDistance);
     view = lookAt(LocalPosition, LocalPosition + cameraFront, cameraUp);
 }
