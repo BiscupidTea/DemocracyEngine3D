@@ -28,7 +28,7 @@ namespace DemoEngine_Entities
             Renderer::GetRender()->DrawModel(
                 vaos[i],
                 static_cast<int>(indices[i].size()),
-                getColor(),
+                GetColor(),
                 model,
                 textures[i],
                 material
