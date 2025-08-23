@@ -2,6 +2,11 @@
 
 namespace DemoEngine_Entities
 {
+    Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale)
+        : Entity3D(newPosition, newRotation, newScale)
+    {
+    }
+
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture = false)
         : Entity3D(newPosition, newRotation, newScale)
     {
@@ -16,20 +21,17 @@ namespace DemoEngine_Entities
     Model3D::~Model3D()
     {
         std::cout << "Destroy model3d" << std::endl;
-        // Optional: cleanup OpenGL buffers
     }
 
     void Model3D::Draw()
     {
-        UpdateTMatrix();
-
         for (size_t i = 0; i < vaos.size(); ++i)
         {
             Renderer::GetRender()->DrawModel(
                 vaos[i],
                 static_cast<int>(indices[i].size()),
                 GetColor(),
-                model,
+                transform->GetModelWorldMatrix(),
                 textures[i],
                 material
             );

@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
+#include <iostream>
 
 using namespace DemoEngine_Entities;
 
@@ -33,9 +34,11 @@ Transform::Transform(Entity* owner, vec3 pos, vec3 rot, vec3 scale)
 Transform::~Transform()
 {
     SetParent(nullptr);
+
+    auto children_copy = m_children;
     for (Transform* child : m_children)
     {
-        child->m_parent = nullptr;
+        child->SetParent(nullptr);
     }
 }
 
@@ -72,14 +75,13 @@ void Transform::RecalculateLocalMatrix() const
 
 void Transform::SetDirty()
 {
-    if (!m_isDirty)
-    {
-        m_isDirty = true;
-        for (Transform* child : m_children)
-        {
-            child->SetDirty();
-        }
-    }
+	if (m_isDirty) return;
+
+	m_isDirty = true;
+	for (Transform* child : m_children)
+	{
+		child->SetDirty();
+	}
 }
 
 vec3 Transform::GetGlobalPosition() const
@@ -142,7 +144,11 @@ void Transform::SetParent(Transform* newParent)
     if (m_parent)
     {
         auto& children = m_parent->m_children;
-        children.erase(std::remove(children.begin(), children.end(), this), children.end());
+        auto it = std::find(children.begin(), children.end(), this);
+        if (it != children.end())
+        {
+            children.erase(it);
+        }
     }
 
     m_parent = newParent;

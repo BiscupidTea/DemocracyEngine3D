@@ -116,6 +116,6 @@ namespace DemoEngine_Entities
 
 	void Sprite::Draw()
 	{
-		Renderer::GetRender()->DrawTexture(VAO, indexSize, color, model, textureId);
+		Renderer::GetRender()->DrawTexture(VAO, indexSize, color, transform->GetModelLocalMatrix(), textureId);
 	}
 }

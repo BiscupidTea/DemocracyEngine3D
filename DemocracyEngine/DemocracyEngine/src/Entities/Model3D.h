@@ -9,6 +9,7 @@ namespace DemoEngine_Entities
     class EXPORT Model3D : public Entity3D
     {
     public:
+        Model3D(vec3 newPosition = vec3(0.0f), vec3 newRotation = vec3(0.0f), vec3 newScale = vec3(1.0f));
         Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture);
         ~Model3D();
         void Draw() override;

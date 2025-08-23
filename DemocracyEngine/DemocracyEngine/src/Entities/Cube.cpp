@@ -162,11 +162,11 @@ namespace DemoEngine_Entities
     {
         if (hasTexture)
         {
-            Renderer::GetRender()->DrawEntity3D(VAO, indexSize, color, model, textureId, material);
+            Renderer::GetRender()->DrawEntity3D(VAO, indexSize, color, transform->GetModelLocalMatrix(), textureId, material);
         }
         else
         {
-            Renderer::GetRender()->DrawEntity2D(VAO, model, color, indexSize);
+            Renderer::GetRender()->DrawEntity2D(VAO, transform->GetModelLocalMatrix(), color, indexSize);
         }
     }
 }

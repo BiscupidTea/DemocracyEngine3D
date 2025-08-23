@@ -212,7 +212,7 @@ namespace DemoEngine_Renderer
         lightShader->SetVec3("material.specular", material.specular);
         lightShader->SetFloat("material.shininess", material.shininess);
 
-        lightShader->SetVec3("viewPos", MainCamera->getPosition());
+        lightShader->SetVec3("viewPos", MainCamera->GetCameraPosition());
 
         lightManager->UploadToShader(lightShader);
 
@@ -247,7 +247,7 @@ namespace DemoEngine_Renderer
         modelShader->SetVec3("material.specular", material.specular);
         modelShader->SetFloat("material.shininess", material.shininess);
 
-        modelShader->SetVec3("viewPos", MainCamera->getPosition());
+        modelShader->SetVec3("viewPos", MainCamera->GetCameraPosition());
 
         lightManager->UploadToShader(modelShader);
 

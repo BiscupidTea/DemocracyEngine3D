@@ -30,7 +30,7 @@ void Camera::Update()
         deltaX *= mouseSensitivity;
         deltaY *= mouseSensitivity;
 
-        yaw += deltaX;
+        yaw -= deltaX;
         pitch += deltaY;
 
         pitch = clamp(pitch, -89.0f, 89.0f);

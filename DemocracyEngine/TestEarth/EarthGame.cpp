@@ -26,6 +26,7 @@ void EarthGame::Init()
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
     SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
+    yukinko->transform->SetParent(SnowCat->transform);
     
 
 #pragma region Room
@@ -100,7 +101,7 @@ void EarthGame::Init()
     lightManager->pointLights.push_back(pl);
 
     SpotLight spotLight;
-    spotLight.position = glm::vec3(0, 50, 2000);
+    spotLight.position = glm::vec3(0, 0, 0);
     spotLight.direction = MainCamera->GetCameraFoward();
     spotLight.color = glm::vec3(1.0f);
     spotLight.cutOff = 20.0f;
@@ -116,24 +117,16 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
-    MainCamera->SetCameraTarget(SnowCat->getPosition());
+    MainCamera->SetCameraTarget(SnowCat->transform->GetGlobalPosition());
 
-    if (input->IsKeyPressed(GLFW_KEY_UP)) SnowCat->Translate(vec3{0, 0, -playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_DOWN)) SnowCat->Translate(vec3{0, 0, playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_LEFT)) SnowCat->Translate(vec3{-playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) SnowCat->Translate(vec3{playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_0)) SnowCat->Translate(vec3{0, playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_9)) SnowCat->Translate(vec3{0, -playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_P)) SnowCat->rotateY(playerSpeed);
-    if (input->IsKeyPressed(GLFW_KEY_O)) SnowCat->rotateY(-playerSpeed);
-
-
-    //if (input->IsKeyPressed(GLFW_KEY_UP))       lightManager->pointLights[4].position.z -= playerSpeed;
-    //if (input->IsKeyPressed(GLFW_KEY_DOWN))     lightManager->pointLights[4].position.z += playerSpeed;
-    //if (input->IsKeyPressed(GLFW_KEY_LEFT))     lightManager->pointLights[4].position.x -= playerSpeed;
-    //if (input->IsKeyPressed(GLFW_KEY_RIGHT))    lightManager->pointLights[4].position.x += playerSpeed;
-    //if (input->IsKeyPressed(GLFW_KEY_0))        lightManager->pointLights[4].position.y += playerSpeed;
-    //if (input->IsKeyPressed(GLFW_KEY_9))        lightManager->pointLights[4].position.y -= playerSpeed;
+    if (input->IsKeyPressed(GLFW_KEY_UP)) SnowCat->transform->Translate(vec3{0, 0, -playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_DOWN)) SnowCat->transform->Translate(vec3{0, 0, playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_LEFT)) SnowCat->transform->Translate(vec3{-playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) SnowCat->transform->Translate(vec3{playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_0)) SnowCat->transform->Translate(vec3{0, playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_9)) SnowCat->transform->Translate(vec3{0, -playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_P)) yukinko->transform->SetRotationY(yukinko->transform->GetLocalRotation().y + playerSpeed);
+    if (input->IsKeyPressed(GLFW_KEY_O)) SnowCat->transform->SetRotationY(SnowCat->transform->GetLocalRotation().y-playerSpeed);
 
     floor->Draw();
     wall1->Draw();
