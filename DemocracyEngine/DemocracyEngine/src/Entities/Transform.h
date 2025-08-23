@@ -1,65 +1,73 @@
 #pragma once
 #include "../Tools/Export.h"
 
-#include <list>
 #include <string>
 #include <vector>
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 
-#include <../src/Entities/Entity.h>
+// Forward declaration
+namespace DemoEngine_Entities { class Entity; }
 
 namespace DemoEngine_Entities
 {
+    using namespace glm;
+
     class EXPORT Transform
     {
     public:
-        explicit Transform(Entity* newEntity);
-        Transform(Entity* newEntity, Transform* parent);
-        Transform(Entity* newEntity, vec3 pos, vec3 rot, vec3 scale);
+        explicit Transform(Entity* owner);
+        Transform(Entity* owner, Transform* parent);
+        Transform(Entity* owner, vec3 pos, vec3 rot, vec3 scale);
         ~Transform();
-        std::string name;
 
-        //Info
-        vec3 GetGlobalPosition();
-        vec3 GetLocalPosition();
-        void SetPosition(vec3 newPosition);
-        void SetLocalPosition(vec3 newPosition);
+        // Position
+        vec3 GetGlobalPosition() const;
+        vec3 GetLocalPosition() const;
+        void SetLocalPosition(const vec3& newPosition);
         
-        void Translate(vec3 dir);
+        void Translate(const vec3& dir);
 
-        vec3 getRotation();
-        void SetLocalRotation(vec3 angle);
+        // Rotation (Euler angles in degrees)
+        vec3 GetLocalRotation() const;
+        void SetLocalRotation(const vec3& angles);
         void SetRotationX(float angle);
         void SetRotationY(float angle);
         void SetRotationZ(float angle);
 
-        vec3 GetLocalScale();
-        void SetLocalScale(vec3 newScale);
+        // Scale
+        vec3 GetLocalScale() const;
+        void SetLocalScale(const vec3& newScale);
 
-        void UpdateMatrix();
-
-        //Family
-        Transform* parent;
-        std::vector<Transform*> child;
-        void AddChild(Transform* model);
+        // Hierarchy
+        void SetParent(Transform* newParent);
+        Transform* GetParent() const;
+        void AddChild(Transform* child);
+        void RemoveChild(Transform* child);
+        const std::vector<Transform*>& GetChildren() const;
         
-        //Global
-        mat4x4 modelWorld;
-        mat4x4 modelLocal;
-        vec3 globalPosition;
-        vec3 globalRotation;
-        vec3 globalScale;
+        // Matrix access
+        const mat4& GetModelWorldMatrix() const;
+        const mat4& GetModelLocalMatrix() const;
 
-        //Local
-        mat4 tranlateMatrix;
-        mat4 rotationMatrix;
-        mat4 scaleMatrix;
+        Entity* GetOwner() const;
 
-        vec3 localPosition;
-        vec3 localRotation;
-        vec3 localScale;
+    private:
+        void UpdateWorldMatrix() const;
+        void RecalculateLocalMatrix() const;
+        void SetDirty();
 
-    protected:
+        Entity* m_owner;
+        Transform* m_parent = nullptr;
+        std::vector<Transform*> m_children;
+        
+        mutable mat4 m_modelLocal;
+        mutable mat4 m_modelWorld;
+
+        vec3 m_localPosition;
+        vec3 m_localRotation;
+        vec3 m_localScale;
+
+        mutable bool m_isDirty = true;
     };
 }
