@@ -23,6 +23,9 @@ void EarthGame::Init()
     path = "rsc/Mesh/backpack.obj";
     backPack = new Model3D(vec3{-500, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
     
+    path = "rsc/Mesh/Tank.fbx";
+    Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
+    
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
     SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
@@ -141,6 +144,7 @@ void EarthGame::Update()
     SnowCat->Draw();
     yukinko->Draw();
     backPack->Draw();
+    Tank->Draw();
 }
 
 void EarthGame::DeInit()

@@ -37,6 +37,7 @@ private:
     Model3D* yukinko;
     Model3D* backPack;
     Model3D* SnowCat;
+    Model3D* Tank;
 
     float playerSpeed;
 
