@@ -40,10 +40,16 @@ namespace DemoEngine_Importer
             : vertices(std::move(v)), indices(std::move(i)), textures(std::move(t)) {}
     };
 
+    struct ImportedModelData
+    {
+        std::string name;
+        std::vector<BasicMesh> meshes;
+    };
+
     static class EXPORT Importer3D
     {
     public:
-        static std::vector<BasicMesh> ImportModel(const std::string& path, bool invertTexture);
+        static ImportedModelData ImportModel(const std::string& path, bool invertTexture);
         static unsigned int LoadTextureFromFile(const char* path, bool invertTexture);
     private:
         static BasicMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture);

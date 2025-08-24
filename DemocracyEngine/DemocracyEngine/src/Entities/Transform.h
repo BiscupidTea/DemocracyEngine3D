@@ -21,6 +21,10 @@ namespace DemoEngine_Entities
         Transform(Entity* owner, vec3 pos, vec3 rot, vec3 scale);
         ~Transform();
 
+        // Name
+        const std::string& GetName() const;
+        void SetName(const std::string& name);
+
         // Position
         vec3 GetGlobalPosition() const;
         vec3 GetLocalPosition() const;
@@ -56,6 +60,8 @@ namespace DemoEngine_Entities
         void UpdateWorldMatrix() const;
         void RecalculateLocalMatrix() const;
         void SetDirty();
+
+        std::string m_name;
 
         Entity* m_owner;
         Transform* m_parent = nullptr;

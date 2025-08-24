@@ -10,7 +10,8 @@ Transform::Transform(Entity* owner)
     : m_owner(owner),
       m_localPosition(0.0f),
       m_localRotation(0.0f),
-      m_localScale(1.0f)
+      m_localScale(1.0f),
+      m_name("Transform")
 {
 }
 
@@ -18,7 +19,8 @@ Transform::Transform(Entity* owner, Transform* parent)
     : m_owner(owner),
       m_localPosition(0.0f),
       m_localRotation(0.0f),
-      m_localScale(1.0f)
+      m_localScale(1.0f),
+      m_name("Transform")
 {
     SetParent(parent);
 }
@@ -27,7 +29,8 @@ Transform::Transform(Entity* owner, vec3 pos, vec3 rot, vec3 scale)
     : m_owner(owner),
       m_localPosition(pos),
       m_localRotation(rot),
-      m_localScale(scale)
+      m_localScale(scale),
+      m_name("Transform")
 {
 }
 
@@ -36,7 +39,7 @@ Transform::~Transform()
     SetParent(nullptr);
 
     auto children_copy = m_children;
-    for (Transform* child : m_children)
+    for (Transform* child : children_copy)
     {
         child->SetParent(nullptr);
     }
@@ -82,6 +85,16 @@ void Transform::SetDirty()
 	{
 		child->SetDirty();
 	}
+}
+
+const std::string& Transform::GetName() const
+{
+    return m_name;
+}
+
+void Transform::SetName(const std::string& name)
+{
+    m_name = name;
 }
 
 vec3 Transform::GetGlobalPosition() const

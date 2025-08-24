@@ -2,33 +2,63 @@
 
 namespace DemoEngine_Importer
 {
-    std::vector<BasicMesh> Importer3D::ImportModel(const std::string& path, bool invertTexture)
+    ImportedModelData Importer3D::ImportModel(const std::string& path, bool invertTexture)
     {
-        std::vector<BasicMesh> meshes;
-
+        ImportedModelData modelData;
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path,
             aiProcess_Triangulate |
             aiProcess_FlipUVs |
-            aiProcess_CalcTangentSpace |
-            aiProcess_PreTransformVertices);
+            aiProcess_CalcTangentSpace);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
             std::cerr << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-            return meshes;
+            return modelData;
         }
 
-        const std::string directory = path.substr(0, path.find_last_of('/'));
-        std::cout << "Model loaded: " << path << " | Meshes: " << scene->mNumMeshes << std::endl;
-
-        for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+        aiNode* targetNode = scene->mRootNode;
+        
+        if (targetNode->mNumMeshes == 0 && targetNode->mNumChildren == 1)
         {
-            aiMesh* mesh = scene->mMeshes[i];
-            meshes.push_back(ProcessMesh(mesh, scene, directory, invertTexture));
+            aiNode* childNode = targetNode->mChildren[0];
+            if (childNode->mNumMeshes > 0)
+            {
+                targetNode = childNode;
+            }
+        }
+        
+        std::string nodeName = targetNode->mName.C_Str();
+        
+        if (nodeName.empty() || nodeName == "rootnode" || nodeName == "RootNode" || nodeName.find("Assimp") != std::string::npos)
+        {
+            size_t lastSlash = path.find_last_of("/\\");
+            lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
+            size_t lastDot = path.rfind('.');
+            if (lastDot == std::string::npos || lastDot < lastSlash)
+            {
+                 modelData.name = path.substr(lastSlash);
+            }
+            else
+            {
+                 modelData.name = path.substr(lastSlash, lastDot - lastSlash);
+            }
+        }
+        else
+        {
+            modelData.name = nodeName;
+        }
+        
+        const std::string directory = path.substr(0, path.find_last_of('/'));
+        std::cout << "Model loaded: " << path << " | Name: " << modelData.name << " | Meshes: " << scene->mNumMeshes << std::endl;
+        
+        for (unsigned int i = 0; i < targetNode->mNumMeshes; i++)
+        {
+            aiMesh* mesh = scene->mMeshes[targetNode->mMeshes[i]];
+            modelData.meshes.push_back(ProcessMesh(mesh, scene, directory, invertTexture));
         }
 
-        return meshes;
+        return modelData;
     }
 
     BasicMesh Importer3D::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture)
@@ -78,7 +108,7 @@ namespace DemoEngine_Importer
     std::vector<Texture> Importer3D::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName, const std::string& directory, bool invertTexture)
     {
         std::vector<Texture> textures;
-        std::cout << "Looking for " << typeName << " in material..." << std::endl;
+        //std::cout << "Looking for " << typeName << " in material..." << std::endl;
 
         for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
         {
@@ -90,7 +120,7 @@ namespace DemoEngine_Importer
             }
 
             std::string texturePath = directory + "/" + str.C_Str();
-            std::cout << "Found texture path: " << texturePath << std::endl;
+            //std::cout << "Found texture path: " << texturePath << std::endl;
 
             unsigned int textureID = LoadTextureFromFile(texturePath.c_str(), invertTexture);
             if (textureID == 0)
@@ -105,17 +135,17 @@ namespace DemoEngine_Importer
             texture.path = str.C_Str();
             textures.push_back(texture);
 
-            std::cout << "Successfully loaded texture ID: " << textureID << " (" << typeName << ")" << std::endl;
+            //std::cout << "Successfully loaded texture ID: " << textureID << " (" << typeName << ")" << std::endl;
         }
 
-        std::cout << "Loaded " << textures.size() << " textures for type: " << typeName << std::endl;
+        //std::cout << "Loaded " << textures.size() << " textures for type: " << typeName << std::endl;
         return textures;
     }
 
 
     unsigned int Importer3D::LoadTextureFromFile(const char* path, bool invertTexture)
     {
-        std::cout << "Loading texture from: " << path << std::endl;
+        //std::cout << "Loading texture from: " << path << std::endl;
 
         stbi_set_flip_vertically_on_load(invertTexture);
         
@@ -144,7 +174,7 @@ namespace DemoEngine_Importer
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         stbi_image_free(data);
-        std::cout << "Texture loaded OK: " << path << ", ID: " << textureID << std::endl;
+        //std::cout << "Texture loaded OK: " << path << ", ID: " << textureID << std::endl;
         return textureID;
     }
 

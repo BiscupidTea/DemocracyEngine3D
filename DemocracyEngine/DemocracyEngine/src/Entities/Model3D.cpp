@@ -10,9 +10,11 @@ namespace DemoEngine_Entities
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture = false)
         : Entity3D(newPosition, newRotation, newScale)
     {
-        auto meshes = Importer3D::ImportModel(path, invertTexture);
+        auto importedData = Importer3D::ImportModel(path, invertTexture);
 
-        for (const auto& mesh : meshes)
+        transform->SetName(importedData.name);
+
+        for (const auto& mesh : importedData.meshes)
         {
             AddMesh(mesh);
         }

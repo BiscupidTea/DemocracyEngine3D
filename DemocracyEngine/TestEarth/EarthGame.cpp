@@ -30,7 +30,6 @@ void EarthGame::Init()
     SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
     yukinko->transform->SetParent(SnowCat->transform);
-    
 
 #pragma region Room
     path = "rsc/SpritesAnimations/White.png";
@@ -116,20 +115,24 @@ void EarthGame::Init()
     lightManager->spotLights.push_back(spotLight);
 
     lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
+    cout << Tank->transform->GetName() << endl;
+    cout << yukinko->transform->GetName() << endl;
+    cout << SnowCat->transform->GetName() << endl;
+    
 }
 
 void EarthGame::Update()
 {
     MainCamera->SetCameraTarget(SnowCat->transform->GetGlobalPosition());
 
-    if (input->IsKeyPressed(GLFW_KEY_UP)) SnowCat->transform->Translate(vec3{0, 0, -playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_DOWN)) SnowCat->transform->Translate(vec3{0, 0, playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_LEFT)) SnowCat->transform->Translate(vec3{-playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) SnowCat->transform->Translate(vec3{playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_0)) SnowCat->transform->Translate(vec3{0, playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_9)) SnowCat->transform->Translate(vec3{0, -playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_P)) yukinko->transform->SetRotationY(yukinko->transform->GetLocalRotation().y + playerSpeed);
-    if (input->IsKeyPressed(GLFW_KEY_O)) SnowCat->transform->SetRotationY(SnowCat->transform->GetLocalRotation().y-playerSpeed);
+    if (input->IsKeyPressed(GLFW_KEY_UP)) Tank->transform->Translate(vec3{0, 0, -playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_DOWN)) Tank->transform->Translate(vec3{0, 0, playerSpeed});
+    if (input->IsKeyPressed(GLFW_KEY_LEFT)) Tank->transform->Translate(vec3{-playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) Tank->transform->Translate(vec3{playerSpeed, 0, 0});
+    if (input->IsKeyPressed(GLFW_KEY_0)) Tank->transform->Translate(vec3{0, playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_9)) Tank->transform->Translate(vec3{0, -playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_P)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y + playerSpeed);
+    if (input->IsKeyPressed(GLFW_KEY_O)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y-playerSpeed);
 
     floor->Draw();
     wall1->Draw();
