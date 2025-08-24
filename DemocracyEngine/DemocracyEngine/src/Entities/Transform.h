@@ -49,6 +49,7 @@ namespace DemoEngine_Entities
         void AddChild(Transform* child);
         void RemoveChild(Transform* child);
         const std::vector<Transform*>& GetChildren() const;
+        Transform* FindChildByName(const std::string& name);
         
         // Matrix access
         const mat4& GetModelWorldMatrix() const;

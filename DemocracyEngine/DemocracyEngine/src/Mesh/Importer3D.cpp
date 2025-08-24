@@ -1,8 +1,18 @@
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Importer3D.h"
+#include "../Entities/Transform.h"
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+using namespace DemoEngine_Entities;
 
 namespace DemoEngine_Importer
 {
-    ImportedModelData Importer3D::ImportModel(const std::string& path, bool invertTexture)
+    std::vector<Texture> Importer3D::m_loadedTexturesCache;
+
+    ImportedModelData Importer3D::ImportModel(const std::string& path, bool invertTexture, Transform* rootTransform)
     {
         ImportedModelData modelData;
         Assimp::Importer importer;
@@ -16,7 +26,7 @@ namespace DemoEngine_Importer
             std::cerr << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
             return modelData;
         }
-
+        
         aiNode* targetNode = scene->mRootNode;
         
         if (targetNode->mNumMeshes == 0 && targetNode->mNumChildren == 1)
@@ -47,21 +57,56 @@ namespace DemoEngine_Importer
         else
         {
             modelData.name = nodeName;
+            if (rootTransform) rootTransform->SetName(nodeName);
         }
         
         const std::string directory = path.substr(0, path.find_last_of('/'));
         std::cout << "Model loaded: " << path << " | Name: " << modelData.name << " | Meshes: " << scene->mNumMeshes << std::endl;
         
-        for (unsigned int i = 0; i < targetNode->mNumMeshes; i++)
+        if (rootTransform)
         {
-            aiMesh* mesh = scene->mMeshes[targetNode->mMeshes[i]];
-            modelData.meshes.push_back(ProcessMesh(mesh, scene, directory, invertTexture));
+            ProcessNode(targetNode, rootTransform, scene, modelData.meshes, directory, invertTexture);
         }
 
         return modelData;
     }
 
-    BasicMesh Importer3D::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture)
+    void Importer3D::ProcessNode(aiNode* node, Transform* parentTransform, const aiScene* scene, std::vector<BasicMesh>& outMeshes, const std::string& directory, bool invertTexture)
+    {
+        Transform* currentTransform = parentTransform;
+        
+        if (node->mName.C_Str() != parentTransform->GetName())
+        {
+            currentTransform = new Transform(parentTransform->GetOwner());
+            currentTransform->SetName(node->mName.C_Str());
+            currentTransform->SetParent(parentTransform);
+            
+            const aiMatrix4x4& t = node->mTransformation;
+            glm::mat4 localMat = glm::transpose(glm::make_mat4(&t.a1));
+
+            vec3 scale, pos, skew;
+            vec4 persp;
+            quat rot;
+            glm::decompose(localMat, scale, rot, pos, skew, persp);
+
+            currentTransform->SetLocalPosition(pos);
+            currentTransform->SetLocalRotation(glm::degrees(glm::eulerAngles(rot)));
+            currentTransform->SetLocalScale(scale);
+        }
+        
+        for (unsigned int i = 0; i < node->mNumMeshes; i++)
+        {
+            aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+            outMeshes.push_back(ProcessMesh(mesh, scene, directory, invertTexture, currentTransform));
+        }
+        
+        for (unsigned int i = 0; i < node->mNumChildren; i++)
+        {
+            ProcessNode(node->mChildren[i], currentTransform, scene, outMeshes, directory, invertTexture);
+        }
+    }
+
+    BasicMesh Importer3D::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture, Transform* transform)
     {
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
@@ -101,44 +146,46 @@ namespace DemoEngine_Importer
             textures.insert(textures.end(), BaseColorMaps.begin(), BaseColorMaps.end());
         }
 
-        std::cout << "Mesh loaded: Vertices = " << vertices.size() << ", Indices = " << indices.size() << ", Textures = " << textures.size() << std::endl;
-        return BasicMesh(std::move(vertices), std::move(indices), std::move(textures));
+        //std::cout << "Mesh loaded for transform '" << transform->GetName() << "': Vertices = " << vertices.size() << std::endl;
+        return BasicMesh(std::move(vertices), std::move(indices), std::move(textures), transform);
     }
 
     std::vector<Texture> Importer3D::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName, const std::string& directory, bool invertTexture)
     {
         std::vector<Texture> textures;
-        //std::cout << "Looking for " << typeName << " in material..." << std::endl;
 
         for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
         {
             aiString str;
-            if (mat->GetTexture(type, i, &str) != AI_SUCCESS)
+            mat->GetTexture(type, i, &str);
+            
+            // 1. Check if texture was loaded before
+            bool skip = false;
+            for(const auto& loadedTex : m_loadedTexturesCache)
             {
-                std::cout << "Failed to get texture path for " << typeName << std::endl;
+                if(std::strcmp(loadedTex.path.data(), str.C_Str()) == 0)
+                {
+                    textures.push_back(loadedTex);
+                    skip = true; // Texture found in cache, skip loading
+                    break;
+                }
+            }
+
+            if(skip)
+            {
                 continue;
             }
 
+            // 2. If not loaded, load it now
             std::string texturePath = directory + "/" + str.C_Str();
-            //std::cout << "Found texture path: " << texturePath << std::endl;
-
             unsigned int textureID = LoadTextureFromFile(texturePath.c_str(), invertTexture);
-            if (textureID == 0)
-            {
-                std::cout << "Failed to load texture from file: " << texturePath << std::endl;
-                continue;
-            }
-
             Texture texture;
             texture.id = textureID;
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);
-
-            //std::cout << "Successfully loaded texture ID: " << textureID << " (" << typeName << ")" << std::endl;
+            m_loadedTexturesCache.push_back(texture); // 3. Add to cache
         }
-
-        //std::cout << "Loaded " << textures.size() << " textures for type: " << typeName << std::endl;
         return textures;
     }
 

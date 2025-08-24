@@ -20,15 +20,15 @@ void EarthGame::Init()
     const char* path = "rsc/Mesh/Yukinko_Death.fbx";
     yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
 
-    path = "rsc/Mesh/backpack.obj";
-    backPack = new Model3D(vec3{-500, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
-    
+    //path = "rsc/Mesh/backpack.obj";
+    //backPack = new Model3D(vec3{-500, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
+
     path = "rsc/Mesh/Tank.fbx";
     Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
-    
+
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
-    SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
-    SnowCat->AddTexture( "texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
+    SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{50, 50, 50}, path, true);
+    SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
     yukinko->transform->SetParent(SnowCat->transform);
 
 #pragma region Room
@@ -38,7 +38,7 @@ void EarthGame::Init()
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
     float wallThickness = 5.0f;
-    
+
     path = "rsc/SpritesAnimations/Orange.png";
 
     wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
@@ -115,10 +115,10 @@ void EarthGame::Init()
     lightManager->spotLights.push_back(spotLight);
 
     lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
-    cout << Tank->transform->GetName() << endl;
-    cout << yukinko->transform->GetName() << endl;
-    cout << SnowCat->transform->GetName() << endl;
-    
+
+    tankTurretTransform = Tank->transform->FindChildByName("Turret");
+    tankLeftCannonTransform = Tank->transform->FindChildByName("LeftCannon");
+    tankRightCannonTransform = Tank->transform->FindChildByName("RightCannon");
 }
 
 void EarthGame::Update()
@@ -131,8 +131,21 @@ void EarthGame::Update()
     if (input->IsKeyPressed(GLFW_KEY_RIGHT)) Tank->transform->Translate(vec3{playerSpeed, 0, 0});
     if (input->IsKeyPressed(GLFW_KEY_0)) Tank->transform->Translate(vec3{0, playerSpeed, 0});
     if (input->IsKeyPressed(GLFW_KEY_9)) Tank->transform->Translate(vec3{0, -playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_P)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y + playerSpeed);
-    if (input->IsKeyPressed(GLFW_KEY_O)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y-playerSpeed);
+
+    if (input->IsKeyPressed(GLFW_KEY_P)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y - playerSpeed);
+    if (input->IsKeyPressed(GLFW_KEY_O)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y + playerSpeed);
+
+    if (input->IsKeyPressed(GLFW_KEY_M))
+    {
+        tankRightCannonTransform->SetRotationX(tankRightCannonTransform->GetLocalRotation().x - playerSpeed);
+        tankLeftCannonTransform->SetRotationX(tankLeftCannonTransform->GetLocalRotation().x - playerSpeed);
+    }
+
+    if (input->IsKeyPressed(GLFW_KEY_N))
+    {
+        tankRightCannonTransform->SetRotationX(tankRightCannonTransform->GetLocalRotation().x + playerSpeed);
+        tankLeftCannonTransform->SetRotationX(tankLeftCannonTransform->GetLocalRotation().x + playerSpeed);
+    }
 
     floor->Draw();
     wall1->Draw();
@@ -146,7 +159,7 @@ void EarthGame::Update()
 
     SnowCat->Draw();
     yukinko->Draw();
-    backPack->Draw();
+    //backPack->Draw();
     Tank->Draw();
 }
 
@@ -162,6 +175,6 @@ void EarthGame::DeInit()
     delete Top;
     delete timer;
     delete yukinko;
-    delete backPack;
+    //delete backPack;
     delete SnowCat;
 }

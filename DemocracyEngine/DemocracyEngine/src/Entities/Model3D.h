@@ -25,6 +25,7 @@ namespace DemoEngine_Entities
         std::vector<unsigned int> vbos;
         std::vector<unsigned int> ebos;
 
+        std::vector<Transform*> meshTransforms;
         std::vector<std::vector<Texture>> textures;
     };
 }

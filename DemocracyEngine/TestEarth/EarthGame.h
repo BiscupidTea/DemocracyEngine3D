@@ -38,6 +38,9 @@ private:
     Model3D* backPack;
     Model3D* SnowCat;
     Model3D* Tank;
+    Transform* tankTurretTransform = nullptr;
+    Transform* tankLeftCannonTransform = nullptr;
+    Transform* tankRightCannonTransform = nullptr;
 
     float playerSpeed;
 

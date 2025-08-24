@@ -187,6 +187,24 @@ void Transform::RemoveChild(Transform* child)
 
 const std::vector<Transform*>& Transform::GetChildren() const { return m_children; }
 
+Transform* Transform::FindChildByName(const std::string& name)
+{
+    for (Transform* child : m_children)
+    {
+        if (child->GetName() == name)
+        {
+            return child;
+        }
+        
+        Transform* foundInChild = child->FindChildByName(name);
+        if (foundInChild)
+        {
+            return foundInChild;
+        }
+    }
+    return nullptr;
+}
+
 const mat4& Transform::GetModelWorldMatrix() const
 {
     UpdateWorldMatrix();

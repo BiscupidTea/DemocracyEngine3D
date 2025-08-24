@@ -10,9 +10,7 @@ namespace DemoEngine_Entities
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture = false)
         : Entity3D(newPosition, newRotation, newScale)
     {
-        auto importedData = Importer3D::ImportModel(path, invertTexture);
-
-        transform->SetName(importedData.name);
+        auto importedData = Importer3D::ImportModel(path, invertTexture, this->transform);
 
         for (const auto& mesh : importedData.meshes)
         {
@@ -33,7 +31,7 @@ namespace DemoEngine_Entities
                 vaos[i],
                 static_cast<int>(indices[i].size()),
                 GetColor(),
-                transform->GetModelWorldMatrix(),
+                meshTransforms[i]->GetModelWorldMatrix(),
                 textures[i],
                 material
             );
@@ -61,6 +59,7 @@ namespace DemoEngine_Entities
     {
         vertices.push_back(mesh.vertices);
         indices.push_back(mesh.indices);
+        meshTransforms.push_back(mesh.transform);
         textures.push_back(mesh.textures);
 
         unsigned int vao, vbo, ebo;
