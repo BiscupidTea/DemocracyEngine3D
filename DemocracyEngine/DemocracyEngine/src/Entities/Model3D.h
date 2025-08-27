@@ -1,8 +1,10 @@
 #pragma once
 #include "Entity3D.h"
 #include "../Mesh/Importer3D.h"
+#include "../Mesh/BoundingBox.h"
 
 using namespace DemoEngine_Importer;
+using namespace DemoEngine_Geometry;
 
 namespace DemoEngine_Entities
 {
@@ -14,6 +16,9 @@ namespace DemoEngine_Entities
         ~Model3D();
         void Draw() override;
         void AddTexture(std::string type, std::string path, bool invertTexture, bool ClearTexture);
+        
+        void DrawWireframes(const vec4& modelColor = vec4(0.0f, 1.0f, 0.0f, 1.0f), const vec4& meshesColor = vec4(1.0f, 0.0f, 1.0f, 1.0f)) const;
+        const BoundingBox& GetBoundingBox() const;
 
     private:
         void AddMesh(const BasicMesh& mesh);
@@ -27,5 +32,8 @@ namespace DemoEngine_Entities
 
         std::vector<Transform*> meshTransforms;
         std::vector<std::vector<Texture>> textures;
+
+        BoundingBox m_boundingBox;
+        std::vector<BoundingBox> m_meshBoundingBoxes;
     };
 }

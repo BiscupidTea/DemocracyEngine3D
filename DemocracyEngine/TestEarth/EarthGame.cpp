@@ -27,7 +27,7 @@ void EarthGame::Init()
     Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
 
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
-    SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{50, 50, 50}, path, true);
+    SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
     yukinko->transform->SetParent(SnowCat->transform);
 
@@ -129,8 +129,8 @@ void EarthGame::Update()
     if (input->IsKeyPressed(GLFW_KEY_DOWN)) Tank->transform->Translate(vec3{0, 0, playerSpeed});
     if (input->IsKeyPressed(GLFW_KEY_LEFT)) Tank->transform->Translate(vec3{-playerSpeed, 0, 0});
     if (input->IsKeyPressed(GLFW_KEY_RIGHT)) Tank->transform->Translate(vec3{playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_0)) Tank->transform->Translate(vec3{0, playerSpeed, 0});
-    if (input->IsKeyPressed(GLFW_KEY_9)) Tank->transform->Translate(vec3{0, -playerSpeed, 0});
+    if (input->IsKeyPressed(GLFW_KEY_0)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y - playerSpeed);
+    if (input->IsKeyPressed(GLFW_KEY_9)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y + playerSpeed);
 
     if (input->IsKeyPressed(GLFW_KEY_P)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y - playerSpeed);
     if (input->IsKeyPressed(GLFW_KEY_O)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y + playerSpeed);
@@ -161,6 +161,8 @@ void EarthGame::Update()
     yukinko->Draw();
     //backPack->Draw();
     Tank->Draw();
+    
+    Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
 }
 
 void EarthGame::DeInit()

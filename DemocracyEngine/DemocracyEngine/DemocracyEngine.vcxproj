@@ -71,6 +71,7 @@
     <ClInclude Include="src\Interface\Light.h" />
     <ClInclude Include="src\Interface\LightServiceProvider.h" />
     <ClInclude Include="src\Interface\ServiceProvider.h" />
+    <ClInclude Include="src\Mesh\BoundingBox.h" />
     <ClInclude Include="src\Mesh\Importer3D.h" />
     <ClInclude Include="src\Render\LightManager.h" />
     <ClInclude Include="src\Render\Material.h" />

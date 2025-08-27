@@ -14,12 +14,14 @@
 #include "../Window/Window.h"
 #include "../TileMap/Tile.h"
 #include "Material.h"
+#include "../Mesh/BoundingBox.h"
 #include "../Mesh/Importer3D.h"
 
 using namespace glm;
 using namespace DemoEngine_Window;
 using namespace DemoEngine_Tools;
 using namespace DemoEngine_TileMap;
+using namespace DemoEngine_Geometry;
 
 namespace DemoEngine_Renderer
 {
@@ -31,6 +33,8 @@ namespace DemoEngine_Renderer
         Shader* textureShader;
         Shader* lightShader;
         Shader* modelShader;
+
+        unsigned int m_wireCubeVAO = 0, m_wireCubeVBO = 0, m_wireCubeEBO = 0;
 
     public:
         Renderer(vec2 windowXY, Camera* camera, LightManager* light_manager);
@@ -52,6 +56,7 @@ namespace DemoEngine_Renderer
         void DrawTexture(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int& idTexture);
         void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int idTexture, Material material);
         void DrawModel(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, vector<DemoEngine_Importer::Texture> textures, Material material);
+        void DrawWireBox(const BoundingBox& box, const mat4& modelMatrix, const vec4& color);
         void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 
         void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);

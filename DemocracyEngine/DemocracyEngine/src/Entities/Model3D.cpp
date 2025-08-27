@@ -38,6 +38,19 @@ namespace DemoEngine_Entities
         }
     }
 
+    const BoundingBox& Model3D::GetBoundingBox() const
+    {
+        return m_boundingBox;
+    }
+
+    void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
+    {
+        for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
+        {
+            Renderer::GetRender()->DrawWireBox(m_meshBoundingBoxes[i], meshTransforms[i]->GetModelWorldMatrix(), meshesColor);
+        }
+    }
+
     void Model3D::AddTexture(std::string type, std::string path, bool invertTexture, bool ClearTexture)
     {
         Texture tex;
@@ -61,6 +74,30 @@ namespace DemoEngine_Entities
         indices.push_back(mesh.indices);
         meshTransforms.push_back(mesh.transform);
         textures.push_back(mesh.textures);
+
+        // --- Cálculo de la Bounding Box para esta malla específica (en su espacio local) ---
+        BoundingBox meshBBox;
+        for (const auto& vertex : mesh.vertices)
+        {
+            meshBBox.Expand(vertex.position);
+        }
+        m_meshBoundingBoxes.push_back(meshBBox);
+
+        // --- Expansión de la Bounding Box del modelo completo (transformando vértices al espacio del modelo) ---
+        mat4 relativeTransform(1.0f);
+        Transform* current = mesh.transform;
+
+        while (current && current != this->transform)
+        {
+            relativeTransform = current->GetModelLocalMatrix() * relativeTransform;
+            current = current->GetParent();
+        }
+
+        for (const auto& vertex : mesh.vertices)
+        {
+            vec3 modelSpacePos = vec3(relativeTransform * vec4(vertex.position, 1.0f));
+            m_boundingBox.Expand(modelSpacePos);
+        }
 
         unsigned int vao, vbo, ebo;
 
