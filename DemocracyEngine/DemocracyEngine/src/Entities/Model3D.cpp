@@ -38,16 +38,48 @@ namespace DemoEngine_Entities
         }
     }
 
-    const BoundingBox& Model3D::GetBoundingBox() const
+    const BoundingBox& Model3D::GetLocalBoundingBox() const
     {
         return m_boundingBox;
     }
 
-    void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
+    BoundingBox Model3D::GetWorldAABB() const
     {
+        BoundingBox worldAABB;
+        if (m_meshBoundingBoxes.empty()) return worldAABB;
+        
         for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
         {
-            Renderer::GetRender()->DrawWireBox(m_meshBoundingBoxes[i], meshTransforms[i]->GetModelWorldMatrix(), meshesColor);
+            BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
+            worldAABB.Expand(meshWorldAABB);
+        }
+        return worldAABB;
+    }
+
+    void Model3D::SetShowModelWireframe(bool show)
+    {
+        m_showModelWireframe = show;
+    }
+
+    void Model3D::SetShowMeshesWireframe(bool show)
+    {
+        m_showMeshesWireframe = show;
+    }
+
+    void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
+    {
+        if (m_showModelWireframe)
+        {
+            BoundingBox worldAABB = GetWorldAABB();
+            Renderer::GetRender()->DrawWireBox(worldAABB, mat4(1.0f), modelColor);
+        }
+        
+        if (m_showMeshesWireframe)
+        {
+            for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
+            {
+                Renderer::GetRender()->DrawWireBox(m_meshBoundingBoxes[i], meshTransforms[i]->GetModelWorldMatrix(), meshesColor);
+            }
         }
     }
 
@@ -74,16 +106,14 @@ namespace DemoEngine_Entities
         indices.push_back(mesh.indices);
         meshTransforms.push_back(mesh.transform);
         textures.push_back(mesh.textures);
-
-        // --- Cálculo de la Bounding Box para esta malla específica (en su espacio local) ---
+        
         BoundingBox meshBBox;
         for (const auto& vertex : mesh.vertices)
         {
             meshBBox.Expand(vertex.position);
         }
         m_meshBoundingBoxes.push_back(meshBBox);
-
-        // --- Expansión de la Bounding Box del modelo completo (transformando vértices al espacio del modelo) ---
+        
         mat4 relativeTransform(1.0f);
         Transform* current = mesh.transform;
 
