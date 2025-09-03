@@ -4,7 +4,7 @@ namespace DemoEngine_Renderer
 {
     Renderer* Renderer::RendererInstance = nullptr;
 
-    Renderer::Renderer(vec2 windowXY, Camera* camera, LightManager* light_manager)
+    Renderer::Renderer(vec2 windowXY, DemoEngine_Camera::Camera* camera, LightManager* light_manager)
     {
         RendererInstance = this;
 
@@ -41,8 +41,7 @@ namespace DemoEngine_Renderer
 
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0.0f);
-
-        // --- Create resources for drawing wireframe cube for Bounding Boxes ---
+        
         float cube_vertices[] = {
             -0.5f, -0.5f, -0.5f,
              0.5f, -0.5f, -0.5f,
@@ -95,6 +94,7 @@ namespace DemoEngine_Renderer
     void Renderer::Update()
     {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        drawCallsInFrame = 0;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
@@ -275,6 +275,7 @@ namespace DemoEngine_Renderer
                              Material material)
     {
         modelShader->UseShader();
+        drawCallsInFrame++;
 
         modelShader->SetMat4("model", model);
         modelShader->SetMat4("view", MainCamera->GetCameraView());
@@ -355,6 +356,11 @@ namespace DemoEngine_Renderer
         glBindVertexArray(0);
 
         primitiveShader->UnuseShader();
+    }
+
+    unsigned int Renderer::GetDrawCalls() const
+    {
+        return drawCallsInFrame;
     }
 
 

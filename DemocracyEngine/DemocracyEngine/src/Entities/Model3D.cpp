@@ -25,16 +25,37 @@ namespace DemoEngine_Entities
 
     void Model3D::Draw()
     {
+        const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
+        std::vector<BoundingBox> meshWorldAABBs;
+        meshWorldAABBs.reserve(m_meshBoundingBoxes.size());
+        for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
+        {
+            meshWorldAABBs.push_back(m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix()));
+        }
+        
+        BoundingBox modelWorldAABB;
+        for (const auto& meshAABB : meshWorldAABBs)
+        {
+            modelWorldAABB.Expand(meshAABB);
+        }
+        
+        if (!frustum.IsBoxVisible(modelWorldAABB))
+        {
+            return;
+        }
+        
         for (size_t i = 0; i < vaos.size(); ++i)
         {
-            Renderer::GetRender()->DrawModel(
-                vaos[i],
-                static_cast<int>(indices[i].size()),
-                GetColor(),
-                meshTransforms[i]->GetModelWorldMatrix(),
-                textures[i],
-                material
-            );
+            if (frustum.IsBoxVisible(meshWorldAABBs[i]))
+            {
+                Renderer::GetRender()->DrawModel(
+                    vaos[i],
+                    static_cast<int>(indices[i].size()),
+                    GetColor(),
+                    meshTransforms[i]->GetModelWorldMatrix(),
+                    textures[i],
+                    material);
+            }
         }
     }
 
@@ -68,17 +89,26 @@ namespace DemoEngine_Entities
 
     void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
     {
+        const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
+        const vec4 culledColor = vec4(1.0f, 0.0f, 0.0f, 1.0f); // Rojo para objetos descartados
+
         if (m_showModelWireframe)
         {
             BoundingBox worldAABB = GetWorldAABB();
-            Renderer::GetRender()->DrawWireBox(worldAABB, mat4(1.0f), modelColor);
+            bool isVisible = frustum.IsBoxVisible(worldAABB);
+            Renderer::GetRender()->DrawWireBox(worldAABB, mat4(1.0f), isVisible ? modelColor : culledColor);
         }
         
         if (m_showMeshesWireframe)
         {
             for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
             {
-                Renderer::GetRender()->DrawWireBox(m_meshBoundingBoxes[i], meshTransforms[i]->GetModelWorldMatrix(), meshesColor);
+                // Transformamos la caja de la malla al espacio del mundo para el chequeo y el dibujado
+                BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
+                bool isVisible = frustum.IsBoxVisible(meshWorldAABB);
+
+                // La dibujamos usando su AABB en mundo, por lo que la matriz de modelo es la identidad
+                Renderer::GetRender()->DrawWireBox(meshWorldAABB, mat4(1.0f), isVisible ? meshesColor : culledColor);
             }
         }
     }

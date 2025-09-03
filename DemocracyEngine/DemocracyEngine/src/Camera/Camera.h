@@ -1,4 +1,5 @@
 #pragma once
+#include "Frustrum.h"
 #include "../Tools/Export.h"
 #include "../Input/Input.h"
 #include "../Entities/Entity.h"
@@ -7,50 +8,55 @@ using namespace glm;
 using namespace DemoEngine_Entities;
 using namespace DemoEngine_Input;
 
-enum class CameraMode { FirstPerson, ThirdPerson };
-
-class EXPORT Camera : public Entity
+namespace DemoEngine_Camera
 {
-private:
-    Input* input = nullptr;
+    enum class CameraMode { FirstPerson, ThirdPerson };
 
-    mat4x4 proyection;
-    mat4x4 view;
+    class EXPORT Camera : public Entity
+    {
+    private:
+        Input* input = nullptr;
 
-    CameraMode mode;
+        mat4x4 proyection;
+        mat4x4 view;
+        Frustum m_frustum;
 
-    vec3 thirdPersonTarget = vec3(0.0f);
-    bool ThirdPersonCamera = false;
-    float thirdPersonDistance = 500.0f;
-    float thirdPersonHeight = 250.0f;
+        CameraMode mode;
 
-    float yaw;
-    float pitch;
-    float mouseSensitivity = 0.1f;
-    float cameraSpeed = 15.0f;
+        vec3 thirdPersonTarget = vec3(0.0f);
+        bool ThirdPersonCamera = false;
+        float thirdPersonDistance = 500.0f;
+        float thirdPersonHeight = 250.0f;
 
-    float fov = 45.0f;
-    vec2 aspectRatio;
-    float maxDistance;
+        float yaw;
+        float pitch;
+        float mouseSensitivity = 0.1f;
+        float cameraSpeed = 15.0f;
 
-    float zoomSpeed = 1.5f;
+        float fov = 45.0f;
+        vec2 aspectRatio;
+        float maxDistance;
 
-public:
-    Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale, CameraMode cameraMode);
+        float zoomSpeed = 1.5f;
 
-    void Update();
+    public:
+        Camera(vec2 aspect, float maxDistance, vec3 newPosition, vec3 newRotation, vec3 newScale, CameraMode cameraMode);
 
-    vec3 GetCameraPosition() const;
-    vec3 GetCameraFoward() const;
-    vec3 GetCameraRight() const;
-    mat4x4 GetCameraProyection() const;
-    mat4x4 GetCameraView() const;
+        void Update();
 
-    void SetCameraPosition(vec3 NewPosition);
-    void RotateCamera(vec3 newRotation);
+        vec3 GetCameraPosition() const;
+        vec3 GetCameraForward() const;
+        vec3 GetCameraRight() const;
+        mat4x4 GetCameraProyection() const;
+        mat4x4 GetCameraView() const;
+        const Frustum& GetFrustum() const;
 
-    void SetCameraMode(CameraMode newMode);
-    void SetCameraTarget(vec3 newTarget);
+        void SetCameraPosition(vec3 NewPosition);
+        void RotateCamera(vec3 newRotation);
 
-    void SetInput(Input* newInput);
-};
+        void SetCameraMode(CameraMode newMode);
+        void SetCameraTarget(vec3 newTarget);
+
+        void SetInput(Input* newInput);
+    };
+}

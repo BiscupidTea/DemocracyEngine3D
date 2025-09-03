@@ -35,15 +35,16 @@ namespace DemoEngine_Renderer
         Shader* modelShader;
 
         unsigned int m_wireCubeVAO = 0, m_wireCubeVBO = 0, m_wireCubeEBO = 0;
+        unsigned int drawCallsInFrame = 0;
 
     public:
-        Renderer(vec2 windowXY, Camera* camera, LightManager* light_manager);
+        Renderer(vec2 windowXY, DemoEngine_Camera::Camera* camera, LightManager* light_manager);
         ~Renderer();
 
         static Renderer* GetRender();
         static Renderer* RendererInstance;
 
-        Camera* MainCamera;
+        DemoEngine_Camera::Camera* MainCamera;
         LightManager* lightManager;
         void RenderFrame();
         void Update();
@@ -57,6 +58,7 @@ namespace DemoEngine_Renderer
         void DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int idTexture, Material material);
         void DrawModel(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, vector<DemoEngine_Importer::Texture> textures, Material material);
         void DrawWireBox(const BoundingBox& box, const mat4& modelMatrix, const vec4& color);
+        unsigned int GetDrawCalls() const;
         void BindTexture(const char* textureName, unsigned& textureID, GLint TextureFilter = GL_LINEAR);
 
         void DrawTile(DemoEngine_TileMap::Tile& tile, int x, int y, unsigned int tileTexture);

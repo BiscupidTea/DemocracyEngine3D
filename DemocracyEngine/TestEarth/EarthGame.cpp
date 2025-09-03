@@ -20,9 +20,6 @@ void EarthGame::Init()
     const char* path = "rsc/Mesh/Yukinko_Death.fbx";
     yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
 
-    //path = "rsc/Mesh/backpack.obj";
-    //backPack = new Model3D(vec3{-500, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
-
     path = "rsc/Mesh/Tank.fbx";
     Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
     
@@ -33,6 +30,13 @@ void EarthGame::Init()
     SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
     yukinko->transform->SetParent(SnowCat->transform);
+
+    cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
+    cube->setMaterial(Silver);
+
+    player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
+    
+    playerSpeed = 5;
 
 #pragma region Room
     path = "rsc/SpritesAnimations/White.png";
@@ -60,13 +64,7 @@ void EarthGame::Init()
     Top->setMaterial(Silver);
 #pragma endregion
 
-    cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
-    cube->setMaterial(Silver);
-
-    player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
-
-    playerSpeed = 5;
-
+#pragma region Lights
     float offset = halfSize * 0.75f;
 
     glm::vec3 corners[4] = {
@@ -106,8 +104,8 @@ void EarthGame::Init()
     lightManager->pointLights.push_back(pl);
 
     SpotLight spotLight;
-    spotLight.position = glm::vec3(0, 0, 0);
-    spotLight.direction = MainCamera->GetCameraFoward();
+    spotLight.position = MainCamera->GetCameraPosition();
+    spotLight.direction = MainCamera->GetCameraForward();
     spotLight.color = glm::vec3(1.0f);
     spotLight.cutOff = 20.0f;
     spotLight.outerCutOff = 30.0f;
@@ -118,6 +116,7 @@ void EarthGame::Init()
     lightManager->spotLights.push_back(spotLight);
 
     lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
+#pragma endregion
 
     tankTurretTransform = Tank->transform->FindChildByName("Turret");
     tankLeftCannonTransform = Tank->transform->FindChildByName("LeftCannon");
@@ -155,17 +154,15 @@ void EarthGame::Update()
     wall2->Draw();
     wall3->Draw();
     wall4->Draw();
-    //Top->Draw();
-
     cube->Draw();
-    //player->Draw();
-
     SnowCat->Draw();
     yukinko->Draw();
-    //backPack->Draw();
     Tank->Draw();
     
     Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
+
+    //Descomentar esto si queres saber que se esta dibujando
+    //std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }
 
 void EarthGame::DeInit()
@@ -180,6 +177,5 @@ void EarthGame::DeInit()
     delete Top;
     delete timer;
     delete yukinko;
-    //delete backPack;
     delete SnowCat;
 }

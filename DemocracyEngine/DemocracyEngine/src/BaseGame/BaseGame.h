@@ -27,7 +27,7 @@ namespace DemoEngine_BaseGame
 
 		void EngineLoop();
 
-		Camera* MainCamera;
+		DemoEngine_Camera::Camera* MainCamera;
 		LightManager* lightManager;
 	};
 }
