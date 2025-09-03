@@ -90,7 +90,7 @@ namespace DemoEngine_Entities
     void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
     {
         const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
-        const vec4 culledColor = vec4(1.0f, 0.0f, 0.0f, 1.0f); // Rojo para objetos descartados
+        const vec4 culledColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
         if (m_showModelWireframe)
         {
@@ -103,11 +103,8 @@ namespace DemoEngine_Entities
         {
             for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
             {
-                // Transformamos la caja de la malla al espacio del mundo para el chequeo y el dibujado
                 BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
                 bool isVisible = frustum.IsBoxVisible(meshWorldAABB);
-
-                // La dibujamos usando su AABB en mundo, por lo que la matriz de modelo es la identidad
                 Renderer::GetRender()->DrawWireBox(meshWorldAABB, mat4(1.0f), isVisible ? meshesColor : culledColor);
             }
         }
