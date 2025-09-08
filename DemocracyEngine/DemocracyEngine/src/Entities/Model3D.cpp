@@ -20,7 +20,6 @@ namespace DemoEngine_Entities
 
     Model3D::~Model3D()
     {
-        // ¡CRÍTICO! Liberar los recursos de OpenGL para evitar fugas de memoria de vídeo.
         for (size_t i = 0; i < vaos.size(); ++i)
         {
             glDeleteVertexArrays(1, &vaos[i]);
@@ -33,20 +32,15 @@ namespace DemoEngine_Entities
     void Model3D::Draw()
     {
         const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
-
-        // 1. Culling a nivel de modelo.
-        // Llama a GetWorldAABB() que ya hace el trabajo de combinar las AABB de las mallas.
+        
         BoundingBox modelWorldAABB = GetWorldAABB();
         if (!frustum.IsBoxVisible(modelWorldAABB))
         {
-            return; // El modelo completo está fuera, no hay nada que dibujar.
+            return;
         }
-
-        // 2. Culling a nivel de malla.
-        // Si el modelo está (al menos parcialmente) visible, comprobamos cada malla individualmente.
+        
         for (size_t i = 0; i < vaos.size(); ++i)
         {
-            // Calculamos la AABB de la malla en el mundo solo si es necesario.
             BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
             if (frustum.IsBoxVisible(meshWorldAABB))
             {
