@@ -1,4 +1,5 @@
 #include "EarthGame.h"
+#include "Scene/Scene.h"
 
 EarthGame::EarthGame()
 {
@@ -10,37 +11,38 @@ EarthGame::~EarthGame()
 
 void EarthGame::Init()
 {
+    testScene = new Scene();
+
     PlayerPosition = vec3{0, 0, -50};
     PlayerScale = vec3{100, 100, 100};
     PlayerRotation = vec3{0, 0, 0};
     PlayerColor = vec4{1, 1, 1, 1};
 
-    timer = new DemoTimer();
-
     const char* path = "rsc/Mesh/Yukinko_Death.fbx";
-    yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
+    Model3D* yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
 
     path = "rsc/Mesh/Tank.fbx";
-    Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
+    this->Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
     
     Tank->SetShowModelWireframe(true); 
     Tank->SetShowMeshesWireframe(true);
 
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
-    SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
+    this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
     SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
     yukinko->transform->SetParent(SnowCat->transform);
 
-    cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
+    Cube* cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setMaterial(Silver);
 
-    player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
+    Cube* player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
     
     playerSpeed = 5;
 
 #pragma region Room
     path = "rsc/SpritesAnimations/White.png";
-    floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
+    Cube* floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
+    testScene->AddStaticEntity(floor);
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
@@ -48,20 +50,21 @@ void EarthGame::Init()
 
     path = "rsc/SpritesAnimations/Orange.png";
 
-    wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
+    Cube* wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall1->setMaterial(Obsidian);
+    testScene->AddStaticEntity(wall1);
 
-    wall2 = new Cube(vec3{halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
+    Cube* wall2 = new Cube(vec3{halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall2->setMaterial(Brass);
+    testScene->AddStaticEntity(wall2);
 
-    wall3 = new Cube(vec3{0, wallHeight / 2 - 100, -halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
+    Cube* wall3 = new Cube(vec3{0, wallHeight / 2 - 100, -halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall3->setMaterial(Copper);
+    testScene->AddStaticEntity(wall3);
 
-    wall4 = new Cube(vec3{0, wallHeight / 2 - 100, halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
+    Cube* wall4 = new Cube(vec3{0, wallHeight / 2 - 100, halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall4->setMaterial(WhitePlastic);
-
-    Top = new Cube(vec3{0, wallHeight - 100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
-    Top->setMaterial(Silver);
+    testScene->AddStaticEntity(wall4);
 #pragma endregion
 
 #pragma region Lights
@@ -121,6 +124,12 @@ void EarthGame::Init()
     tankTurretTransform = Tank->transform->FindChildByName("Turret");
     tankLeftCannonTransform = Tank->transform->FindChildByName("LeftCannon");
     tankRightCannonTransform = Tank->transform->FindChildByName("RightCannon");
+    
+    testScene->AddDynamicEntity(player);
+    testScene->AddDynamicEntity(cube);
+    testScene->AddDynamicEntity(yukinko);
+    testScene->AddDynamicEntity(SnowCat);
+    testScene->AddDynamicEntity(Tank);
 }
 
 void EarthGame::Update()
@@ -149,15 +158,7 @@ void EarthGame::Update()
         tankLeftCannonTransform->SetRotationX(tankLeftCannonTransform->GetLocalRotation().x + playerSpeed);
     }
 
-    floor->Draw();
-    wall1->Draw();
-    wall2->Draw();
-    wall3->Draw();
-    wall4->Draw();
-    cube->Draw();
-    SnowCat->Draw();
-    yukinko->Draw();
-    Tank->Draw();
+    testScene->Draw();
     
     Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
 
@@ -167,15 +168,5 @@ void EarthGame::Update()
 
 void EarthGame::DeInit()
 {
-    delete cube;
-    delete player;
-    delete floor;
-    delete wall1;
-    delete wall2;
-    delete wall3;
-    delete wall4;
-    delete Top;
-    delete timer;
-    delete yukinko;
-    delete SnowCat;
+    delete testScene;
 }

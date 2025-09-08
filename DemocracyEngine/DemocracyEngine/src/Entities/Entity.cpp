@@ -31,4 +31,14 @@ namespace DemoEngine_Entities
 	{
 		return color;
 	}
+
+	void Entity::SetActive(bool isActive)
+	{
+		this->isActive = isActive;
+	}
+
+	bool Entity::IsActive() const
+	{
+		return isActive;
+	}
 }

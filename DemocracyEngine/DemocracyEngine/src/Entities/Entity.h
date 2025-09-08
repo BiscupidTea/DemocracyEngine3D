@@ -23,6 +23,8 @@ namespace DemoEngine_Entities
         int indexSize;
         int vertexSize;
 
+        bool isActive;
+
     public:
         Entity(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
         Entity(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, Transform* parent);
@@ -34,5 +36,8 @@ namespace DemoEngine_Entities
         
         void setColor(vec4 rgba);
         vec4 GetColor() const;
+
+        void SetActive(bool isActive);
+        bool IsActive() const;
     };
 }

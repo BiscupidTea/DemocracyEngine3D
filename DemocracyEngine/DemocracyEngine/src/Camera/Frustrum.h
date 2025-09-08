@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <array>
 #include "../Mesh/BoundingBox.h"
-#include "../Entities/Plane.h"
+#include "../Scene/Plane.h"
 
 namespace DemoEngine_Camera
 {
