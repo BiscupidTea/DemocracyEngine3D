@@ -20,33 +20,35 @@ namespace DemoEngine_Entities
 
     Model3D::~Model3D()
     {
+        // ¡CRÍTICO! Liberar los recursos de OpenGL para evitar fugas de memoria de vídeo.
+        for (size_t i = 0; i < vaos.size(); ++i)
+        {
+            glDeleteVertexArrays(1, &vaos[i]);
+            glDeleteBuffers(1, &vbos[i]);
+            glDeleteBuffers(1, &ebos[i]);
+        }
         std::cout << "Destroy model3d" << std::endl;
     }
 
     void Model3D::Draw()
     {
         const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
-        std::vector<BoundingBox> meshWorldAABBs;
-        meshWorldAABBs.reserve(m_meshBoundingBoxes.size());
-        for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
-        {
-            meshWorldAABBs.push_back(m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix()));
-        }
-        
-        BoundingBox modelWorldAABB;
-        for (const auto& meshAABB : meshWorldAABBs)
-        {
-            modelWorldAABB.Expand(meshAABB);
-        }
-        
+
+        // 1. Culling a nivel de modelo.
+        // Llama a GetWorldAABB() que ya hace el trabajo de combinar las AABB de las mallas.
+        BoundingBox modelWorldAABB = GetWorldAABB();
         if (!frustum.IsBoxVisible(modelWorldAABB))
         {
-            return;
+            return; // El modelo completo está fuera, no hay nada que dibujar.
         }
-        
+
+        // 2. Culling a nivel de malla.
+        // Si el modelo está (al menos parcialmente) visible, comprobamos cada malla individualmente.
         for (size_t i = 0; i < vaos.size(); ++i)
         {
-            if (frustum.IsBoxVisible(meshWorldAABBs[i]))
+            // Calculamos la AABB de la malla en el mundo solo si es necesario.
+            BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
+            if (frustum.IsBoxVisible(meshWorldAABB))
             {
                 Renderer::GetRender()->DrawModel(
                     vaos[i],

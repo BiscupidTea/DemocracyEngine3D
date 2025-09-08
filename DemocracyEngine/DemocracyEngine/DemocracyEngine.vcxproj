@@ -30,6 +30,7 @@
     <ClCompile Include="src\Entities\Entity2D.cpp" />
     <ClCompile Include="src\Entities\Entity3D.cpp" />
     <ClCompile Include="src\Entities\Model3D.cpp" />
+    <ClCompile Include="src\Entities\Plane.cpp" />
     <ClCompile Include="src\Entities\Shape.cpp" />
     <ClCompile Include="src\Entities\Sprite.cpp" />
     <ClCompile Include="src\Entities\Square.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="src\Entities\Entity2D.h" />
     <ClInclude Include="src\Entities\Entity3D.h" />
     <ClInclude Include="src\Entities\Model3D.h" />
+    <ClInclude Include="src\Entities\Plane.h" />
     <ClInclude Include="src\Entities\Shape.h" />
     <ClInclude Include="src\Entities\Sprite.h" />
     <ClInclude Include="src\Entities\Square.h" />

@@ -162,7 +162,7 @@ void EarthGame::Update()
     Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
 
     //Descomentar esto si queres saber que se esta dibujando
-    //std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
+    std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }
 
 void EarthGame::DeInit()
