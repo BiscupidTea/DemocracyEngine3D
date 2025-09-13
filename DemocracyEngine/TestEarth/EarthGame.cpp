@@ -42,7 +42,7 @@ void EarthGame::Init()
 #pragma region Room
     path = "rsc/SpritesAnimations/White.png";
     Cube* floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
-    testScene->AddStaticEntity(floor);
+    testScene->AddEntity(floor);
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
@@ -52,19 +52,23 @@ void EarthGame::Init()
 
     Cube* wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall1->setMaterial(Obsidian);
-    testScene->AddStaticEntity(wall1);
+    testScene->AddEntity(wall1);
+    testScene->AddPlane(Plane(vec3(1, 0, 0), vec3(-halfSize, 0, 0)));
 
     Cube* wall2 = new Cube(vec3{halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall2->setMaterial(Brass);
-    testScene->AddStaticEntity(wall2);
+    testScene->AddEntity(wall2);
+    testScene->AddPlane(Plane(vec3(-1, 0, 0), vec3(halfSize, 0, 0)));
 
     Cube* wall3 = new Cube(vec3{0, wallHeight / 2 - 100, -halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall3->setMaterial(Copper);
-    testScene->AddStaticEntity(wall3);
+    testScene->AddEntity(wall3);
+    testScene->AddPlane(Plane(vec3(0, 0, 1), vec3(0, 0, -halfSize)));
 
     Cube* wall4 = new Cube(vec3{0, wallHeight / 2 - 100, halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall4->setMaterial(WhitePlastic);
-    testScene->AddStaticEntity(wall4);
+    testScene->AddEntity(wall4);
+    testScene->AddPlane(Plane(vec3(0, 0, -1), vec3(0, 0, halfSize)));
 #pragma endregion
 
 #pragma region Lights
@@ -125,11 +129,11 @@ void EarthGame::Init()
     tankLeftCannonTransform = Tank->transform->FindChildByName("LeftCannon");
     tankRightCannonTransform = Tank->transform->FindChildByName("RightCannon");
     
-    testScene->AddDynamicEntity(player);
-    testScene->AddDynamicEntity(cube);
-    testScene->AddDynamicEntity(yukinko);
-    testScene->AddDynamicEntity(SnowCat);
-    testScene->AddDynamicEntity(Tank);
+    testScene->AddEntity(player);
+    testScene->AddEntity(cube);
+    testScene->AddEntity(yukinko);
+    testScene->AddEntity(SnowCat);
+    testScene->AddEntity(Tank);
 }
 
 void EarthGame::Update()
@@ -158,11 +162,10 @@ void EarthGame::Update()
         tankLeftCannonTransform->SetRotationX(tankLeftCannonTransform->GetLocalRotation().x + playerSpeed);
     }
 
-    testScene->Draw();
+    testScene->Draw(MainCamera);
     
     Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
-
-    //Descomentar esto si queres saber que se esta dibujando
+    
     std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }
 

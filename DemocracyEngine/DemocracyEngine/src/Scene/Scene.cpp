@@ -6,39 +6,58 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-    for (Entity* entity : staticEntities)
-    {
-        delete entity;
-    }
-    for (Entity* entity : dynamicEntities)
+    for (Entity* entity : entities)
     {
         delete entity;
     }
 }
 
-void Scene::AddStaticEntity(Entity* entity)
+void Scene::AddEntity(Entity3D* entity)
 {
-    staticEntities.push_back(entity);
+    entities.push_back(entity);
 }
 
-void Scene::AddDynamicEntity(Entity* entity)
+void Scene::AddPlane(const Plane& plane)
 {
-    dynamicEntities.push_back(entity);
+    bspPlanes.push_back(plane);
 }
 
-void Scene::Draw()
+void Scene::Draw(Camera* camera)
 {
-    for (Entity* entity : staticEntities)
+    if (!camera) return;
+
+    const auto& frustum = camera->GetFrustum();
+    const vec3 cameraPos = camera->GetCameraPosition();
+
+    for (Entity3D* entity : entities)
     {
-        if (entity->IsActive())
+        if (!entity->IsActive())
         {
-            entity->Draw();
+            continue;
         }
-    }
-
-    for (Entity* entity : dynamicEntities)
-    {
-        if (entity->IsActive())
+        
+        BoundingBox worldAABB = entity->GetWorldAABB();
+        if (!frustum.IsBoxVisible(worldAABB))
+        {
+            continue;
+        }
+        
+        bool isOccluded = false;
+        for (const Plane& occluderPlane : bspPlanes)
+        {
+            if (occluderPlane.getSignedDistanceToPoint(cameraPos) < 0)
+            {
+                continue;
+            }
+            
+            if (worldAABB.IsOnOrBehindPlane(occluderPlane))
+            {
+                isOccluded = true;
+                break;
+            }
+        }
+        
+        if (!isOccluded)
         {
             entity->Draw();
         }
