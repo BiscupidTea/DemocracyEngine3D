@@ -240,6 +240,7 @@ namespace DemoEngine_Renderer
     void Renderer::DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int idTexture, Material material)
     {
         lightShader->UseShader();
+        drawCallsInFrame++;
 
         lightShader->SetMat4("model", model);
         lightShader->SetMat4("view", MainCamera->GetCameraView());
