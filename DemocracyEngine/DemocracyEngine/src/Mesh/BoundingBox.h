@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Scene/Plane.h"
 #include <glm/vec3.hpp>
 #include <glm/common.hpp>
 #include <glm/mat4x4.hpp>
@@ -47,6 +48,30 @@ namespace DemoEngine_Geometry
                 transformedBox.Expand(vec3(matrix * vec4(corner, 1.0f)));
             }
             return transformedBox;
+        }
+
+        vec3 GetCenter() const
+        {
+            return (min + max) * 0.5f;
+        }
+
+        bool Intersects(const BoundingBox& other) const
+        {
+            return (max.x >= other.min.x && min.x <= other.max.x) &&
+                   (max.y >= other.min.y && min.y <= other.max.y) &&
+                   (max.z >= other.min.z && min.z <= other.max.z);
+        }
+
+        bool IsOnOrBehindPlane(const Plane& plane) const
+        {
+            if (min.x > max.x) return false;
+            
+            vec3 positiveVertex = min;
+            if (plane.normal.x >= 0) positiveVertex.x = max.x;
+            if (plane.normal.y >= 0) positiveVertex.y = max.y;
+            if (plane.normal.z >= 0) positiveVertex.z = max.z;
+            
+            return plane.getSignedDistanceToPoint(positiveVertex) <= 0;
         }
     };
 }
