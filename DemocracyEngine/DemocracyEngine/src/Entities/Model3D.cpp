@@ -55,11 +55,6 @@ namespace DemoEngine_Entities
         }
     }
 
-    const BoundingBox& Model3D::GetLocalBoundingBox() const
-    {
-        return m_boundingBox;
-    }
-
     BoundingBox Model3D::GetWorldAABB() const
     {
         BoundingBox worldAABB;
