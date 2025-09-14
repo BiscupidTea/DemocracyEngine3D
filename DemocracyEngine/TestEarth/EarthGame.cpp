@@ -43,14 +43,11 @@ void EarthGame::Init()
     path = "rsc/SpritesAnimations/White.png";
     Cube* floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
     testScene->AddEntity(floor);
-    // Plano del suelo, normal hacia arriba (0, 1, 0)
     testScene->AddPlane(Plane(vec3(0, 1, 0), floor->transform->GetGlobalPosition()));
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
     float wallThickness = 5.0f;
-
-    path = "rsc/SpritesAnimations/Orange.png";
 
     Cube* wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall1->setMaterial(Obsidian);
@@ -125,7 +122,7 @@ void EarthGame::Init()
     spotLight.intensity = 900.0f;
     lightManager->spotLights.push_back(spotLight);
 
-    lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f)});
+    lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(1.0f)});
 #pragma endregion
 
     tankTurretTransform = Tank->transform->FindChildByName("Turret");
