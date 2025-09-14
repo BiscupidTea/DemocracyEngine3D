@@ -43,6 +43,8 @@ void EarthGame::Init()
     path = "rsc/SpritesAnimations/White.png";
     Cube* floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
     testScene->AddEntity(floor);
+    // Plano del suelo, normal hacia arriba (0, 1, 0)
+    testScene->AddPlane(Plane(vec3(0, 1, 0), floor->transform->GetGlobalPosition()));
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
@@ -69,6 +71,7 @@ void EarthGame::Init()
     wall4->setMaterial(WhitePlastic);
     testScene->AddEntity(wall4);
     testScene->AddPlane(Plane(vec3(0, 0, -1), vec3(0, 0, halfSize)));
+    
 #pragma endregion
 
 #pragma region Lights
