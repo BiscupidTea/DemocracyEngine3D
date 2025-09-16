@@ -33,12 +33,6 @@ namespace DemoEngine_Entities
     {
         const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
         
-        BoundingBox modelWorldAABB = GetWorldAABB();
-        if (!frustum.IsBoxVisible(modelWorldAABB))
-        {
-            return;
-        }
-        
         for (size_t i = 0; i < vaos.size(); ++i)
         {
             BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
