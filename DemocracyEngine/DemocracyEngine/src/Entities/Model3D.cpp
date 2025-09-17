@@ -52,16 +52,20 @@ namespace DemoEngine_Entities
     BoundingBox Model3D::GetWorldAABB() const
     {
         BoundingBox worldAABB;
-        if (m_meshBoundingBoxes.empty()) return worldAABB;
-        
+        if (m_meshBoundingBoxes.empty()) 
+        {
+            return worldAABB;
+        }
+    
         for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
         {
             BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
             worldAABB.Expand(meshWorldAABB);
         }
+    
         return worldAABB;
     }
-
+    
     void Model3D::SetShowModelWireframe(bool show)
     {
         m_showModelWireframe = show;

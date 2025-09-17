@@ -6,7 +6,6 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 
-// Forward declaration
 namespace DemoEngine_Entities { class Entity; }
 
 namespace DemoEngine_Entities

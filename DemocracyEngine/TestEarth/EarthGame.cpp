@@ -164,7 +164,7 @@ void EarthGame::Update()
 
     testScene->Draw(MainCamera);
     
-    //Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
+    Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
     
     std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }
