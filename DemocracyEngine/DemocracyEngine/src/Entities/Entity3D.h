@@ -12,15 +12,11 @@ namespace DemoEngine_Entities
     {
     protected:
         Material material;
-        BoundingBox m_boundingBox;
 
     public:
         Entity3D(vec3 newPosition, vec3 newRotation, vec3 newScale);
         Entity3D(Material material, vec3 newPosition, vec3 newRotation, vec3 newScale);
         ~Entity3D();
         void setMaterial(Material material);
-
-        const BoundingBox& GetLocalBoundingBox() const;
-        virtual BoundingBox GetWorldAABB() const;
     };
 }

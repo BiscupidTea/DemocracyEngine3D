@@ -35,9 +35,6 @@ namespace DemoEngine_Entities
         
         for (size_t i = 0; i < vaos.size(); ++i)
         {
-            BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
-            if (frustum.IsBoxVisible(meshWorldAABB))
-            {
                 Renderer::GetRender()->DrawModel(
                     vaos[i],
                     static_cast<int>(indices[i].size()),
@@ -45,32 +42,6 @@ namespace DemoEngine_Entities
                     meshTransforms[i]->GetModelWorldMatrix(),
                     textures[i],
                     material);
-            }
-        }
-    }
-
-    BoundingBox Model3D::GetWorldAABB() const
-    {
-        return m_boundingBox;
-    }
-    
-    void Model3D::SetShowModelWireframe(bool show)
-    {
-        m_showModelWireframe = show;
-    }
-
-    void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
-    {
-        const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
-
-        if (m_showModelWireframe)
-        {
-            for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
-            {
-                BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
-                bool isVisible = frustum.IsBoxVisible(meshWorldAABB);
-                Renderer::GetRender()->DrawWireBox(meshWorldAABB, mat4(1.0f), isVisible ? meshesColor : modelColor);
-            }
         }
     }
 
@@ -98,13 +69,6 @@ namespace DemoEngine_Entities
         meshTransforms.push_back(mesh.transform);
         textures.push_back(mesh.textures);
         
-        BoundingBox meshBBox;
-        for (const auto& vertex : mesh.vertices)
-        {
-            meshBBox.Expand(vertex.position);
-        }
-        m_meshBoundingBoxes.push_back(meshBBox);
-        
         mat4 relativeTransform(1.0f);
         Transform* current = mesh.transform;
 
@@ -112,12 +76,6 @@ namespace DemoEngine_Entities
         {
             relativeTransform = current->GetModelLocalMatrix() * relativeTransform;
             current = current->GetParent();
-        }
-
-        for (const auto& vertex : mesh.vertices)
-        {
-            vec3 modelSpacePos = vec3(relativeTransform * vec4(vertex.position, 1.0f));
-            m_boundingBox.Expand(modelSpacePos);
         }
 
         unsigned int vao, vbo, ebo;

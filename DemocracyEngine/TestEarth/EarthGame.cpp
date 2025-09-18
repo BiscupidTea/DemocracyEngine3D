@@ -23,8 +23,6 @@ void EarthGame::Init()
 
     path = "rsc/Mesh/Tank.fbx";
     this->Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
-    
-    Tank->SetShowModelWireframe(true); 
 
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
     this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
@@ -162,8 +160,6 @@ void EarthGame::Update()
     }
 
     testScene->Draw(MainCamera);
-    
-    Tank->DrawWireframes(vec4(0,1,0,1), vec4(1,0,1,1));
     
     std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }

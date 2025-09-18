@@ -23,14 +23,4 @@ namespace DemoEngine_Entities
     {
         this->material = material;
     }
-
-    const BoundingBox& Entity3D::GetLocalBoundingBox() const
-    {
-        return m_boundingBox;
-    }
-
-    BoundingBox Entity3D::GetWorldAABB() const
-    {
-        return m_boundingBox.Transform(transform->GetModelWorldMatrix());
-    }
 }

@@ -16,12 +16,6 @@ namespace DemoEngine_Entities
         ~Model3D();
         void Draw() override;
         void AddTexture(std::string type, std::string path, bool invertTexture, bool ClearTexture);
-        
-        void SetShowModelWireframe(bool show);
-
-        void DrawWireframes(const vec4& modelColor = vec4(0.0f, 1.0f, 0.0f, 1.0f), const vec4& meshesColor = vec4(1.0f, 0.0f, 1.0f, 1.0f)) const;
-        const BoundingBox& GetLocalBoundingBox() const;
-        BoundingBox GetWorldAABB() const;
 
     private:
         void AddMesh(const BasicMesh& mesh);
@@ -35,10 +29,5 @@ namespace DemoEngine_Entities
 
         std::vector<Transform*> meshTransforms;
         std::vector<std::vector<Texture>> textures;
-
-        BoundingBox m_boundingBox;
-        std::vector<BoundingBox> m_meshBoundingBoxes;
-
-        bool m_showModelWireframe = false;
     };
 }

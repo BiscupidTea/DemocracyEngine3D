@@ -51,22 +51,6 @@ void Scene::Draw(Camera* camera)
         if (!entity->IsActive())
             continue;
 
-        BoundingBox worldAABB = entity->GetWorldAABB();
-
-        if (!frustum.IsBoxVisible(worldAABB))
-            continue;
-
-        bool isOccluded = false;
-        for (const Plane& occluderPlane : bspPlanes)
-        {
-            if (IsOccludedByPlane(occluderPlane, worldAABB, cameraPos))
-            {
-                isOccluded = true;
-                break;
-            }
-        }
-
-        if (!isOccluded)
-            entity->Draw();
+        entity->Draw();
     }
 }

@@ -72,8 +72,6 @@ namespace DemoEngine_Entities
 
         Renderer::GetRender()->CreateShape(VBO, VAO, EBO, vertex, indices, vertexSize, indexSize);
 
-        m_boundingBox = BoundingBox(vec3(-0.5f), vec3(0.5f));
-
         hasTexture = false;
     }
 
@@ -151,9 +149,7 @@ namespace DemoEngine_Entities
 
         Renderer::GetRender()->CreateSprite(VBO, VAO, EBO, vertex, indices, vertexSize, indexSize);
         Renderer::GetRender()->BindTexture(textureName, textureId);
-
-        m_boundingBox = BoundingBox(vec3(-0.5f), vec3(0.5f));
-
+        
         hasTexture = true;
     }
 
