@@ -51,19 +51,7 @@ namespace DemoEngine_Entities
 
     BoundingBox Model3D::GetWorldAABB() const
     {
-        BoundingBox worldAABB;
-        if (m_meshBoundingBoxes.empty()) 
-        {
-            return worldAABB;
-        }
-    
-        for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
-        {
-            BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
-            worldAABB.Expand(meshWorldAABB);
-        }
-    
-        return worldAABB;
+        return m_boundingBox;
     }
     
     void Model3D::SetShowModelWireframe(bool show)
@@ -71,30 +59,17 @@ namespace DemoEngine_Entities
         m_showModelWireframe = show;
     }
 
-    void Model3D::SetShowMeshesWireframe(bool show)
-    {
-        m_showMeshesWireframe = show;
-    }
-
     void Model3D::DrawWireframes(const vec4& modelColor, const vec4& meshesColor) const
     {
         const auto& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
-        const vec4 culledColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
         if (m_showModelWireframe)
-        {
-            BoundingBox worldAABB = GetWorldAABB();
-            bool isVisible = frustum.IsBoxVisible(worldAABB);
-            Renderer::GetRender()->DrawWireBox(worldAABB, mat4(1.0f), isVisible ? modelColor : culledColor);
-        }
-        
-        if (m_showMeshesWireframe)
         {
             for (size_t i = 0; i < m_meshBoundingBoxes.size(); ++i)
             {
                 BoundingBox meshWorldAABB = m_meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix());
                 bool isVisible = frustum.IsBoxVisible(meshWorldAABB);
-                Renderer::GetRender()->DrawWireBox(meshWorldAABB, mat4(1.0f), isVisible ? meshesColor : culledColor);
+                Renderer::GetRender()->DrawWireBox(meshWorldAABB, mat4(1.0f), isVisible ? meshesColor : modelColor);
             }
         }
     }
