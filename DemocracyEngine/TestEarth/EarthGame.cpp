@@ -24,7 +24,6 @@ void EarthGame::Init()
     path = "rsc/Mesh/Tank.fbx";
     this->Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
     
-    Tank->SetShowModelWireframe(true); 
     Tank->SetShowMeshesWireframe(true);
 
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
