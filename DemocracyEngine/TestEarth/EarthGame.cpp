@@ -95,7 +95,7 @@ void EarthGame::Init()
         pl.linear = 0.012f;
         pl.quadratic = 0.007f;
 
-        lightManager->pointLights.push_back(pl);
+        this->lightManager->pointLights.push_back(pl);
     }
 
     PointLight pl;
@@ -105,11 +105,11 @@ void EarthGame::Init()
     pl.constant = 5.0f;
     pl.linear = 0.07f;
     pl.quadratic = 0.002f;
-    lightManager->pointLights.push_back(pl);
+    this->lightManager->pointLights.push_back(pl);
 
     SpotLight spotLight;
-    spotLight.position = MainCamera->GetCameraPosition();
-    spotLight.direction = MainCamera->GetCameraForward();
+    spotLight.position = this->MainCamera->GetCameraPosition();
+    spotLight.direction = this->MainCamera->GetCameraForward();
     spotLight.color = glm::vec3(1.0f);
     spotLight.cutOff = 20.0f;
     spotLight.outerCutOff = 30.0f;
@@ -117,9 +117,9 @@ void EarthGame::Init()
     spotLight.linear = 0.007f;
     spotLight.quadratic = 0.0002f;
     spotLight.intensity = 900.0f;
-    lightManager->spotLights.push_back(spotLight);
+    this->lightManager->spotLights.push_back(spotLight);
 
-    lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(1.0f)});
+    this->lightManager->directionalLights.push_back({glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(1.0f)});
 #pragma endregion
 
     tankTurretTransform = Tank->transform->FindChildByName("Turret");
@@ -135,31 +135,31 @@ void EarthGame::Init()
 
 void EarthGame::Update()
 {
-    MainCamera->SetCameraTarget(SnowCat->transform->GetGlobalPosition());
+    this->MainCamera->SetCameraTarget(SnowCat->transform->GetGlobalPosition());
 
-    if (input->IsKeyPressed(GLFW_KEY_UP)) Tank->transform->Translate(vec3{0, 0, -playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_DOWN)) Tank->transform->Translate(vec3{0, 0, playerSpeed});
-    if (input->IsKeyPressed(GLFW_KEY_LEFT)) Tank->transform->Translate(vec3{-playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_RIGHT)) Tank->transform->Translate(vec3{playerSpeed, 0, 0});
-    if (input->IsKeyPressed(GLFW_KEY_0)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y - playerSpeed);
-    if (input->IsKeyPressed(GLFW_KEY_9)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y + playerSpeed);
+    if (this->input->IsKeyPressed(GLFW_KEY_UP)) Tank->transform->Translate(vec3{0, 0, -playerSpeed});
+    if (this->input->IsKeyPressed(GLFW_KEY_DOWN)) Tank->transform->Translate(vec3{0, 0, playerSpeed});
+    if (this->input->IsKeyPressed(GLFW_KEY_LEFT)) Tank->transform->Translate(vec3{-playerSpeed, 0, 0});
+    if (this->input->IsKeyPressed(GLFW_KEY_RIGHT)) Tank->transform->Translate(vec3{playerSpeed, 0, 0});
+    if (this->input->IsKeyPressed(GLFW_KEY_0)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y - playerSpeed);
+    if (this->input->IsKeyPressed(GLFW_KEY_9)) Tank->transform->SetRotationY(Tank->transform->GetLocalRotation().y + playerSpeed);
 
-    if (input->IsKeyPressed(GLFW_KEY_P)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y - playerSpeed);
-    if (input->IsKeyPressed(GLFW_KEY_O)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y + playerSpeed);
+    if (this->input->IsKeyPressed(GLFW_KEY_P)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y - playerSpeed);
+    if (this->input->IsKeyPressed(GLFW_KEY_O)) tankTurretTransform->SetRotationY(tankTurretTransform->GetLocalRotation().y + playerSpeed);
 
-    if (input->IsKeyPressed(GLFW_KEY_M))
+    if (this->input->IsKeyPressed(GLFW_KEY_M))
     {
         tankRightCannonTransform->SetRotationX(tankRightCannonTransform->GetLocalRotation().x - playerSpeed);
         tankLeftCannonTransform->SetRotationX(tankLeftCannonTransform->GetLocalRotation().x - playerSpeed);
     }
 
-    if (input->IsKeyPressed(GLFW_KEY_N))
+    if (this->input->IsKeyPressed(GLFW_KEY_N))
     {
         tankRightCannonTransform->SetRotationX(tankRightCannonTransform->GetLocalRotation().x + playerSpeed);
         tankLeftCannonTransform->SetRotationX(tankLeftCannonTransform->GetLocalRotation().x + playerSpeed);
     }
 
-    testScene->Draw(MainCamera);
+    testScene->Draw(this->MainCamera);
     
     std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }

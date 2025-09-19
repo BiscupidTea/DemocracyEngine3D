@@ -63,18 +63,18 @@ namespace DemoEngine_Camera
 
     bool Frustum::IsBoxVisible(const BoundingBox& box) const
     {
-        for (const auto& plane : planes)
-        {
-            vec3 p_vertex = box.min;
-            if (plane.normal.x >= 0) p_vertex.x = box.max.x;
-            if (plane.normal.y >= 0) p_vertex.y = box.max.y;
-            if (plane.normal.z >= 0) p_vertex.z = box.max.z;
-
-            if (plane.getSignedDistanceToPoint(p_vertex) < 0)
-            {
-                return false;
-            }
-        }
+        // for (const auto& plane : planes)
+        // {
+        //     vec3 p_vertex = box.min;
+        //     if (plane.normal.x >= 0) p_vertex.x = box.max.x;
+        //     if (plane.normal.y >= 0) p_vertex.y = box.max.y;
+        //     if (plane.normal.z >= 0) p_vertex.z = box.max.z;
+        //
+        //     if (plane.getSignedDistanceToPoint(p_vertex) < 0)
+        //     {
+        //         return false;
+        //     }
+        // }
         return true;
     }
 }

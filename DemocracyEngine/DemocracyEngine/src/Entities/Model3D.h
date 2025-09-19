@@ -1,10 +1,7 @@
 #pragma once
 #include "Entity3D.h"
-#include "../Mesh/Importer3D.h"
+#include "../Mesh/BasicMesh.h"
 #include "../Mesh/BoundingBox.h"
-
-using namespace DemoEngine_Importer;
-using namespace DemoEngine_Geometry;
 
 namespace DemoEngine_Entities
 {
@@ -12,10 +9,17 @@ namespace DemoEngine_Entities
     {
     public:
         Model3D(vec3 newPosition = vec3(0.0f), vec3 newRotation = vec3(0.0f), vec3 newScale = vec3(1.0f));
-        Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture);
+        Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture = false);
+        Model3D(const BasicMesh& mesh);
         ~Model3D();
+
         void Draw() override;
-        void AddTexture(std::string type, std::string path, bool invertTexture, bool ClearTexture);
+        BoundingBox ComputeBoundingBoxRecursive(Transform* node);
+        void AddTexture(std::string type, std::string path, bool invertTexture = false, bool clearTexture = false);
+
+        BoundingBox GetBoundingBox() const;
+
+        bool drawWireframe = true;
 
     private:
         void AddMesh(const BasicMesh& mesh);
@@ -29,5 +33,7 @@ namespace DemoEngine_Entities
 
         std::vector<Transform*> meshTransforms;
         std::vector<std::vector<Texture>> textures;
+
+        std::vector<BoundingBox> meshBoundingBoxes;
     };
 }

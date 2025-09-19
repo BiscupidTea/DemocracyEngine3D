@@ -37,6 +37,7 @@
     <ClCompile Include="src\Entities\Triangle.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Interface\ServiceProvider.cpp" />
+    <ClCompile Include="src\Mesh\BoundingBox.cpp" />
     <ClCompile Include="src\Mesh\Importer3D.cpp" />
     <ClCompile Include="src\Render\LightManager.cpp" />
     <ClCompile Include="src\Render\Renderer.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="src\Interface\Light.h" />
     <ClInclude Include="src\Interface\LightServiceProvider.h" />
     <ClInclude Include="src\Interface\ServiceProvider.h" />
+    <ClInclude Include="src\Mesh\BasicMesh.h" />
     <ClInclude Include="src\Mesh\BoundingBox.h" />
     <ClInclude Include="src\Mesh\Importer3D.h" />
     <ClInclude Include="src\Render\LightManager.h" />

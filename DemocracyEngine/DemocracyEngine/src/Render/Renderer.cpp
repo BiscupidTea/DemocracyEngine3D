@@ -272,7 +272,7 @@ namespace DemoEngine_Renderer
         lightShader->UnuseShader();
     }
 
-    void Renderer::DrawModel(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, vector<DemoEngine_Importer::Texture> textures,
+    void Renderer::DrawModel(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, vector<Texture> textures,
                              Material material)
     {
         modelShader->UseShader();
@@ -342,16 +342,21 @@ namespace DemoEngine_Renderer
     {
         primitiveShader->UseShader();
 
+        // Calculamos tamaño y centro de la caja en local
         vec3 size = box.max - box.min;
         vec3 center = (box.max + box.min) * 0.5f;
 
-        mat4 boxTransform = glm::translate(modelMatrix, center);
+        // Transformamos la caja en el espacio del mundo
+        mat4 boxTransform = modelMatrix;
+        boxTransform = glm::translate(boxTransform, center);
         boxTransform = glm::scale(boxTransform, size);
 
+        // Matriz MVP final
         mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * boxTransform;
         primitiveShader->SetMat4("u_MVP", MVP);
         primitiveShader->SetVec4("u_Color", color);
 
+        // Dibujamos wireframe
         glBindVertexArray(m_wireCubeVAO);
         glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
