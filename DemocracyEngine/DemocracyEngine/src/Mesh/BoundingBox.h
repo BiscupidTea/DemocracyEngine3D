@@ -23,5 +23,7 @@ namespace DemoEngine_Geometry
 
         static BoundingBox FromVertices(const std::vector<glm::vec3>& vertices);
         static BoundingBox MergeTransformed(const std::vector<BoundingBox>& boxes, const std::vector<glm::mat4>& transforms);
+
+        void GetCorners(glm::vec3 outCorners[8]) const;
     };
 }

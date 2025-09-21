@@ -80,4 +80,16 @@ namespace DemoEngine_Geometry
         }
         return merged;
     }
+
+    void BoundingBox::GetCorners(glm::vec3 outCorners[8]) const
+    {
+        outCorners[0] = glm::vec3(min.x, min.y, min.z);
+        outCorners[1] = glm::vec3(max.x, min.y, min.z);
+        outCorners[2] = glm::vec3(min.x, max.y, min.z);
+        outCorners[3] = glm::vec3(max.x, max.y, min.z);
+        outCorners[4] = glm::vec3(min.x, min.y, max.z);
+        outCorners[5] = glm::vec3(max.x, min.y, max.z);
+        outCorners[6] = glm::vec3(min.x, max.y, max.z);
+        outCorners[7] = glm::vec3(max.x, max.y, max.z);
+    }
 }

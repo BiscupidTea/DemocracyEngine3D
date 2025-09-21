@@ -40,7 +40,6 @@ void EarthGame::Init()
     path = "rsc/SpritesAnimations/White.png";
     Cube* floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
     testScene->AddEntity(floor);
-    testScene->AddPlane(Plane(vec3(0, 1, 0), floor->transform->GetGlobalPosition()));
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
@@ -49,22 +48,22 @@ void EarthGame::Init()
     Cube* wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall1->setMaterial(Obsidian);
     testScene->AddEntity(wall1);
-    testScene->AddPlane(Plane(vec3(1, 0, 0), vec3(-halfSize, 0, 0)));
+    testScene->AddPlane(Plane(vec3(1, 0, 0), vec3(-halfSize - 5, 0, 0)));
 
     Cube* wall2 = new Cube(vec3{halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall2->setMaterial(Brass);
     testScene->AddEntity(wall2);
-    testScene->AddPlane(Plane(vec3(-1, 0, 0), vec3(halfSize, 0, 0)));
+    testScene->AddPlane(Plane(vec3(-1, 0, 0), vec3(halfSize + 5, 0, 0)));
 
     Cube* wall3 = new Cube(vec3{0, wallHeight / 2 - 100, -halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall3->setMaterial(Copper);
     testScene->AddEntity(wall3);
-    testScene->AddPlane(Plane(vec3(0, 0, 1), vec3(0, 0, -halfSize)));
+    testScene->AddPlane(Plane(vec3(0, 0, 1), vec3(0, 0, -halfSize - 5)));
 
     Cube* wall4 = new Cube(vec3{0, wallHeight / 2 - 100, halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
     wall4->setMaterial(WhitePlastic);
     testScene->AddEntity(wall4);
-    testScene->AddPlane(Plane(vec3(0, 0, -1), vec3(0, 0, halfSize)));
+    testScene->AddPlane(Plane(vec3(0, 0, -1), vec3(0, 0, halfSize + 5)));
     
 #pragma endregion
 
