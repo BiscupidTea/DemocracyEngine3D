@@ -9,7 +9,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
-
 namespace DemoEngine_Importer
 {
     struct ImportedModelData
@@ -21,20 +20,32 @@ namespace DemoEngine_Importer
     class EXPORT Importer3D
     {
     private:
-        static std::vector<Texture> m_loadedTexturesCache;
+        static std::vector<DemoEngine_Entities::Texture> m_loadedTexturesCache;
 
-        static void ProcessNode(aiNode* node, DemoEngine_Entities::Transform* parentTransform, const aiScene* scene,
-                                std::vector<DemoEngine_Entities::BasicMesh>& outMeshes, const std::string& directory, bool invertTexture);
+        static void ProcessNode(aiNode* node,
+                                DemoEngine_Entities::Transform* parentTransform,
+                                const aiScene* scene,
+                                std::vector<DemoEngine_Entities::BasicMesh>& outMeshes,
+                                const std::string& directory,
+                                bool invertTexture);
 
-        static DemoEngine_Entities::BasicMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture,
-                                                          DemoEngine_Entities::Transform* transform);
+        static DemoEngine_Entities::BasicMesh ProcessMesh(aiMesh* mesh,
+                                                           const aiScene* scene,
+                                                           const std::string& directory,
+                                                           bool invertTexture,
+                                                           DemoEngine_Entities::Transform* transform);
 
-        static std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
-                                                                              const std::string& typeName, const std::string& directory, bool invertTexture);
-
+        static std::vector<DemoEngine_Entities::Texture> LoadMaterialTextures(aiMaterial* mat,
+                                                                              aiTextureType type,
+                                                                              const std::string& typeName,
+                                                                              const std::string& directory,
+                                                                              bool invertTexture);
 
     public:
-        static ImportedModelData ImportModel(const std::string& path, bool invertTexture = true, DemoEngine_Entities::Transform* rootTransform = nullptr);
+        static ImportedModelData ImportModel(const std::string& path,
+                                             bool invertTexture = true,
+                                             DemoEngine_Entities::Transform* rootTransform = nullptr);
+
         static unsigned int LoadTextureFromFile(const char* path, bool invertTexture);
     };
 }

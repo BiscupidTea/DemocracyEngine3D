@@ -1,6 +1,7 @@
 #include "BoundingBox.h"
 #include <limits>
 #include <glm/glm.hpp>
+#include <algorithm>
 
 namespace DemoEngine_Geometry
 {
@@ -20,8 +21,13 @@ namespace DemoEngine_Geometry
 
     void BoundingBox::Expand(const glm::vec3& point)
     {
-        min = glm::min(min, point);
-        max = glm::max(max, point);
+        min.x = std::min(min.x, point.x);
+        min.y = std::min(min.y, point.y);
+        min.z = std::min(min.z, point.z);
+
+        max.x = std::max(max.x, point.x);
+        max.y = std::max(max.y, point.y);
+        max.z = std::max(max.z, point.z);
     }
 
     void BoundingBox::Expand(const BoundingBox& other)
@@ -33,36 +39,45 @@ namespace DemoEngine_Geometry
 
     BoundingBox BoundingBox::Transform(const glm::mat4& matrix) const
     {
-        BoundingBox result;
-        if (!IsValid()) return result;
+        if (!IsValid()) return BoundingBox();
 
-        glm::vec3 corners[8] = {
-            glm::vec3(min.x, min.y, min.z),
-            glm::vec3(max.x, min.y, min.z),
-            glm::vec3(min.x, max.y, min.z),
-            glm::vec3(max.x, max.y, min.z),
-            glm::vec3(min.x, min.y, max.z),
-            glm::vec3(max.x, min.y, max.z),
-            glm::vec3(min.x, max.y, max.z),
-            glm::vec3(max.x, max.y, max.z)
-        };
+        glm::vec3 newMin(std::numeric_limits<float>::max());
+        glm::vec3 newMax(std::numeric_limits<float>::lowest());
 
-        for (int i = 0; i < 8; i++)
+        for (int x = 0; x <= 1; ++x)
+        for (int y = 0; y <= 1; ++y)
+        for (int z = 0; z <= 1; ++z)
         {
-            glm::vec4 transformed = matrix * glm::vec4(corners[i], 1.0f);
-            result.Expand(glm::vec3(transformed));
+            glm::vec3 corner(
+                x ? max.x : min.x,
+                y ? max.y : min.y,
+                z ? max.z : min.z
+            );
+            glm::vec4 transformed = matrix * glm::vec4(corner, 1.0f);
+            newMin = glm::min(newMin, glm::vec3(transformed));
+            newMax = glm::max(newMax, glm::vec3(transformed));
         }
 
-        return result;
+        return BoundingBox(newMin, newMax);
     }
 
     BoundingBox BoundingBox::FromVertices(const std::vector<glm::vec3>& vertices)
     {
         BoundingBox box;
         for (const glm::vec3& v : vertices)
-        {
             box.Expand(v);
-        }
         return box;
+    }
+
+    BoundingBox BoundingBox::MergeTransformed(const std::vector<BoundingBox>& boxes, const std::vector<glm::mat4>& transforms)
+    {
+        BoundingBox merged;
+        size_t count = std::min(boxes.size(), transforms.size());
+        for (size_t i = 0; i < count; ++i)
+        {
+            BoundingBox transformedBox = boxes[i].Transform(transforms[i]);
+            merged.Expand(transformedBox);
+        }
+        return merged;
     }
 }

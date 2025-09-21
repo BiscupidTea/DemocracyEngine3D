@@ -1,6 +1,5 @@
 #include "Model3D.h"
 #include "../Render/Renderer.h"
-
 #include <iostream>
 
 using namespace DemoEngine_Entities;
@@ -10,9 +9,7 @@ using namespace DemoEngine_Geometry;
 namespace DemoEngine_Entities
 {
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale)
-        : Entity3D(newPosition, newRotation, newScale)
-    {
-    }
+        : Entity3D(newPosition, newRotation, newScale) {}
 
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture)
         : Entity3D(newPosition, newRotation, newScale)
@@ -48,10 +45,7 @@ namespace DemoEngine_Entities
         meshTransforms.push_back(mesh.transform);
         textures.push_back(mesh.textures);
 
-        BoundingBox box;
-        for (auto& v : mesh.vertices)
-            box.Expand(v.position);
-        meshBoundingBoxes.push_back(box);
+        ComputeAABBForMesh(vertices.size() - 1);
 
         unsigned int vao, vbo, ebo;
         glGenVertexArrays(1, &vao);
@@ -59,7 +53,6 @@ namespace DemoEngine_Entities
         glGenBuffers(1, &ebo);
 
         glBindVertexArray(vao);
-
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(Vertex), mesh.vertices.data(), GL_STATIC_DRAW);
 
@@ -84,8 +77,100 @@ namespace DemoEngine_Entities
         ebos.push_back(ebo);
     }
 
+    void Model3D::ComputeAABBForMesh(size_t index)
+    {
+        BoundingBox box;
+        for (auto& v : vertices[index])
+            box.Expand(v.position);
+        meshBoundingBoxes.push_back(box);
+    }
+
+    BoundingBox Model3D::ComputeBoundingBoxRecursive(Transform* node)
+    {
+        BoundingBox box;
+
+        for (size_t i = 0; i < meshTransforms.size(); ++i)
+        {
+            Transform* meshTransform = meshTransforms[i];
+            Transform* current = meshTransform;
+            bool isDescendant = false;
+            while (current)
+            {
+                if (current == node)
+                {
+                    isDescendant = true;
+                    break;
+                }
+                current = current->GetParent();
+            }
+
+            if (isDescendant)
+            {
+                BoundingBox transformedBox = meshBoundingBoxes[i].Transform(meshTransform->GetModelWorldMatrix());
+                box.Expand(transformedBox);
+            }
+        }
+
+        for (Transform* child : node->GetChildren())
+        {
+            BoundingBox childBox = ComputeBoundingBoxRecursive(child);
+            box.Expand(childBox);
+        }
+
+        return box;
+    }
+
+    BoundingBox Model3D::GetBoundingBox() const
+    {
+        vector<BoundingBox> transformedBoxes;
+        vector<glm::mat4> transforms;
+
+        for (size_t i = 0; i < meshBoundingBoxes.size(); ++i)
+        {
+            transformedBoxes.push_back(meshBoundingBoxes[i]);
+            transforms.push_back(meshTransforms[i]->GetModelWorldMatrix());
+        }
+
+        return BoundingBox::MergeTransformed(transformedBoxes, transforms);
+    }
+
+    bool Model3D::IsVisible(const DemoEngine_Camera::Frustum& frustum) const
+    {
+        BoundingBox box = GetBoundingBox();
+        return frustum.IsBoxVisible(box);
+    }
+
+    void Model3D::AddTexture(string type, string path, bool invertTexture, bool clearTexture)
+    {
+        Texture tex;
+        tex.id = Importer3D::LoadTextureFromFile(path.c_str(), invertTexture);
+        tex.type = type;
+        tex.path = path;
+
+        for (size_t i = 0; i < textures.size(); ++i)
+        {
+            if (clearTexture) textures[i].clear();
+            textures[i].push_back(tex);
+        }
+    }
+
+    void Model3D::DrawBoundingBoxesRecursive(Transform* node)
+    {
+        BoundingBox globalBox = ComputeBoundingBoxRecursive(node);
+        Renderer::GetRender()->DrawWireBox(globalBox, mat4(1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), 2.0f);
+
+        for (Transform* child : node->GetChildren())
+        {
+            DrawBoundingBoxesRecursive(child);
+        }
+    }
+
     void Model3D::Draw()
     {
+        const DemoEngine_Camera::Frustum& currentFrustum = Renderer::GetRender()->MainCamera->GetFrustum();
+        if (!IsVisible(currentFrustum))
+            return;
+        
         for (size_t i = 0; i < vaos.size(); ++i)
         {
             Renderer::GetRender()->DrawModel(
@@ -96,53 +181,8 @@ namespace DemoEngine_Entities
                 textures[i],
                 material
             );
-
-            if(drawWireframe && meshTransforms[i] == transform)
-            {
-                BoundingBox box = ComputeBoundingBoxRecursive(transform);
-                Renderer::GetRender()->DrawWireBox(box, transform->GetModelWorldMatrix(), vec4(1,0,0,1));
-            }
         }
-    }
-
-    BoundingBox Model3D::ComputeBoundingBoxRecursive(Transform* node)
-    {
-        BoundingBox box;
-        for (size_t i = 0; i < meshTransforms.size(); ++i)
-        {
-            if (meshTransforms[i] == node)
-                box.Expand(meshBoundingBoxes[i]);
-        }
-
-        for (Transform* child : node->GetChildren())
-        {
-            box.Expand(ComputeBoundingBoxRecursive(child));
-        }
-
-        return box;
-    }
-
-    void Model3D::AddTexture(std::string type, std::string path, bool invertTexture, bool clearTexture)
-    {
-        Texture tex;
-        tex.id = Importer3D::LoadTextureFromFile(path.c_str(), invertTexture);
-        tex.type = type;
-        tex.path = path;
-
-        for (size_t i = 0; i < textures.size(); ++i)
-        {
-            if(clearTexture) textures[i].clear();
-            textures[i].push_back(tex);
-        }
-    }
-
-    BoundingBox Model3D::GetBoundingBox() const
-    {
-        BoundingBox box;
-        for (size_t i = 0; i < meshBoundingBoxes.size(); ++i)
-        {
-            box.Expand(meshBoundingBoxes[i].Transform(meshTransforms[i]->GetModelWorldMatrix()));
-        }
-        return box;
+        
+        DrawBoundingBoxesRecursive(transform);
     }
 }

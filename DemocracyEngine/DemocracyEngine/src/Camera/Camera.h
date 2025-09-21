@@ -1,5 +1,5 @@
 #pragma once
-#include "Frustrum.h"
+#include "Frustum.h"
 #include "../Tools/Export.h"
 #include "../Input/Input.h"
 #include "../Entities/Entity.h"

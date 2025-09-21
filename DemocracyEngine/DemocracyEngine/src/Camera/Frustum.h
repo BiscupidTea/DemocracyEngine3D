@@ -1,5 +1,4 @@
 #pragma once
-
 #include <glm/glm.hpp>
 #include <array>
 #include "../Mesh/BoundingBox.h"
@@ -13,7 +12,7 @@ namespace DemoEngine_Camera
     class Frustum
     {
     public:
-        std::array<::Plane, 6> planes;
+        std::array<Plane, 6> planes;
 
         void Update(const mat4& viewProjectionMatrix);
         bool IsBoxVisible(const BoundingBox& box) const;

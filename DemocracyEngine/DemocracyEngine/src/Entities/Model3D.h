@@ -2,6 +2,15 @@
 #include "Entity3D.h"
 #include "../Mesh/BasicMesh.h"
 #include "../Mesh/BoundingBox.h"
+#include "../Camera/Frustum.h"
+#include <vector>
+#include <string>
+#include <memory>
+#include <limits>
+
+using namespace std;
+using namespace DemoEngine_Geometry;
+using namespace DemoEngine_Importer;
 
 namespace DemoEngine_Entities
 {
@@ -11,29 +20,28 @@ namespace DemoEngine_Entities
         Model3D(vec3 newPosition = vec3(0.0f), vec3 newRotation = vec3(0.0f), vec3 newScale = vec3(1.0f));
         Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture = false);
         Model3D(const BasicMesh& mesh);
-        ~Model3D();
+        ~Model3D() override;
 
-        void Draw() override;
-        BoundingBox ComputeBoundingBoxRecursive(Transform* node);
-        void AddTexture(std::string type, std::string path, bool invertTexture = false, bool clearTexture = false);
-
+        void AddMesh(const BasicMesh& mesh);
+        void Draw();
         BoundingBox GetBoundingBox() const;
-
-        bool drawWireframe = true;
+        BoundingBox ComputeBoundingBoxRecursive(Transform* node);
+        bool IsVisible(const DemoEngine_Camera::Frustum& frustum) const;
+        void AddTexture(string type, string path, bool invertTexture, bool clearTexture);
 
     private:
-        void AddMesh(const BasicMesh& mesh);
+        vector<vector<Vertex>> vertices;
+        vector<vector<unsigned int>> indices;
+        vector<Transform*> meshTransforms;
+        vector<vector<Texture>> textures;
+        vector<BoundingBox> meshBoundingBoxes;
 
-        std::vector<std::vector<Vertex>> vertices;
-        std::vector<std::vector<unsigned int>> indices;
+        vector<unsigned int> vaos;
+        vector<unsigned int> vbos;
+        vector<unsigned int> ebos;
 
-        std::vector<unsigned int> vaos;
-        std::vector<unsigned int> vbos;
-        std::vector<unsigned int> ebos;
-
-        std::vector<Transform*> meshTransforms;
-        std::vector<std::vector<Texture>> textures;
-
-        std::vector<BoundingBox> meshBoundingBoxes;
+        void ComputeAABBForMesh(size_t index);
+        
+        void DrawBoundingBoxesRecursive(Transform* node);
     };
 }

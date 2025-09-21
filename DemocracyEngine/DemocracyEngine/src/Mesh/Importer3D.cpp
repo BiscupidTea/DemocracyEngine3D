@@ -1,14 +1,11 @@
-#define GLM_ENABLE_EXPERIMENTAL
 #include "Importer3D.h"
-
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/quaternion.hpp>
-
-#include <iostream>
-#include <cstring>
-
 #include "glew.h"
 #include <../src/Tools/stb_image.h>
+#include <iostream>
+#include <cstring>
 
 using namespace DemoEngine_Entities;
 
@@ -52,7 +49,7 @@ namespace DemoEngine_Importer
             if(rootTransform) rootTransform->SetName(nodeName);
         }
 
-        const std::string directory = path.substr(0, path.find_last_of('/'));
+        std::string directory = path.substr(0, path.find_last_of('/'));
         std::cout << "Model loaded: " << path << " | Name: " << modelData.name << " | Meshes: " << scene->mNumMeshes << std::endl;
 
         if(rootTransform)
@@ -61,7 +58,8 @@ namespace DemoEngine_Importer
         return modelData;
     }
 
-    void Importer3D::ProcessNode(aiNode* node, Transform* parentTransform, const aiScene* scene, std::vector<BasicMesh>& outMeshes, const std::string& directory, bool invertTexture)
+    void Importer3D::ProcessNode(aiNode* node, Transform* parentTransform, const aiScene* scene,
+                                 std::vector<BasicMesh>& outMeshes, const std::string& directory, bool invertTexture)
     {
         Transform* currentTransform = parentTransform;
 
@@ -71,12 +69,10 @@ namespace DemoEngine_Importer
             currentTransform->SetName(node->mName.C_Str());
             currentTransform->SetParent(parentTransform);
 
-            aiMatrix4x4& t = node->mTransformation;
-            glm::mat4 localMat = glm::transpose(glm::make_mat4(&t.a1));
-
+            glm::mat4 localMat = glm::transpose(glm::make_mat4(&node->mTransformation.a1));
             glm::vec3 scale, pos, skew;
-            glm::vec4 persp;
             glm::quat rot;
+            glm::vec4 persp;
             glm::decompose(localMat, scale, rot, pos, skew, persp);
 
             currentTransform->SetLocalPosition(pos);
@@ -91,12 +87,11 @@ namespace DemoEngine_Importer
         }
 
         for(unsigned int i = 0; i < node->mNumChildren; i++)
-        {
             ProcessNode(node->mChildren[i], currentTransform, scene, outMeshes, directory, invertTexture);
-        }
     }
 
-    BasicMesh Importer3D::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, bool invertTexture, Transform* transform)
+    BasicMesh Importer3D::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& directory,
+                                      bool invertTexture, Transform* transform)
     {
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
@@ -122,6 +117,7 @@ namespace DemoEngine_Importer
         if(mesh->mMaterialIndex >= 0)
         {
             aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
             std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", directory, invertTexture);
             std::vector<Texture> specMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", directory, invertTexture);
             std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal", directory, invertTexture);
@@ -138,7 +134,8 @@ namespace DemoEngine_Importer
         return BasicMesh(std::move(vertices), std::move(indices), std::move(textures), transform);
     }
 
-    std::vector<Texture> Importer3D::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName, const std::string& directory, bool invertTexture)
+    std::vector<Texture> Importer3D::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
+                                                          const std::string& typeName, const std::string& directory, bool invertTexture)
     {
         std::vector<Texture> textures;
         for(unsigned int i = 0; i < mat->GetTextureCount(type); ++i)

@@ -23,6 +23,4 @@ public:
 private:
     std::vector<Entity3D*> entities;
     std::vector<Plane> bspPlanes;
-
-    bool IsOccludedByPlane(const Plane& plane, const BoundingBox& box, const glm::vec3& cameraPos);
 };

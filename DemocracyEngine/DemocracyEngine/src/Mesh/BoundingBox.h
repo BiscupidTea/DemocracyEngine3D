@@ -15,9 +15,13 @@ namespace DemoEngine_Geometry
         BoundingBox(const glm::vec3& min, const glm::vec3& max);
 
         bool IsValid() const;
+
         void Expand(const glm::vec3& point);
         void Expand(const BoundingBox& other);
+
         BoundingBox Transform(const glm::mat4& matrix) const;
+
         static BoundingBox FromVertices(const std::vector<glm::vec3>& vertices);
+        static BoundingBox MergeTransformed(const std::vector<BoundingBox>& boxes, const std::vector<glm::mat4>& transforms);
     };
 }

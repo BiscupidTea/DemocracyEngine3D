@@ -240,7 +240,6 @@ namespace DemoEngine_Renderer
     void Renderer::DrawEntity3D(unsigned int VAO, int sizeIndex, vec4 color, mat4x4 model, unsigned int idTexture, Material material)
     {
         lightShader->UseShader();
-        drawCallsInFrame++;
 
         lightShader->SetMat4("model", model);
         lightShader->SetMat4("view", MainCamera->GetCameraView());
@@ -338,25 +337,23 @@ namespace DemoEngine_Renderer
         modelShader->UnuseShader();
     }
 
-    void Renderer::DrawWireBox(const BoundingBox& box, const mat4& modelMatrix, const vec4& color)
+    void Renderer::DrawWireBox(const BoundingBox& box, const mat4& modelMatrix, const vec4& color, float lineWidth)
     {
         primitiveShader->UseShader();
-
-        // Calculamos tamaño y centro de la caja en local
+        
         vec3 size = box.max - box.min;
         vec3 center = (box.max + box.min) * 0.5f;
-
-        // Transformamos la caja en el espacio del mundo
+        
         mat4 boxTransform = modelMatrix;
         boxTransform = glm::translate(boxTransform, center);
         boxTransform = glm::scale(boxTransform, size);
-
-        // Matriz MVP final
+        
         mat4 MVP = MainCamera->GetCameraProyection() * MainCamera->GetCameraView() * boxTransform;
         primitiveShader->SetMat4("u_MVP", MVP);
         primitiveShader->SetVec4("u_Color", color);
 
-        // Dibujamos wireframe
+        glLineWidth(lineWidth);
+
         glBindVertexArray(m_wireCubeVAO);
         glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
