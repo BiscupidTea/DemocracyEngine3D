@@ -1,3 +1,4 @@
+// Model3D.h
 #pragma once
 #include "Entity3D.h"
 #include "../Mesh/BasicMesh.h"
@@ -23,11 +24,13 @@ namespace DemoEngine_Entities
         ~Model3D() override;
 
         void AddMesh(const BasicMesh& mesh);
+        void AddTexture(string type, string path, bool invertTexture, bool clearTexture);
+
         void Draw();
+        void DrawOccluded(const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides);
         BoundingBox GetBoundingBox() const;
         BoundingBox ComputeBoundingBoxRecursive(Transform* node);
         bool IsVisible(const DemoEngine_Camera::Frustum& frustum) const;
-        void AddTexture(string type, string path, bool invertTexture, bool clearTexture);
 
     private:
         vector<vector<Vertex>> vertices;
@@ -41,7 +44,11 @@ namespace DemoEngine_Entities
         vector<unsigned int> ebos;
 
         void ComputeAABBForMesh(size_t index);
-        
+
         void DrawBoundingBoxesRecursive(Transform* node);
+        bool IsDescendant(Transform* parent, Transform* child);
+        
+        void DrawRecursive(Transform* node);
+        void DrawRecursive(Transform* node, const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides);
     };
 }

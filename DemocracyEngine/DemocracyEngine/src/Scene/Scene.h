@@ -21,7 +21,6 @@ public:
     void Draw(Camera* camera);
 
 private:
-    bool EntityIsVisibleBSP(Entity3D* entity, const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides);
     std::vector<Entity3D*> entities;
     std::vector<Plane> bspPlanes;
 };

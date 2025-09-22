@@ -18,21 +18,20 @@ void EarthGame::Init()
     PlayerRotation = vec3{0, 0, 0};
     PlayerColor = vec4{1, 1, 1, 1};
 
-    const char* path = "rsc/Mesh/Yukinko_Death.fbx";
-    Model3D* yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
-
-    path = "rsc/Mesh/Tank.fbx";
+    const char*path = "rsc/Mesh/Tank.fbx";
     this->Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
-
-    path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
-    this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
-    SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
-    yukinko->transform->SetParent(SnowCat->transform);
+    
+      path = "rsc/Mesh/Yukinko_Death.fbx";
+     Model3D* yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
+    
+    
+     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
+     this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
+     SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
+     yukinko->transform->SetParent(SnowCat->transform);
 
     Cube* cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setMaterial(Silver);
-
-    Cube* player = new Cube(vec3{0, 10, 200}, vec3{0, 0, 0}, vec3{50, 50, 50});
     
     playerSpeed = 5;
 
@@ -125,7 +124,6 @@ void EarthGame::Init()
     tankLeftCannonTransform = Tank->transform->FindChildByName("LeftCannon");
     tankRightCannonTransform = Tank->transform->FindChildByName("RightCannon");
     
-    testScene->AddEntity(player);
     testScene->AddEntity(cube);
     testScene->AddEntity(yukinko);
     testScene->AddEntity(SnowCat);

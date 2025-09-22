@@ -1,10 +1,10 @@
+// Scene.cpp
 #include "Scene.h"
+#include <glm/glm.hpp>
 
 #include "../Entities/Model3D.h"
 
-Scene::Scene()
-{
-}
+Scene::Scene() {}
 
 Scene::~Scene()
 {
@@ -24,36 +24,6 @@ void Scene::AddPlane(const Plane& plane)
     bspPlanes.push_back(plane);
 }
 
-bool Scene::EntityIsVisibleBSP(Entity3D* entity, const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides)
-{
-    BoundingBox box;
-    Model3D* model = dynamic_cast<Model3D*>(entity);
-    if (model)
-        box = model->ComputeBoundingBoxRecursive(model->transform);
-    else
-        box = BoundingBox(entity->transform->GetGlobalPosition(), entity->transform->GetGlobalPosition()); // punto
-
-    glm::vec3 corners[8];
-    box.GetCorners(corners);
-
-    for (size_t i = 0; i < bspPlanes.size(); ++i)
-    {
-        bool anyCornerOnCameraSide = false;
-        for (int c = 0; c < 8; ++c)
-        {
-            if (bspPlanes[i].getSide(corners[c]) == cameraSides[i])
-            {
-                anyCornerOnCameraSide = true;
-                break;
-            }
-        }
-        if (!anyCornerOnCameraSide)
-            return false;
-    }
-
-    return true;
-}
-
 void Scene::Draw(Camera* camera)
 {
     if (!camera) return;
@@ -67,7 +37,14 @@ void Scene::Draw(Camera* camera)
         if (!entity->IsActive())
             continue;
 
-        if (EntityIsVisibleBSP(entity, bspPlanes, cameraSides))
+        Model3D* model = dynamic_cast<Model3D*>(entity);
+        if (model)
+        {
+            model->DrawOccluded(bspPlanes, cameraSides);
+        }
+        else
+        {
             entity->Draw();
+        }
     }
 }

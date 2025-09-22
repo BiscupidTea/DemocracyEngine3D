@@ -1,3 +1,4 @@
+// Model3D.cpp
 #include "Model3D.h"
 #include "../Render/Renderer.h"
 #include <iostream>
@@ -9,7 +10,9 @@ using namespace DemoEngine_Geometry;
 namespace DemoEngine_Entities
 {
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale)
-        : Entity3D(newPosition, newRotation, newScale) {}
+        : Entity3D(newPosition, newRotation, newScale)
+    {
+    }
 
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture)
         : Entity3D(newPosition, newRotation, newScale)
@@ -165,24 +168,114 @@ namespace DemoEngine_Entities
         }
     }
 
-    void Model3D::Draw()
+    bool Model3D::IsDescendant(Transform* parent, Transform* child)
     {
-        const DemoEngine_Camera::Frustum& currentFrustum = Renderer::GetRender()->MainCamera->GetFrustum();
-        if (!IsVisible(currentFrustum))
-            return;
-        
-        for (size_t i = 0; i < vaos.size(); ++i)
+        Transform* current = child;
+        while (current)
         {
-            Renderer::GetRender()->DrawModel(
-                vaos[i],
-                static_cast<int>(indices[i].size()),
-                GetColor(),
-                meshTransforms[i]->GetModelWorldMatrix(),
-                textures[i],
-                material
-            );
+            if (current == parent) return true;
+            current = current->GetParent();
+        }
+        return false;
+    }
+
+    void Model3D::DrawRecursive(Transform* node)
+    {
+        if (!node) return;
+
+        for (size_t i = 0; i < meshTransforms.size(); ++i)
+        {
+            if (meshTransforms[i] == node)
+            {
+                Renderer::GetRender()->DrawModel(
+                    vaos[i],
+                    static_cast<int>(indices[i].size()),
+                    GetColor(),
+                    meshTransforms[i]->GetModelWorldMatrix(),
+                    textures[i],
+                    material
+                );
+            }
+        }
+
+        for (Transform* child : node->GetChildren())
+            DrawRecursive(child);
+    }
+
+    void Model3D::DrawRecursive(Transform* node, const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides)
+    {
+        BoundingBox nodeMeshBox = ComputeBoundingBoxRecursive(node);
+        
+        for (size_t i = 0; i < meshTransforms.size(); ++i)
+        {
+            if (meshTransforms[i] == node)
+            {
+                break;
+            }
+        }
+
+        bool isVisibleBSP = true;
+        bool isVisibleFrustum = true;
+
+        if (nodeMeshBox.IsValid())
+        {
+            glm::vec3 corners[8];
+            nodeMeshBox.GetCorners(corners);
+
+            for (size_t i = 0; i < bspPlanes.size(); ++i)
+            {
+                bool anyCornerOnCameraSide = false;
+                for (int c = 0; c < 8; ++c)
+                {
+                    if (bspPlanes[i].getSide(corners[c]) == cameraSides[i])
+                    {
+                        anyCornerOnCameraSide = true;
+                        break;
+                    }
+                }
+                if (!anyCornerOnCameraSide)
+                {
+                    isVisibleBSP = false;
+                    break;
+                }
+            }
+
+            const DemoEngine_Camera::Frustum& frustum = Renderer::GetRender()->MainCamera->GetFrustum();
+            if (!frustum.IsBoxVisible(nodeMeshBox))
+                isVisibleFrustum = false;
         }
         
+        if (!(isVisibleBSP && isVisibleFrustum)) return;
+        
+        for (size_t i = 0; i < meshTransforms.size(); ++i)
+        {
+            if (meshTransforms[i] == node)
+            {
+                Renderer::GetRender()->DrawModel(
+                    vaos[i],
+                    static_cast<int>(indices[i].size()),
+                    GetColor(),
+                    meshTransforms[i]->GetModelWorldMatrix(),
+                    textures[i],
+                    material
+                );
+            }
+        }
+        
+        for (Transform* child : node->GetChildren())
+            DrawRecursive(child, bspPlanes, cameraSides);
+    }
+
+
+    void Model3D::DrawOccluded(const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides)
+    {
+        DrawRecursive(transform, bspPlanes, cameraSides);
+        DrawBoundingBoxesRecursive(transform);
+    }
+
+    void Model3D::Draw()
+    {
+        DrawRecursive(transform);
         DrawBoundingBoxesRecursive(transform);
     }
 }
