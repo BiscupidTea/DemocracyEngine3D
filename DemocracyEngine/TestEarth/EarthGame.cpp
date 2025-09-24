@@ -20,6 +20,7 @@ void EarthGame::Init()
 
     const char*path = "rsc/Mesh/Tank.fbx";
     this->Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
+    Tank->drawWireBox = true;
     
       path = "rsc/Mesh/Yukinko_Death.fbx";
      Model3D* yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
@@ -28,7 +29,6 @@ void EarthGame::Init()
      path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
      this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
      SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
-     yukinko->transform->SetParent(SnowCat->transform);
 
     Cube* cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setMaterial(Silver);

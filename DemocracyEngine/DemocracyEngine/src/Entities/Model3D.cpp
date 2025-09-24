@@ -83,7 +83,7 @@ namespace DemoEngine_Entities
     void Model3D::ComputeAABBForMesh(size_t index)
     {
         BoundingBox box;
-        for (auto& v : vertices[index])
+        for (Vertex& v : vertices[index])
             box.Expand(v.position);
         meshBoundingBoxes.push_back(box);
     }
@@ -92,7 +92,7 @@ namespace DemoEngine_Entities
     {
         BoundingBox box;
 
-        for (size_t i = 0; i < meshTransforms.size(); ++i)
+        for (int i = 0; i < meshTransforms.size(); ++i)
         {
             Transform* meshTransform = meshTransforms[i];
             Transform* current = meshTransform;
@@ -126,9 +126,9 @@ namespace DemoEngine_Entities
     BoundingBox Model3D::GetBoundingBox() const
     {
         vector<BoundingBox> transformedBoxes;
-        vector<glm::mat4> transforms;
+        vector<mat4> transforms;
 
-        for (size_t i = 0; i < meshBoundingBoxes.size(); ++i)
+        for (int i = 0; i < meshBoundingBoxes.size(); ++i)
         {
             transformedBoxes.push_back(meshBoundingBoxes[i]);
             transforms.push_back(meshTransforms[i]->GetModelWorldMatrix());
@@ -150,7 +150,7 @@ namespace DemoEngine_Entities
         tex.type = type;
         tex.path = path;
 
-        for (size_t i = 0; i < textures.size(); ++i)
+        for (int i = 0; i < textures.size(); ++i)
         {
             if (clearTexture) textures[i].clear();
             textures[i].push_back(tex);
@@ -183,7 +183,7 @@ namespace DemoEngine_Entities
     {
         if (!node) return;
 
-        for (size_t i = 0; i < meshTransforms.size(); ++i)
+        for (int i = 0; i < meshTransforms.size(); ++i)
         {
             if (meshTransforms[i] == node)
             {
@@ -205,8 +205,8 @@ namespace DemoEngine_Entities
     void Model3D::DrawRecursive(Transform* node, const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides)
     {
         BoundingBox nodeMeshBox = ComputeBoundingBoxRecursive(node);
-        
-        for (size_t i = 0; i < meshTransforms.size(); ++i)
+
+        for (int i = 0; i < meshTransforms.size(); ++i)
         {
             if (meshTransforms[i] == node)
             {
@@ -219,10 +219,10 @@ namespace DemoEngine_Entities
 
         if (nodeMeshBox.IsValid())
         {
-            glm::vec3 corners[8];
+            vec3 corners[8];
             nodeMeshBox.GetCorners(corners);
 
-            for (size_t i = 0; i < bspPlanes.size(); ++i)
+            for (int i = 0; i < bspPlanes.size(); ++i)
             {
                 bool anyCornerOnCameraSide = false;
                 for (int c = 0; c < 8; ++c)
@@ -244,10 +244,10 @@ namespace DemoEngine_Entities
             if (!frustum.IsBoxVisible(nodeMeshBox))
                 isVisibleFrustum = false;
         }
-        
+
         if (!(isVisibleBSP && isVisibleFrustum)) return;
-        
-        for (size_t i = 0; i < meshTransforms.size(); ++i)
+
+        for (int i = 0; i < meshTransforms.size(); ++i)
         {
             if (meshTransforms[i] == node)
             {
@@ -261,7 +261,7 @@ namespace DemoEngine_Entities
                 );
             }
         }
-        
+
         for (Transform* child : node->GetChildren())
             DrawRecursive(child, bspPlanes, cameraSides);
     }
@@ -270,7 +270,10 @@ namespace DemoEngine_Entities
     void Model3D::DrawOccluded(const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides)
     {
         DrawRecursive(transform, bspPlanes, cameraSides);
-        DrawBoundingBoxesRecursive(transform);
+        if (drawWireBox)
+        {
+            DrawBoundingBoxesRecursive(transform);
+        }
     }
 
     void Model3D::Draw()

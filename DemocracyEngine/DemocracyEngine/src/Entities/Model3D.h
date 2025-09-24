@@ -1,4 +1,3 @@
-// Model3D.h
 #pragma once
 #include "Entity3D.h"
 #include "../Mesh/BasicMesh.h"
@@ -31,6 +30,7 @@ namespace DemoEngine_Entities
         BoundingBox GetBoundingBox() const;
         BoundingBox ComputeBoundingBoxRecursive(Transform* node);
         bool IsVisible(const DemoEngine_Camera::Frustum& frustum) const;
+        bool drawWireBox = false;
 
     private:
         vector<vector<Vertex>> vertices;

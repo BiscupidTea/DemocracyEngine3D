@@ -1,4 +1,3 @@
-// Scene.cpp
 #include "Scene.h"
 #include <glm/glm.hpp>
 
