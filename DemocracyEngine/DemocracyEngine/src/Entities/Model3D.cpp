@@ -1,4 +1,3 @@
-// Model3D.cpp
 #include "Model3D.h"
 #include "../Render/Renderer.h"
 #include <iostream>
@@ -269,7 +268,11 @@ namespace DemoEngine_Entities
 
     void Model3D::DrawOccluded(const std::vector<Plane>& bspPlanes, const std::vector<bool>& cameraSides)
     {
+        if (isActive)
+        {
         DrawRecursive(transform, bspPlanes, cameraSides);
+        }
+        
         if (drawWireBox)
         {
             DrawBoundingBoxesRecursive(transform);

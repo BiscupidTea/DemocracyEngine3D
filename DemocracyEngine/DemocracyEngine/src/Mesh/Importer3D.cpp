@@ -80,6 +80,16 @@ namespace DemoEngine_Importer
             currentTransform->SetLocalScale(scale);
         }
 
+        std::string nodeName = node->mName.C_Str();
+        if(nodeName.find("bspPlane") != std::string::npos)
+        {
+            vec3 worldPos = currentTransform->GetGlobalPosition();
+            vec3 normal = normalize(currentTransform->GetModelWorldMatrix()[1]); 
+
+            DemoEngine_Renderer::Renderer::GetRender()->MainCamera->AddBSPPlane(worldPos, normal);
+            cout << "Plane Found!" << endl;
+        }
+
         for(unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];

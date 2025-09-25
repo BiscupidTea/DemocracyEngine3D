@@ -17,10 +17,8 @@ public:
     ~Scene();
 
     void AddEntity(Entity3D* entity);
-    void AddPlane(const Plane& plane);
     void Draw(Camera* camera);
 
 private:
     std::vector<Entity3D*> entities;
-    std::vector<Plane> bspPlanes;
 };

@@ -18,51 +18,36 @@ void EarthGame::Init()
     PlayerRotation = vec3{0, 0, 0};
     PlayerColor = vec4{1, 1, 1, 1};
 
-    const char*path = "rsc/Mesh/Tank.fbx";
+    const char* path = "rsc/Mesh/Tank.fbx";
     this->Tank = new Model3D(vec3{0, 150, 0}, vec3{0, 0, 0}, vec3{40, 40, 40}, path, true);
     Tank->drawWireBox = true;
-    
-      path = "rsc/Mesh/Yukinko_Death.fbx";
-     Model3D* yukinko = new Model3D(vec3{500, 0, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
-    
-    
-     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
-     this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
-     SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
+
+    path = "rsc/Mesh/Yukinko_Death.fbx";
+    Model3D* yukinko = new Model3D(vec3{500, 0, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
+
+    path = "rsc/Mesh/bspPlanesNew4.fbx";
+    Model3D* planes = new Model3D(vec3{0, 200, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
+    planes->SetActive(false);
+    planes->drawWireBox = true;
+    testScene->AddEntity(planes);
+
+    path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
+    this->SnowCat = new Model3D(vec3{0, 150, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, true);
+    SnowCat->AddTexture("texture_baseColor", "rsc/Texturas/T_munecosDeNieve.png", false, true);
 
     Cube* cube = new Cube(vec3{0, 0, -1000}, vec3{0, 0, 0}, vec3{100, 100, 100}, path);
     cube->setMaterial(Silver);
-    
+
     playerSpeed = 5;
 
 #pragma region Room
-    path = "rsc/SpritesAnimations/White.png";
+    path = "rsc/Mesh/White.png";
     Cube* floor = new Cube(vec3{0, -100, 0}, vec3{0, 0, 0}, vec3{4000, 5, 4000}, path);
     testScene->AddEntity(floor);
 
     float halfSize = 2000.0f;
     float wallHeight = 500.0f;
     float wallThickness = 5.0f;
-
-    Cube* wall1 = new Cube(vec3{-halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall1->setMaterial(Obsidian);
-    testScene->AddEntity(wall1);
-    testScene->AddPlane(Plane(vec3(1, 0, 0), vec3(-halfSize - 5, 0, 0)));
-
-    Cube* wall2 = new Cube(vec3{halfSize, wallHeight / 2 - 100, 0}, vec3{0, 90, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall2->setMaterial(Brass);
-    testScene->AddEntity(wall2);
-    testScene->AddPlane(Plane(vec3(-1, 0, 0), vec3(halfSize + 5, 0, 0)));
-
-    Cube* wall3 = new Cube(vec3{0, wallHeight / 2 - 100, -halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall3->setMaterial(Copper);
-    testScene->AddEntity(wall3);
-    testScene->AddPlane(Plane(vec3(0, 0, 1), vec3(0, 0, -halfSize - 5)));
-
-    Cube* wall4 = new Cube(vec3{0, wallHeight / 2 - 100, halfSize}, vec3{0, 0, 0}, vec3{4000, wallHeight, wallThickness}, path);
-    wall4->setMaterial(WhitePlastic);
-    testScene->AddEntity(wall4);
-    testScene->AddPlane(Plane(vec3(0, 0, -1), vec3(0, 0, halfSize + 5)));
     
 #pragma endregion
 
@@ -158,7 +143,7 @@ void EarthGame::Update()
 
     testScene->Draw(this->MainCamera);
     
-    std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
+    //std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }
 
 void EarthGame::DeInit()

@@ -96,6 +96,7 @@ namespace DemoEngine_Camera
     vec3 Camera::GetCameraRight() const { return normalize(vec3(transform->GetModelWorldMatrix()[0])); }
     mat4x4 Camera::GetCameraProyection() const { return proyection; }
     mat4x4 Camera::GetCameraView() const { return view; }
+
     const Frustum& Camera::GetFrustum() const
     {
         return m_frustum;
@@ -127,5 +128,13 @@ namespace DemoEngine_Camera
     void Camera::SetInput(Input* newInput)
     {
         input = newInput;
+    }
+
+    void Camera::AddBSPPlane(const glm::vec3& point, const glm::vec3& normal)
+    {
+        Plane p;
+        p.normal = glm::normalize(normal);
+        p.distance = -glm::dot(p.normal, point);
+        m_bspPlanes.push_back(p);
     }
 }

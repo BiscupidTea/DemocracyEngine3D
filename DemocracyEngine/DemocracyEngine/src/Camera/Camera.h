@@ -20,6 +20,7 @@ namespace DemoEngine_Camera
         mat4x4 proyection;
         mat4x4 view;
         Frustum m_frustum;
+        std::vector<Plane> m_bspPlanes;
 
         CameraMode mode;
 
@@ -58,5 +59,7 @@ namespace DemoEngine_Camera
         void SetCameraTarget(vec3 newTarget);
 
         void SetInput(Input* newInput);
+        const std::vector<Plane>& GetBSPPlanes() const { return m_bspPlanes; }
+        void AddBSPPlane(const glm::vec3& point, const glm::vec3& normal);
     };
 }
