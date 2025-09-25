@@ -1,4 +1,5 @@
 #include "Importer3D.h"
+#include "../Entities/Model3D.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -88,6 +89,15 @@ namespace DemoEngine_Importer
 
             DemoEngine_Renderer::Renderer::GetRender()->MainCamera->AddBSPPlane(worldPos, normal);
             cout << "Plane Found!" << endl;
+
+            if (currentTransform->GetOwner())
+            {
+                Model3D* model = dynamic_cast<Model3D*>(currentTransform->GetOwner());
+                if (model)
+                {
+                    model->SetAffectedByBspAndFrustum(false);
+                }
+            }
         }
 
         for(unsigned int i = 0; i < node->mNumMeshes; i++)

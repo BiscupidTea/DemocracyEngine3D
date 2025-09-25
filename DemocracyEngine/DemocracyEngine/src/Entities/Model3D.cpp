@@ -11,11 +11,13 @@ namespace DemoEngine_Entities
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale)
         : Entity3D(newPosition, newRotation, newScale)
     {
+        _isAffectedByBspAndFrustum = true;
     }
 
     Model3D::Model3D(vec3 newPosition, vec3 newRotation, vec3 newScale, const char* path, bool invertTexture)
         : Entity3D(newPosition, newRotation, newScale)
     {
+        _isAffectedByBspAndFrustum = true;
         ImportedModelData data = Importer3D::ImportModel(path, invertTexture, this->transform);
         for (const auto& mesh : data.meshes)
         {
@@ -26,6 +28,7 @@ namespace DemoEngine_Entities
     Model3D::Model3D(const BasicMesh& mesh)
         : Entity3D(vec3(0.0f), vec3(0.0f), vec3(1.0f))
     {
+        _isAffectedByBspAndFrustum = true;
         AddMesh(mesh);
     }
 
@@ -244,7 +247,7 @@ namespace DemoEngine_Entities
                 isVisibleFrustum = false;
         }
 
-        if (!(isVisibleBSP && isVisibleFrustum)) return;
+        if (_isAffectedByBspAndFrustum && !(isVisibleBSP && isVisibleFrustum)) return;
 
         for (int i = 0; i < meshTransforms.size(); ++i)
         {

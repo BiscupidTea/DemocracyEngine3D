@@ -16,9 +16,9 @@ public:
     Scene();
     ~Scene();
 
-    void AddEntity(Entity3D* entity);
+    void AddEntity(Entity* entity);
     void Draw(Camera* camera);
 
 private:
-    std::vector<Entity3D*> entities;
+    std::vector<Entity*> entities;
 };

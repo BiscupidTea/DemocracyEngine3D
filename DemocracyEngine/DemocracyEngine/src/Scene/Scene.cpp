@@ -7,13 +7,13 @@ Scene::Scene() {}
 
 Scene::~Scene()
 {
-    for (Entity3D* entity : entities)
+    for (Entity* entity : entities)
     {
         delete entity;
     }
 }
 
-void Scene::AddEntity(Entity3D* entity)
+void Scene::AddEntity(Entity* entity)
 {
     entities.push_back(entity);
 }
@@ -27,7 +27,7 @@ void Scene::Draw(Camera* camera)
     for (const Plane& plane : bspPlanes)
         cameraSides.push_back(plane.getSide(camera->GetCameraPosition()));
 
-    for (Entity3D* entity : entities)
+    for (Entity* entity : entities)
     {
         Model3D* model = dynamic_cast<Model3D*>(entity);
         if (model)

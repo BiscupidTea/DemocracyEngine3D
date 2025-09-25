@@ -32,6 +32,9 @@ namespace DemoEngine_Entities
         bool IsVisible(const DemoEngine_Camera::Frustum& frustum) const;
         bool drawWireBox = false;
 
+        bool IsAffectedByBspAndFrustum() const { return _isAffectedByBspAndFrustum; }
+        void SetAffectedByBspAndFrustum(bool value) { _isAffectedByBspAndFrustum = value; }
+
     private:
         vector<vector<Vertex>> vertices;
         vector<vector<unsigned int>> indices;
@@ -42,6 +45,8 @@ namespace DemoEngine_Entities
         vector<unsigned int> vaos;
         vector<unsigned int> vbos;
         vector<unsigned int> ebos;
+
+        bool _isAffectedByBspAndFrustum;
 
         void ComputeAABBForMesh(size_t index);
 

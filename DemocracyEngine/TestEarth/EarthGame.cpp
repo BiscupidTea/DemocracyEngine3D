@@ -26,9 +26,8 @@ void EarthGame::Init()
     Model3D* yukinko = new Model3D(vec3{500, 0, 500}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
 
     path = "rsc/Mesh/bspPlanesNew4.fbx";
-    Model3D* planes = new Model3D(vec3{0, 200, 0}, vec3{0, 0, 0}, vec3{1, 1, 1}, path, false);
-    planes->SetActive(false);
-    planes->drawWireBox = true;
+    Model3D* planes = new Model3D(vec3{0, 0, 0}, vec3{0, 0, 0}, vec3{1, 0.2, 1}, path, false);
+    planes->AddTexture("texture_baseColor", "rsc/Mesh/White.png", false, true);
     testScene->AddEntity(planes);
 
     path = "rsc/Mesh/muñecodeNieveGato_V2.fbx";
@@ -46,11 +45,6 @@ void EarthGame::Init()
     testScene->AddEntity(floor);
 
     float halfSize = 2000.0f;
-    float wallHeight = 500.0f;
-    float wallThickness = 5.0f;
-    
-#pragma endregion
-
 #pragma region Lights
     float offset = halfSize * 0.75f;
 
@@ -108,7 +102,7 @@ void EarthGame::Init()
     tankTurretTransform = Tank->transform->FindChildByName("Turret");
     tankLeftCannonTransform = Tank->transform->FindChildByName("LeftCannon");
     tankRightCannonTransform = Tank->transform->FindChildByName("RightCannon");
-    
+
     testScene->AddEntity(cube);
     testScene->AddEntity(yukinko);
     testScene->AddEntity(SnowCat);
@@ -142,7 +136,7 @@ void EarthGame::Update()
     }
 
     testScene->Draw(this->MainCamera);
-    
+
     //std::cout << "Draw Calls: " << Renderer::GetRender()->GetDrawCalls() << std::endl;
 }
 
