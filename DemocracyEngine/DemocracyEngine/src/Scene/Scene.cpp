@@ -22,10 +22,12 @@ void Scene::Draw(Camera* camera)
 {
     if (!camera) return;
 
-    std::vector<bool> cameraSides;
-    std::vector<Plane> bspPlanes = camera->GetBSPPlanes();
+    vector<bool> cameraSides;
+    vector<Plane> bspPlanes = camera->GetBSPPlanes();
     for (const Plane& plane : bspPlanes)
+    {
         cameraSides.push_back(plane.getSide(camera->GetCameraPosition()));
+    }
 
     for (Entity* entity : entities)
     {

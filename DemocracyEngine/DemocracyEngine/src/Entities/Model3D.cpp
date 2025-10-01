@@ -273,9 +273,9 @@ namespace DemoEngine_Entities
     {
         if (isActive)
         {
-        DrawRecursive(transform, bspPlanes, cameraSides);
+            DrawRecursive(transform, bspPlanes, cameraSides);
         }
-        
+
         if (drawWireBox)
         {
             DrawBoundingBoxesRecursive(transform);
